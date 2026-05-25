@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="theme-color" content="#cc0000" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="BBC Library" />
+<link rel="manifest" href="manifest.json" />
+<title>BBC Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #cc0000;
+    --red-light: #f9e6e6;
+    --red-dark: #990000;
+    --black: #111;
+    --gray-900: #1a1a1a;
+    --gray-700: #444;
+    --gray-500: #777;
+    --gray-300: #ccc;
+    --gray-100: #f5f5f5;
+    --white: #fff;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  html, body {
+    height: 100%;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--gray-100);
+    color: var(--black);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── LOGIN ── */
+  #login-screen {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+    background: var(--white);
+  }
+
+  .login-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 600;
+    color: var(--red);
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .login-sub {
+    font-size: 13px;
+    color: var(--gray-500);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+  }
+
+  .login-form {
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .login-form input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--black);
+    background: var(--white);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .login-form input:focus { border-color: var(--red); }
+
+  .login-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--red);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .login-btn:hover { background: var(--red-dark); }
+  .login-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .login-error {
+    font-size: 13px;
+    color: var(--red);
+    text-align: center;
+    min-height: 18px;
+  }
+
+  /* ── APP ── */
+  #app-screen { display: none; height: 100vh; flex-direction: column; }
+
+  .topbar {
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-300);
+    padding: 14px 16px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .topbar-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--red);
+    letter-spacing: -0.5px;
+  }
+
+  .topbar-right { display: flex; align-items: center; gap: 12px; }
+
+  .sync-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: var(--gray-500);
+    padding: 4px;
+    line-height: 1;
+    transition: color 0.15s;
+  }
+
+  .sync-btn:hover { color: var(--red); }
+
+  .logout-btn {
+    font-size: 12px;
+    color: var(--gray-500);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    transition: color 0.15s;
+  }
+
+  .logout-btn:hover { color: var(--red); }
+
+  .tabs {
+    display: flex;
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-300);
+    flex-shrink: 0;
+  }
+
+  .tab {
+    flex: 1;
+    padding: 11px 0;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    text-align: center;
+    color: var(--gray-500);
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .tab.active {
+    color: var(--red);
+    border-bottom-color: var(--red);
+    font-weight: 500;
+  }
+
+  .panels { flex: 1; overflow: hidden; position: relative; }
+
+  .panel {
+    display: none;
+    height: 100%;
+    overflow-y: auto;
+    padding: 16px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .panel.active { display: block; }
+
+  /* ── ISBN PANEL ── */
+  .scan-area {
+    border: 1.5px dashed var(--gray-300);
+    border-radius: var(--radius);
+    padding: 36px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    margin-bottom: 16px;
+    background: var(--white);
+  }
+
+  .scan-area:hover { border-color: var(--red); background: var(--red-light); }
+
+  .scan-icon { font-size: 40px; margin-bottom: 8px; }
+
+  .scan-label { font-size: 13px; color: var(--gray-500); }
+
+  .divider {
+    display: flex; align-items: center; gap: 10px; margin: 14px 0;
+  }
+
+  .divider-line { flex: 1; height: 1px; background: var(--gray-300); }
+  .divider-text { font-size: 11px; color: var(--gray-500); }
+
+  .isbn-row { display: flex; gap: 8px; }
+
+  .isbn-row input {
+    flex: 1;
+    padding: 12px 14px;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .isbn-row input:focus { border-color: var(--red); }
+
+  .isbn-row button {
+    padding: 0 18px;
+    background: var(--red);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s;
+  }
+
+  .isbn-row button:hover { background: var(--red-dark); }
+
+  /* ── RESULT CARD ── */
+  .result-card {
+    margin-top: 16px;
+    background: var(--white);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .result-header {
+    display: flex;
+    gap: 14px;
+    padding: 14px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .result-cover {
+    width: 56px;
+    height: 76px;
+    border-radius: 6px;
+    background: var(--gray-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .result-cover img { width: 100%; height: 100%; object-fit: cover; }
+
+  .result-info { flex: 1; min-width: 0; }
+
+  .result-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: 3px;
+    line-height: 1.2;
+  }
+
+  .result-author {
+    font-size: 12px;
+    color: var(--gray-500);
+    margin-bottom: 8px;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+
+  .badge-ok { background: #e6f4ea; color: #1e7e34; }
+  .badge-missing { background: var(--red-light); color: var(--red-dark); }
+
+  .result-meta {
+    padding: 12px 14px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .meta-item { }
+  .meta-label { font-size: 10px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.08em; }
+  .meta-value { font-size: 13px; font-weight: 500; color: var(--black); margin-top: 2px; }
+
+  /* ── SEARCH PANEL ── */
+  .search-input-wrap {
+    position: relative;
+    margin-bottom: 12px;
+  }
+
+  .search-input-wrap input {
+    width: 100%;
+    padding: 12px 14px 12px 40px;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    outline: none;
+    background: var(--white);
+    transition: border-color 0.15s;
+  }
+
+  .search-input-wrap input:focus { border-color: var(--red); }
+
+  .search-icon {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: var(--gray-500);
+  }
+
+  .filter-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 14px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .filter-row::-webkit-scrollbar { display: none; }
+
+  .chip {
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--gray-300);
+    background: var(--white);
+    color: var(--gray-700);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.1s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .chip.active {
+    background: var(--red);
+    color: var(--white);
+    border-color: var(--red);
+  }
+
+  .book-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .book-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--gray-300);
+    background: var(--white);
+    cursor: pointer;
+    transition: border-color 0.1s;
+    align-items: flex-start;
+  }
+
+  .book-item:hover { border-color: var(--red); }
+
+  .book-thumb {
+    width: 38px;
+    height: 54px;
+    border-radius: 4px;
+    background: var(--gray-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .book-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+  .book-info { flex: 1; min-width: 0; }
+
+  .book-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--black);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 2px;
+  }
+
+  .book-author {
+    font-size: 12px;
+    color: var(--gray-500);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 4px;
+  }
+
+  .book-meta {
+    font-size: 11px;
+    color: var(--gray-500);
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .estado-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    margin-right: 3px;
+    vertical-align: middle;
+  }
+
+  .dot-ok { background: #1e7e34; }
+  .dot-nok { background: var(--red); }
+
+  .empty {
+    text-align: center;
+    padding: 48px 16px;
+    color: var(--gray-500);
+    font-size: 14px;
+  }
+
+  .empty-icon { font-size: 36px; display: block; margin-bottom: 10px; }
+
+  .status-bar {
+    padding: 8px 16px;
+    font-size: 11px;
+    color: var(--gray-500);
+    background: var(--gray-100);
+    border-top: 1px solid var(--gray-300);
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 32px;
+    color: var(--gray-500);
+    font-size: 13px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner {
+    width: 18px; height: 18px;
+    border: 2px solid var(--gray-300);
+    border-top-color: var(--red);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+  }
+
+  /* Camera modal */
+  #camera-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 100;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #camera-modal.open { display: flex; }
+
+  #camera-video {
+    width: 100%;
+    max-width: 380px;
+    border-radius: var(--radius);
+  }
+
+  .camera-close {
+    margin-top: 20px;
+    padding: 12px 32px;
+    background: var(--white);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .camera-hint {
+    color: var(--white);
+    font-size: 13px;
+    margin-top: 12px;
+    opacity: 0.7;
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-logo">BBC</div>
+  <div class="login-sub">Library</div>
+  <form class="login-form" onsubmit="doLogin(event)">
+    <input type="email" id="email" placeholder="Email" autocomplete="email" required />
+    <input type="password" id="password" placeholder="Password" autocomplete="current-password" required />
+    <button type="submit" class="login-btn" id="login-btn">Entrar</button>
+    <div class="login-error" id="login-error"></div>
+  </form>
+</div>
+
+<!-- APP -->
+<div id="app-screen">
+  <div class="topbar">
+    <div class="topbar-brand">BBC Library</div>
+    <div class="topbar-right">
+      <button class="sync-btn" onclick="syncCatalog()" title="Sincronizar catálogo">⟳</button>
+      <button class="logout-btn" onclick="doLogout()">Sair</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('isbn', this)">
+      <span>▦</span> ISBN
+    </button>
+    <button class="tab" onclick="switchTab('search', this)">
+      <span>⌕</span> Pesquisar
+    </button>
+  </div>
+
+  <div class="panels">
+    <!-- ISBN -->
+    <div class="panel active" id="panel-isbn">
+      <div class="scan-area" onclick="openCamera()">
+        <div class="scan-icon">📷</div>
+        <div class="scan-label">Toca para digitalizar com a câmara</div>
+      </div>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-text">ou introduz manualmente</div>
+        <div class="divider-line"></div>
+      </div>
+
+      <div class="isbn-row">
+        <input type="text" id="isbn-input" placeholder="ISBN (10 ou 13 dígitos)" maxlength="17"
+          inputmode="numeric" onkeydown="if(event.key==='Enter') checkISBN()" />
+        <button onclick="checkISBN()">Verificar</button>
+      </div>
+
+      <div id="isbn-result"></div>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="panel" id="panel-search">
+      <div class="search-input-wrap">
+        <span class="search-icon">⌕</span>
+        <input type="search" id="search-input" placeholder="Título, autor, ISBN..." oninput="doSearch()" />
+      </div>
+      <div class="filter-row">
+        <button class="chip active" onclick="setFilter('todos', this)">Todos</button>
+        <button class="chip" onclick="setFilter('Disponível', this)">Disponível</button>
+        <button class="chip" onclick="setFilter('Emprestado', this)">Emprestado</button>
+      </div>
+      <div class="book-list" id="book-list">
+        <div class="loading"><div class="spinner"></div> A carregar catálogo...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="status-bar" id="status-bar">A carregar...</div>
+</div>
+
+<!-- CAMERA MODAL -->
+<div id="camera-modal">
+  <video id="camera-video" autoplay playsinline></video>
+  <div class="camera-hint">Aponta a câmara para o código de barras</div>
+  <button class="camera-close" onclick="closeCamera()">Fechar</button>
+</div>
+
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBAhZCG7sSry2G8_hx5XKYe7Yw192WX2No",
+  authDomain: "bbc-library.firebaseapp.com",
+  projectId: "bbc-library",
+  storageBucket: "bbc-library.firebasestorage.app",
+  messagingSenderId: "1021467313357",
+  appId: "1:1021467313357:web:9d3b94c23f26bb3a7e5584"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window._auth = auth;
+window._signIn = signInWithEmailAndPassword;
+window._signOut = signOut;
+
+onAuthStateChanged(auth, user => {
+  if (user) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app-screen').style.display = 'flex';
+    loadCatalog();
+  } else {
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('app-screen').style.display = 'none';
+  }
+});
+</script>
+
+<script>
+// ── STATE ──
+let catalog = [];
+let currentFilter = 'todos';
+
+// IMPORTANT: substitui este URL pelo URL de partilha do teu CSV no Google Drive
+// Formato: exporta o catálogo como CSV, partilha com "qualquer pessoa com o link",
+// e usa: https://docs.google.com/spreadsheets/d/SEU_ID/export?format=csv&gid=SEU_GID
+const CATALOG_URL = 'SUBSTITUIR_PELO_URL_DO_GOOGLE_DRIVE';
+
+// ── AUTH ──
+async function doLogin(e) {
+  e.preventDefault();
+  const btn = document.getElementById('login-btn');
+  const err = document.getElementById('login-error');
+  btn.disabled = true;
+  btn.textContent = 'A entrar...';
+  err.textContent = '';
+  try {
+    await window._signIn(window._auth,
+      document.getElementById('email').value,
+      document.getElementById('password').value);
+  } catch(ex) {
+    err.textContent = 'Email ou password incorrectos.';
+    btn.disabled = false;
+    btn.textContent = 'Entrar';
+  }
+}
+
+async function doLogout() {
+  await window._signOut(window._auth);
+  catalog = [];
+}
+
+// ── CATALOG ──
+async function loadCatalog() {
+  setStatus('A carregar catálogo...');
+  try {
+    const r = await fetch(CATALOG_URL);
+    const text = await r.text();
+    catalog = parseCSV(text);
+    setStatus(catalog.length + ' livros no catálogo');
+    renderList();
+  } catch(ex) {
+    setStatus('Erro ao carregar catálogo');
+    document.getElementById('book-list').innerHTML =
+      '<div class="empty"><span class="empty-icon">⚠</span>Não foi possível carregar o catálogo.<br>Verifica a ligação ou o URL.</div>';
+  }
+}
+
+function syncCatalog() { loadCatalog(); }
+
+function parseCSV(text) {
+  const lines = text.split('\n').filter(l => l.trim());
+  if (lines.length < 2) return [];
+  const headers = splitCSVLine(lines[0]).map(h => h.trim().toLowerCase());
+  return lines.slice(1).map(line => {
+    const vals = splitCSVLine(line);
+    const obj = {};
+    headers.forEach((h, i) => obj[h] = (vals[i] || '').trim());
+    return obj;
+  }).filter(b => b['isbn'] || b['título'] || b['titulo']);
+}
+
+function splitCSVLine(line) {
+  const result = [];
+  let cur = '', inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') { inQ = !inQ; }
+    else if (c === ',' && !inQ) { result.push(cur); cur = ''; }
+    else { cur += c; }
+  }
+  result.push(cur);
+  return result;
+}
+
+function getField(book, ...keys) {
+  for (const k of keys) {
+    const v = book[k] || book[k.toLowerCase()] || book[k.normalize('NFD').replace(/[\u0300-\u036f]/g, '')];
+    if (v) return v;
+  }
+  return '';
+}
+
+// ── ISBN CHECK ──
+function checkISBN() {
+  const val = document.getElementById('isbn-input').value.trim().replace(/[\s-]/g, '');
+  const el = document.getElementById('isbn-result');
+  if (!val) { el.innerHTML = ''; return; }
+
+  if (catalog.length === 0) {
+    el.innerHTML = '<div class="result-card" style="padding:14px;text-align:center;font-size:13px;color:#777">Catálogo não carregado. Vai ao separador Pesquisar para sincronizar.</div>';
+    return;
+  }
+
+  const book = catalog.find(b => {
+    const isbn = getField(b, 'isbn').replace(/[\s-]/g, '');
+    return isbn === val;
+  });
+
+  if (book) {
+    const titulo = getField(book, 'título', 'titulo', 'title');
+    const autor = getField(book, 'autor', 'author');
+    const num = getField(book, 'nº colecção', 'nº coleccao', 'num');
+    const estado = getField(book, 'estado');
+    const ano = getField(book, 'ano', 'year');
+    const editora = getField(book, 'editora', 'publisher');
+    const capa = getField(book, 'capa (url)', 'capa', 'cover');
+
+    el.innerHTML = `
+      <div class="result-card">
+        <div class="result-header">
+          <div class="result-cover">
+            ${capa ? `<img src="${capa}" alt="" onerror="this.parentNode.textContent='📖'" />` : '📖'}
+          </div>
+          <div class="result-info">
+            <div class="result-title">${titulo || '(sem título)'}</div>
+            <div class="result-author">${autor}</div>
+            <span class="badge badge-ok">✓ No catálogo</span>
+          </div>
+        </div>
+        <div class="result-meta">
+          <div class="meta-item"><div class="meta-label">Nº Colecção</div><div class="meta-value">${num || '—'}</div></div>
+          <div class="meta-item"><div class="meta-label">Estado</div><div class="meta-value">${estado || '—'}</div></div>
+          <div class="meta-item"><div class="meta-label">Ano</div><div class="meta-value">${ano || '—'}</div></div>
+          <div class="meta-item"><div class="meta-label">Editora</div><div class="meta-value">${editora || '—'}</div></div>
+        </div>
+      </div>`;
+  } else {
+    el.innerHTML = `
+      <div class="result-card" style="padding:20px;text-align:center;">
+        <span class="badge badge-missing" style="font-size:13px;padding:6px 16px;">✕ Não encontrado no catálogo</span>
+        <div style="font-size:12px;color:#777;margin-top:10px;">ISBN: ${val}</div>
+      </div>`;
+  }
+}
+
+// ── SEARCH ──
+function setFilter(f, el) {
+  currentFilter = f;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderList();
+}
+
+function doSearch() { renderList(); }
+
+function renderList() {
+  const q = (document.getElementById('search-input').value || '').toLowerCase().trim();
+  const list = document.getElementById('book-list');
+
+  if (catalog.length === 0) {
+    list.innerHTML = '<div class="loading"><div class="spinner"></div> A carregar...</div>';
+    return;
+  }
+
+  let items = catalog.filter(b => {
+    const titulo = getField(b, 'título', 'titulo', 'title').toLowerCase();
+    const autor = getField(b, 'autor', 'author').toLowerCase();
+    const isbn = getField(b, 'isbn').toLowerCase();
+    const estado = getField(b, 'estado');
+    const match = !q || titulo.includes(q) || autor.includes(q) || isbn.includes(q);
+    const stateOk = currentFilter === 'todos' || estado === currentFilter;
+    return match && stateOk;
+  });
+
+  if (!items.length) {
+    list.innerHTML = '<div class="empty"><span class="empty-icon">🔍</span>Nenhum resultado encontrado.</div>';
+    return;
+  }
+
+  list.innerHTML = items.slice(0, 100).map(b => {
+    const titulo = getField(b, 'título', 'titulo', 'title');
+    const autor = getField(b, 'autor', 'author');
+    const num = getField(b, 'nº colecção', 'nº coleccao', 'num');
+    const ano = getField(b, 'ano', 'year');
+    const estado = getField(b, 'estado');
+    const capa = getField(b, 'capa (url)', 'capa', 'cover');
+    const dot = (estado === 'Disponível') ? 'dot-ok' : 'dot-nok';
+    return `
+      <div class="book-item">
+        <div class="book-thumb">
+          ${capa ? `<img src="${capa}" alt="" onerror="this.parentNode.textContent='📖'" />` : '📖'}
+        </div>
+        <div class="book-info">
+          <div class="book-title">${titulo || '(sem título)'}</div>
+          <div class="book-author">${autor}</div>
+          <div class="book-meta">
+            <span>${num}</span>
+            <span>·</span>
+            <span>${ano}</span>
+            <span>·</span>
+            <span><span class="estado-dot ${dot}"></span>${estado}</span>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+
+  if (items.length > 100) {
+    list.innerHTML += `<div style="text-align:center;padding:12px;font-size:12px;color:#777">A mostrar 100 de ${items.length} resultados. Refina a pesquisa.</div>`;
+  }
+}
+
+// ── CAMERA ──
+let stream = null;
+
+async function openCamera() {
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+    document.getElementById('camera-video').srcObject = stream;
+    document.getElementById('camera-modal').classList.add('open');
+  } catch(e) {
+    alert('Não foi possível aceder à câmara. Usa a introdução manual do ISBN.');
+  }
+}
+
+function closeCamera() {
+  if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+  document.getElementById('camera-modal').classList.remove('open');
+}
+
+// ── TABS ──
+function switchTab(tab, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('panel-' + tab).classList.add('active');
+}
+
+// ── STATUS ──
+function setStatus(msg) {
+  document.getElementById('status-bar').textContent = msg;
+}
+</script>
+</body>
+</html>
