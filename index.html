@@ -641,8 +641,13 @@
 
 <!-- CAMERA MODAL -->
 <div id="camera-modal">
-  <video id="camera-video" autoplay playsinline></video>
-  <div class="camera-hint">Aponta a câmara para o código de barras</div>
+  <div style="position:relative;width:100%;max-width:380px;">
+    <video id="camera-video" autoplay playsinline style="width:100%;border-radius:12px;display:block;"></video>
+    <div id="scan-overlay" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+      <div style="width:220px;height:120px;border:2px solid #cc0000;border-radius:8px;box-shadow:0 0 0 9999px rgba(0,0,0,0.4);"></div>
+    </div>
+  </div>
+  <div class="camera-hint">Centra o código de barras no rectângulo vermelho</div>
   <button class="camera-close" onclick="closeCamera()">Fechar</button>
 </div>
 
@@ -886,19 +891,52 @@ function renderList() {
 
 // ── CAMERA ──
 let stream = null;
+let codeReader = null;
 
 async function openCamera() {
   try {
-    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-    document.getElementById('camera-video').srcObject = stream;
+    // Load ZXing dynamically
+    if (!window.ZXing) {
+      await new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = 'https://unpkg.com/@zxing/library@0.19.1/umd/index.min.js';
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+    }
+
+    codeReader = new ZXing.BrowserMultiFormatReader();
     document.getElementById('camera-modal').classList.add('open');
+
+    const hints = new Map();
+    hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS, [
+      ZXing.BarcodeFormat.EAN_13,
+      ZXing.BarcodeFormat.EAN_8,
+      ZXing.BarcodeFormat.CODE_128
+    ]);
+    codeReader.hints = hints;
+
+    const devices = await ZXing.BrowserCodeReader.listVideoInputDevices();
+    const backCamera = devices.find(d => d.label.toLowerCase().includes('back') || d.label.toLowerCase().includes('rear') || d.label.toLowerCase().includes('environment')) || devices[devices.length - 1];
+    const deviceId = backCamera ? backCamera.deviceId : undefined;
+
+    await codeReader.decodeFromVideoDevice(deviceId, 'camera-video', (result, err) => {
+      if (result) {
+        const isbn = result.getText();
+        closeCamera();
+        document.getElementById('isbn-input').value = isbn;
+        checkISBN();
+      }
+    });
   } catch(e) {
     alert('Não foi possível aceder à câmara. Usa a introdução manual do ISBN.');
+    closeCamera();
   }
 }
 
 function closeCamera() {
-  if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+  if (codeReader) { codeReader.reset(); codeReader = null; }
   document.getElementById('camera-modal').classList.remove('open');
 }
 
