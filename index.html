@@ -891,52 +891,67 @@ function renderList() {
 
 // ── CAMERA ──
 let stream = null;
-let codeReader = null;
+let scanInterval = null;
+let barcodeDetector = null;
 
 async function openCamera() {
   try {
-    // Load ZXing dynamically
-    if (!window.ZXing) {
-      await new Promise((resolve, reject) => {
-        const s = document.createElement('script');
-        s.src = 'https://unpkg.com/@zxing/library@0.19.1/umd/index.min.js';
-        s.onload = resolve;
-        s.onerror = reject;
-        document.head.appendChild(s);
-      });
-    }
-
-    codeReader = new ZXing.BrowserMultiFormatReader();
     document.getElementById('camera-modal').classList.add('open');
 
-    const hints = new Map();
-    hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS, [
-      ZXing.BarcodeFormat.EAN_13,
-      ZXing.BarcodeFormat.EAN_8,
-      ZXing.BarcodeFormat.CODE_128
-    ]);
-    codeReader.hints = hints;
-
-    const devices = await ZXing.BrowserCodeReader.listVideoInputDevices();
-    const backCamera = devices.find(d => d.label.toLowerCase().includes('back') || d.label.toLowerCase().includes('rear') || d.label.toLowerCase().includes('environment')) || devices[devices.length - 1];
-    const deviceId = backCamera ? backCamera.deviceId : undefined;
-
-    await codeReader.decodeFromVideoDevice(deviceId, 'camera-video', (result, err) => {
-      if (result) {
-        const isbn = result.getText();
-        closeCamera();
-        document.getElementById('isbn-input').value = isbn;
-        checkISBN();
-      }
+    stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } }
     });
+
+    const video = document.getElementById('camera-video');
+    video.srcObject = stream;
+    await video.play();
+
+    // Try native BarcodeDetector first (Chrome Android)
+    if ('BarcodeDetector' in window) {
+      barcodeDetector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'code_128'] });
+      scanInterval = setInterval(async () => {
+        try {
+          const barcodes = await barcodeDetector.detect(video);
+          if (barcodes.length > 0) {
+            const isbn = barcodes[0].rawValue;
+            closeCamera();
+            document.getElementById('isbn-input').value = isbn;
+            checkISBN();
+          }
+        } catch(e) {}
+      }, 300);
+    } else {
+      // Fallback: load ZXing
+      if (!window.ZXing) {
+        await new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = 'https://unpkg.com/@zxing/library@0.19.1/umd/index.min.js';
+          s.onload = resolve;
+          s.onerror = reject;
+          document.head.appendChild(s);
+        });
+      }
+      const reader = new ZXing.BrowserMultiFormatReader();
+      window._zxingReader = reader;
+      reader.decodeFromStream(stream, video, (result, err) => {
+        if (result) {
+          const isbn = result.getText();
+          closeCamera();
+          document.getElementById('isbn-input').value = isbn;
+          checkISBN();
+        }
+      });
+    }
   } catch(e) {
-    alert('Não foi possível aceder à câmara. Usa a introdução manual do ISBN.');
     closeCamera();
+    alert('Não foi possível aceder à câmara.\nUsa a introdução manual do ISBN.');
   }
 }
 
 function closeCamera() {
-  if (codeReader) { codeReader.reset(); codeReader = null; }
+  if (scanInterval) { clearInterval(scanInterval); scanInterval = null; }
+  if (window._zxingReader) { window._zxingReader.reset(); window._zxingReader = null; }
+  if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
   document.getElementById('camera-modal').classList.remove('open');
 }
 
