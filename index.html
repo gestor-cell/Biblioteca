@@ -38,6 +38,27 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  @media (min-width: 600px) {
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #e0e0e0;
+    }
+    #login-screen, #app-screen {
+      width: 390px !important;
+      max-width: 390px !important;
+      height: 844px !important;
+      max-height: 844px !important;
+      border-radius: 40px !important;
+      overflow: hidden !important;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.1);
+    }
+    #login-screen { min-height: unset; }
+    #app-screen { min-height: unset; }
+  }
+
   /* ── LOGIN ── */
   #login-screen {
     min-height: 100vh;
@@ -559,7 +580,7 @@
 <!-- APP -->
 <div id="app-screen">
   <div class="topbar">
-    <div class="topbar-brand">BBC Library</div>
+    <div class="topbar-brand" style="display:flex;align-items:center;gap:8px;"><img src="icon-192.png" alt="" style="width:28px;height:28px;object-fit:contain;" />BBC Library</div>
     <div class="topbar-right">
       <button class="sync-btn" onclick="syncCatalog()" title="Sincronizar catálogo">⟳</button>
       <button class="logout-btn" onclick="doLogout()">Sair</button>
