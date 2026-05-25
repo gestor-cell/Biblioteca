@@ -642,12 +642,14 @@
 <!-- CAMERA MODAL -->
 <div id="camera-modal">
   <div style="position:relative;width:100%;max-width:380px;">
-    <video id="camera-video" autoplay playsinline style="width:100%;border-radius:12px;display:block;"></video>
-    <div id="scan-overlay" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
-      <div style="width:220px;height:120px;border:2px solid #cc0000;border-radius:8px;box-shadow:0 0 0 9999px rgba(0,0,0,0.4);"></div>
+    <video id="camera-video" autoplay playsinline muted style="width:100%;border-radius:12px;display:block;"></video>
+    <canvas id="camera-canvas" style="display:none;"></canvas>
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+      <div style="width:220px;height:120px;border:2px solid #cc0000;border-radius:8px;box-shadow:0 0 0 9999px rgba(0,0,0,0.5);"></div>
     </div>
   </div>
-  <div class="camera-hint">Centra o código de barras no rectângulo vermelho</div>
+  <div class="camera-hint" id="camera-hint">Centra o código de barras no rectângulo</div>
+  <button onclick="captureFrame()" style="margin-top:16px;padding:14px 32px;background:#cc0000;color:#fff;border:none;border-radius:8px;font-size:16px;font-family:inherit;cursor:pointer;">📷 Capturar</button>
   <button class="camera-close" onclick="closeCamera()">Fechar</button>
 </div>
 
@@ -893,6 +895,17 @@ function renderList() {
 let stream = null;
 let scanInterval = null;
 
+async function loadZXing() {
+  if (window.ZXing) return;
+  await new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = 'https://unpkg.com/@zxing/library@0.19.1/umd/index.min.js';
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
+
 async function openCamera() {
   try {
     stream = await navigator.mediaDevices.getUserMedia({
@@ -902,10 +915,10 @@ async function openCamera() {
     const video = document.getElementById('camera-video');
     video.srcObject = stream;
     await video.play();
-
     document.getElementById('camera-modal').classList.add('open');
+    document.getElementById('camera-hint').textContent = 'Centra o código de barras no rectângulo';
 
-    // Try native BarcodeDetector first (Chrome Android)
+    // Try native BarcodeDetector (Chrome Android)
     if ('BarcodeDetector' in window) {
       const detector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'code_128'] });
       scanInterval = setInterval(async () => {
@@ -919,40 +932,44 @@ async function openCamera() {
           }
         } catch(e) {}
       }, 300);
-      return;
     }
-
-    // Fallback: ZXing
-    if (!window.ZXing) {
-      await new Promise((resolve, reject) => {
-        const s = document.createElement('script');
-        s.src = 'https://unpkg.com/@zxing/library@0.19.1/umd/index.min.js';
-        s.onload = resolve;
-        s.onerror = reject;
-        document.head.appendChild(s);
-      });
-    }
-
-    const reader = new ZXing.BrowserMultiFormatReader();
-    window._zxingReader = reader;
-    reader.decodeFromStream(stream, video, (result, err) => {
-      if (result) {
-        const isbn = result.getText();
-        closeCamera();
-        document.getElementById('isbn-input').value = isbn;
-        checkISBN();
-      }
-    });
-
+    // On Safari: user taps Capturar button
   } catch(e) {
     closeCamera();
     alert('Não foi possível aceder à câmara.\nUsa a introdução manual do ISBN.');
   }
 }
 
+async function captureFrame() {
+  const video = document.getElementById('camera-video');
+  const canvas = document.getElementById('camera-canvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(video, 0, 0);
+
+  document.getElementById('camera-hint').textContent = 'A ler código de barras...';
+
+  try {
+    await loadZXing();
+    const reader = new ZXing.BrowserMultiFormatReader();
+    const imgData = canvas.toDataURL('image/jpeg', 0.9);
+    const result = await reader.decodeFromImageUrl(imgData);
+    if (result) {
+      const isbn = result.getText();
+      closeCamera();
+      document.getElementById('isbn-input').value = isbn;
+      checkISBN();
+    } else {
+      document.getElementById('camera-hint').textContent = 'Não detectado. Tenta de novo.';
+    }
+  } catch(e) {
+    document.getElementById('camera-hint').textContent = 'Não detectado. Tenta de novo.';
+  }
+}
+
 function closeCamera() {
   if (scanInterval) { clearInterval(scanInterval); scanInterval = null; }
-  if (window._zxingReader) { try { window._zxingReader.reset(); } catch(e) {} window._zxingReader = null; }
   if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
   document.getElementById('camera-modal').classList.remove('open');
 }
