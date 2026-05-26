@@ -5,571 +5,113 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta name="theme-color" content="#cc0000" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="default" />
 <meta name="apple-mobile-web-app-title" content="BBC Library" />
 <link rel="manifest" href="manifest.json" />
 <title>BBC Library</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --red: #cc0000;
-    --red-light: #f9e6e6;
-    --red-dark: #990000;
-    --black: #111;
-    --gray-900: #1a1a1a;
-    --gray-700: #444;
-    --gray-500: #777;
-    --gray-300: #ccc;
-    --gray-100: #f5f5f5;
-    --white: #fff;
-    --radius: 12px;
-    --radius-sm: 8px;
-  }
-
-  html, body {
-    height: 100%;
-    font-family: 'DM Sans', sans-serif;
-    background: var(--gray-100);
-    color: var(--black);
-    -webkit-font-smoothing: antialiased;
-  }
-
-  @media (min-width: 600px) {
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      background: #e0e0e0;
-    }
-    #login-screen, #app-screen {
-      width: 390px !important;
-      max-width: 390px !important;
-      height: 844px !important;
-      max-height: 844px !important;
-      border-radius: 40px !important;
-      overflow: hidden !important;
-      box-shadow: 0 24px 80px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.1);
-    }
-    #login-screen { min-height: unset; }
-    #app-screen { min-height: unset; }
-  }
-
-  /* ── LOGIN ── */
-  #login-screen {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 32px 24px;
-    background: var(--white);
-  }
-
-  .login-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 48px;
-    font-weight: 600;
-    color: var(--red);
-    letter-spacing: -1px;
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-
-  .login-sub {
-    font-size: 13px;
-    color: var(--gray-500);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 48px;
-  }
-
-  .login-form {
-    width: 100%;
-    max-width: 320px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .login-form input {
-    width: 100%;
-    padding: 14px 16px;
-    border: 1px solid var(--gray-300);
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    color: var(--black);
-    background: var(--white);
-    outline: none;
-    transition: border-color 0.15s;
-  }
-
-  .login-form input:focus { border-color: var(--red); }
-
-  .login-btn {
-    width: 100%;
-    padding: 14px;
-    background: var(--red);
-    color: var(--white);
-    border: none;
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-
-  .login-btn:hover { background: var(--red-dark); }
-  .login-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-  .login-error {
-    font-size: 13px;
-    color: var(--red);
-    text-align: center;
-    min-height: 18px;
-  }
-
-  /* ── APP ── */
-  #app-screen { display: none; height: 100vh; flex-direction: column; }
-
-  .topbar {
-    background: var(--white);
-    border-bottom: 1px solid var(--gray-300);
-    padding: 14px 16px 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-shrink: 0;
-  }
-
-  .topbar-brand {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--red);
-    letter-spacing: -0.5px;
-  }
-
-  .topbar-right { display: flex; align-items: center; gap: 12px; }
-
-  .sync-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-    color: var(--gray-500);
-    padding: 4px;
-    line-height: 1;
-    transition: color 0.15s;
-  }
-
-  .sync-btn:hover { color: var(--red); }
-
-  .logout-btn {
-    font-size: 12px;
-    color: var(--gray-500);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px 8px;
-    border-radius: var(--radius-sm);
-    transition: color 0.15s;
-  }
-
-  .logout-btn:hover { color: var(--red); }
-
-  .tabs {
-    display: flex;
-    background: var(--white);
-    border-bottom: 1px solid var(--gray-300);
-    flex-shrink: 0;
-  }
-
-  .tab {
-    flex: 1;
-    padding: 11px 0;
-    font-size: 13px;
-    font-family: 'DM Sans', sans-serif;
-    text-align: center;
-    color: var(--gray-500);
-    cursor: pointer;
-    border: none;
-    background: transparent;
-    border-bottom: 2px solid transparent;
-    transition: all 0.15s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-  }
-
-  .tab.active {
-    color: var(--red);
-    border-bottom-color: var(--red);
-    font-weight: 500;
-  }
-
-  .panels { flex: 1; overflow: hidden; position: relative; }
-
-  .panel {
-    display: none;
-    height: 100%;
-    overflow-y: auto;
-    padding: 16px;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .panel.active { display: block; }
-
-  /* ── ISBN PANEL ── */
-  .scan-area {
-    border: 1.5px dashed var(--gray-300);
-    border-radius: var(--radius);
-    padding: 36px 16px;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.15s, background 0.15s;
-    margin-bottom: 16px;
-    background: var(--white);
-  }
-
-  .scan-area:hover { border-color: var(--red); background: var(--red-light); }
-
-  .scan-icon { font-size: 40px; margin-bottom: 8px; }
-
-  .scan-label { font-size: 13px; color: var(--gray-500); }
-
-  .divider {
-    display: flex; align-items: center; gap: 10px; margin: 14px 0;
-  }
-
-  .divider-line { flex: 1; height: 1px; background: var(--gray-300); }
-  .divider-text { font-size: 11px; color: var(--gray-500); }
-
-  .isbn-row { display: flex; gap: 8px; }
-
-  .isbn-row input {
-    flex: 1;
-    padding: 12px 14px;
-    border: 1px solid var(--gray-300);
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    outline: none;
-    transition: border-color 0.15s;
-  }
-
-  .isbn-row input:focus { border-color: var(--red); }
-
-  .isbn-row button {
-    padding: 0 18px;
-    background: var(--red);
-    color: var(--white);
-    border: none;
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background 0.15s;
-  }
-
-  .isbn-row button:hover { background: var(--red-dark); }
-
-  /* ── RESULT CARD ── */
-  .result-card {
-    margin-top: 16px;
-    background: var(--white);
-    border: 1px solid var(--gray-300);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-
-  .result-header {
-    display: flex;
-    gap: 14px;
-    padding: 14px;
-    border-bottom: 1px solid var(--gray-100);
-  }
-
-  .result-cover {
-    width: 56px;
-    height: 76px;
-    border-radius: 6px;
-    background: var(--gray-100);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    flex-shrink: 0;
-    overflow: hidden;
-  }
-
-  .result-cover img { width: 100%; height: 100%; object-fit: cover; }
-
-  .result-info { flex: 1; min-width: 0; }
-
-  .result-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--black);
-    margin-bottom: 3px;
-    line-height: 1.2;
-  }
-
-  .result-author {
-    font-size: 12px;
-    color: var(--gray-500);
-    margin-bottom: 8px;
-  }
-
-  .badge {
-    display: inline-block;
-    font-size: 11px;
-    padding: 3px 10px;
-    border-radius: 999px;
-    font-weight: 500;
-  }
-
-  .badge-ok { background: #e6f4ea; color: #1e7e34; }
-  .badge-missing { background: var(--red-light); color: var(--red-dark); }
-
-  .result-meta {
-    padding: 12px 14px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  .meta-item { }
-  .meta-label { font-size: 10px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.08em; }
-  .meta-value { font-size: 13px; font-weight: 500; color: var(--black); margin-top: 2px; }
-
-  /* ── SEARCH PANEL ── */
-  .search-input-wrap {
-    position: relative;
-    margin-bottom: 12px;
-  }
-
-  .search-input-wrap input {
-    width: 100%;
-    padding: 12px 14px 12px 40px;
-    border: 1px solid var(--gray-300);
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    outline: none;
-    background: var(--white);
-    transition: border-color 0.15s;
-  }
-
-  .search-input-wrap input:focus { border-color: var(--red); }
-
-  .search-icon {
-    position: absolute;
-    left: 13px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 16px;
-    color: var(--gray-500);
-  }
-
-  .filter-row {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 14px;
-    overflow-x: auto;
-    padding-bottom: 2px;
-    scrollbar-width: none;
-  }
-
-  .filter-row::-webkit-scrollbar { display: none; }
-
-  .chip {
-    font-size: 12px;
-    padding: 5px 12px;
-    border-radius: 999px;
-    border: 1px solid var(--gray-300);
-    background: var(--white);
-    color: var(--gray-700);
-    white-space: nowrap;
-    cursor: pointer;
-    transition: all 0.1s;
-    font-family: 'DM Sans', sans-serif;
-  }
-
-  .chip.active {
-    background: var(--red);
-    color: var(--white);
-    border-color: var(--red);
-  }
-
-  .book-list { display: flex; flex-direction: column; gap: 8px; }
-
-  .book-item {
-    display: flex;
-    gap: 12px;
-    padding: 12px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--gray-300);
-    background: var(--white);
-    cursor: pointer;
-    transition: border-color 0.1s;
-    align-items: flex-start;
-  }
-
-  .book-item:hover { border-color: var(--red); }
-
-  .book-thumb {
-    width: 38px;
-    height: 54px;
-    border-radius: 4px;
-    background: var(--gray-100);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-    overflow: hidden;
-  }
-
-  .book-thumb img { width: 100%; height: 100%; object-fit: cover; }
-
-  .book-info { flex: 1; min-width: 0; }
-
-  .book-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--black);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-bottom: 2px;
-  }
-
-  .book-author {
-    font-size: 12px;
-    color: var(--gray-500);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-bottom: 4px;
-  }
-
-  .book-meta {
-    font-size: 11px;
-    color: var(--gray-500);
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .estado-dot {
-    display: inline-block;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    margin-right: 3px;
-    vertical-align: middle;
-  }
-
-  .dot-ok { background: #1e7e34; }
-  .dot-nok { background: var(--red); }
-
-  .empty {
-    text-align: center;
-    padding: 48px 16px;
-    color: var(--gray-500);
-    font-size: 14px;
-  }
-
-  .empty-icon { font-size: 36px; display: block; margin-bottom: 10px; }
-
-  .status-bar {
-    padding: 8px 16px;
-    font-size: 11px;
-    color: var(--gray-500);
-    background: var(--gray-100);
-    border-top: 1px solid var(--gray-300);
-    text-align: center;
-    flex-shrink: 0;
-  }
-
-  .loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 32px;
-    color: var(--gray-500);
-    font-size: 13px;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .spinner {
-    width: 18px; height: 18px;
-    border: 2px solid var(--gray-300);
-    border-top-color: var(--red);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    flex-shrink: 0;
-  }
-
-  /* Camera modal */
-  #camera-modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
-    z-index: 100;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  #camera-modal.open { display: flex; }
-
-  #camera-video {
-    width: 100%;
-    max-width: 380px;
-    border-radius: var(--radius);
-  }
-
-  .camera-close {
-    margin-top: 20px;
-    padding: 12px 32px;
-    background: var(--white);
-    border: none;
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    cursor: pointer;
-  }
-
-  .camera-hint {
-    color: var(--white);
-    font-size: 13px;
-    margin-top: 12px;
-    opacity: 0.7;
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --red: #cc0000; --red-light: #f9e6e6; --red-dark: #990000;
+  --black: #111; --gray-700: #444; --gray-500: #777; --gray-300: #ccc;
+  --gray-100: #f5f5f5; --white: #fff; --radius: 12px; --radius-sm: 8px;
+}
+html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(--gray-100); color: var(--black); -webkit-font-smoothing: antialiased; }
+
+@media (min-width: 600px) {
+  body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #e0e0e0; }
+  #login-screen, #app-screen { width: 390px !important; height: 844px !important; border-radius: 40px !important; overflow: hidden !important; box-shadow: 0 24px 80px rgba(0,0,0,0.25); }
+  #login-screen { min-height: unset; }
+  #app-screen { min-height: unset; }
+}
+
+/* LOGIN */
+#login-screen { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 24px; background: var(--white); }
+.login-logo { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 600; color: var(--red); letter-spacing: -1px; line-height: 1; margin-bottom: 4px; }
+.login-sub { font-size: 13px; color: var(--gray-500); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 48px; }
+.login-form { width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 14px; }
+.login-form input { width: 100%; padding: 14px 16px; border: 1px solid var(--gray-300); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none; transition: border-color 0.15s; }
+.login-form input:focus { border-color: var(--red); }
+.login-btn { width: 100%; padding: 14px; background: var(--red); color: var(--white); border: none; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; }
+.login-btn:hover { background: var(--red-dark); }
+.login-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.login-error { font-size: 13px; color: var(--red); text-align: center; min-height: 18px; }
+
+/* APP */
+#app-screen { display: none; height: 100vh; flex-direction: column; }
+.topbar { background: var(--white); border-bottom: 1px solid var(--gray-300); padding: 14px 16px 10px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+.topbar-brand { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--red); display: flex; align-items: center; gap: 8px; }
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+.sync-btn { background: none; border: none; cursor: pointer; font-size: 20px; color: var(--gray-500); padding: 4px; }
+.logout-btn { font-size: 12px; color: var(--gray-500); background: none; border: none; cursor: pointer; padding: 4px 8px; }
+.tabs { display: flex; background: var(--white); border-bottom: 1px solid var(--gray-300); flex-shrink: 0; }
+.tab { flex: 1; padding: 11px 0; font-size: 13px; font-family: 'DM Sans', sans-serif; text-align: center; color: var(--gray-500); cursor: pointer; border: none; background: transparent; border-bottom: 2px solid transparent; }
+.tab.active { color: var(--red); border-bottom-color: var(--red); font-weight: 500; }
+.panels { flex: 1; overflow: hidden; }
+.panel { display: none; height: 100%; overflow-y: auto; padding: 16px; -webkit-overflow-scrolling: touch; }
+.panel.active { display: block; }
+
+/* ISBN */
+.scan-area { border: 1.5px dashed var(--gray-300); border-radius: var(--radius); padding: 36px 16px; text-align: center; cursor: pointer; margin-bottom: 16px; background: var(--white); }
+.scan-area:hover { border-color: var(--red); background: var(--red-light); }
+.scan-icon { font-size: 40px; margin-bottom: 8px; }
+.scan-label { font-size: 13px; color: var(--gray-500); }
+.divider { display: flex; align-items: center; gap: 10px; margin: 14px 0; }
+.divider-line { flex: 1; height: 1px; background: var(--gray-300); }
+.divider-text { font-size: 11px; color: var(--gray-500); }
+.isbn-row { display: flex; gap: 8px; }
+.isbn-row input { flex: 1; padding: 12px 14px; border: 1px solid var(--gray-300); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none; }
+.isbn-row input:focus { border-color: var(--red); }
+.isbn-row button { padding: 0 18px; background: var(--red); color: var(--white); border: none; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; }
+
+/* RESULT */
+.result-card { margin-top: 16px; background: var(--white); border: 1px solid var(--gray-300); border-radius: var(--radius); overflow: hidden; }
+.result-header { display: flex; gap: 14px; padding: 14px; border-bottom: 1px solid var(--gray-100); }
+.result-cover { width: 56px; height: 76px; border-radius: 6px; background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; overflow: hidden; }
+.result-cover img { width: 100%; height: 100%; object-fit: cover; }
+.result-info { flex: 1; min-width: 0; }
+.result-title { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--black); margin-bottom: 3px; line-height: 1.2; }
+.result-author { font-size: 12px; color: var(--gray-500); margin-bottom: 8px; }
+.badge { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 999px; font-weight: 500; }
+.badge-ok { background: #e6f4ea; color: #1e7e34; }
+.badge-missing { background: var(--red-light); color: var(--red-dark); }
+.result-meta { padding: 12px 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.meta-label { font-size: 10px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.08em; }
+.meta-value { font-size: 13px; font-weight: 500; color: var(--black); margin-top: 2px; }
+
+/* SEARCH */
+.search-wrap { position: relative; margin-bottom: 12px; }
+.search-wrap input { width: 100%; padding: 12px 14px 12px 40px; border: 1px solid var(--gray-300); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none; background: var(--white); }
+.search-wrap input:focus { border-color: var(--red); }
+.search-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--gray-500); }
+.filter-row { display: flex; gap: 6px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+.filter-row::-webkit-scrollbar { display: none; }
+.chip { font-size: 12px; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--gray-300); background: var(--white); color: var(--gray-700); white-space: nowrap; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+.chip.active { background: var(--red); color: var(--white); border-color: var(--red); }
+.book-list { display: flex; flex-direction: column; gap: 8px; }
+.book-item { display: flex; gap: 12px; padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--gray-300); background: var(--white); cursor: pointer; align-items: flex-start; }
+.book-item:hover { border-color: var(--red); }
+.book-thumb { width: 38px; height: 54px; border-radius: 4px; background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; overflow: hidden; }
+.book-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.book-info { flex: 1; min-width: 0; }
+.book-title { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 600; color: var(--black); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+.book-author { font-size: 12px; color: var(--gray-500); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+.book-meta { font-size: 11px; color: var(--gray-500); display: flex; gap: 8px; flex-wrap: wrap; }
+.dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 3px; vertical-align: middle; }
+.dot-ok { background: #1e7e34; } .dot-nok { background: var(--red); }
+.empty { text-align: center; padding: 48px 16px; color: var(--gray-500); font-size: 14px; }
+.empty-icon { font-size: 36px; display: block; margin-bottom: 10px; }
+.status-bar { padding: 8px 16px; font-size: 11px; color: var(--gray-500); background: var(--gray-100); border-top: 1px solid var(--gray-300); text-align: center; flex-shrink: 0; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner { width: 18px; height: 18px; border: 2px solid var(--gray-300); border-top-color: var(--red); border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; vertical-align: middle; margin-right: 8px; }
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
 <div id="login-screen">
   <div class="login-logo">BBC</div>
   <div class="login-sub">Library</div>
-  <form class="login-form" onsubmit="doLogin(event)">
+  <form class="login-form" id="login-form">
     <input type="email" id="email" placeholder="Email" autocomplete="email" required />
     <input type="password" id="password" placeholder="Password" autocomplete="current-password" required />
     <button type="submit" class="login-btn" id="login-btn">Entrar</button>
@@ -577,106 +119,76 @@
   </form>
 </div>
 
-<!-- APP -->
 <div id="app-screen">
   <div class="topbar">
-    <div class="topbar-brand" style="display:flex;align-items:center;gap:8px;"><img src="icon-192.png" alt="" style="width:28px;height:28px;object-fit:contain;" />BBC Library</div>
+    <div class="topbar-brand">
+      <img src="icon-192.png" alt="" style="width:28px;height:28px;object-fit:contain;" />
+      BBC Library
+    </div>
     <div class="topbar-right">
-      <button class="sync-btn" onclick="syncCatalog()" title="Sincronizar catálogo">⟳</button>
+      <button class="sync-btn" onclick="loadCatalog()" title="Sincronizar">⟳</button>
       <button class="logout-btn" onclick="doLogout()">Sair</button>
     </div>
   </div>
 
   <div class="tabs">
-    <button class="tab active" onclick="switchTab('isbn', this)">
-      <span>▦</span> ISBN
-    </button>
-    <button class="tab" onclick="switchTab('search', this)">
-      <span>⌕</span> Pesquisar
-    </button>
+    <button class="tab active" onclick="switchTab('isbn', this)">▦ ISBN</button>
+    <button class="tab" onclick="switchTab('search', this)">⌕ Pesquisar</button>
   </div>
 
   <div class="panels">
-    <!-- ISBN -->
     <div class="panel active" id="panel-isbn">
       <div class="scan-area" onclick="document.getElementById('file-input').click()">
         <div class="scan-icon">📷</div>
         <div class="scan-label">Toca para fotografar o código de barras</div>
       </div>
       <input type="file" id="file-input" accept="image/*" capture="environment" style="display:none" onchange="readBarcodeFromFile(this)" />
-
-      <div class="divider">
-        <div class="divider-line"></div>
-        <div class="divider-text">ou introduz manualmente</div>
-        <div class="divider-line"></div>
-      </div>
-
+      <div class="divider"><div class="divider-line"></div><div class="divider-text">ou introduz manualmente</div><div class="divider-line"></div></div>
       <div class="isbn-row">
-        <input type="text" id="isbn-input" placeholder="ISBN (10 ou 13 dígitos)" maxlength="17"
-          inputmode="numeric" onkeydown="if(event.key==='Enter') checkISBN()" />
+        <input type="text" id="isbn-input" placeholder="ISBN (10 ou 13 dígitos)" maxlength="17" inputmode="numeric" onkeydown="if(event.key==='Enter') checkISBN()" />
         <button onclick="checkISBN()">Verificar</button>
       </div>
-
       <div id="isbn-result"></div>
     </div>
 
-    <!-- SEARCH -->
     <div class="panel" id="panel-search">
-      <div class="search-input-wrap">
+      <div class="search-wrap">
         <span class="search-icon">⌕</span>
-        <input type="search" id="search-input" placeholder="Título, autor, ISBN..." oninput="doSearch()" />
+        <input type="search" id="search-input" placeholder="Título, autor, ISBN..." oninput="renderList()" />
       </div>
       <div class="filter-row">
         <button class="chip active" onclick="setFilter('todos', this)">Todos</button>
         <button class="chip" onclick="setFilter('Disponível', this)">Disponível</button>
         <button class="chip" onclick="setFilter('Emprestado', this)">Emprestado</button>
       </div>
-      <div class="book-list" id="book-list">
-        <div class="loading"><div class="spinner"></div> A carregar catálogo...</div>
-      </div>
+      <div class="book-list" id="book-list"><div class="empty"><span class="empty-icon">📚</span>A carregar catálogo...</div></div>
     </div>
   </div>
 
   <div class="status-bar" id="status-bar">A carregar...</div>
 </div>
 
-<!-- CAMERA MODAL -->
-<div id="camera-modal">
-  <div style="position:relative;width:100%;max-width:380px;">
-    <video id="camera-video" autoplay playsinline muted style="width:100%;border-radius:12px;display:block;"></video>
-    <canvas id="camera-canvas" style="display:none;"></canvas>
-    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
-      <div style="width:220px;height:120px;border:2px solid #cc0000;border-radius:8px;box-shadow:0 0 0 9999px rgba(0,0,0,0.5);"></div>
-    </div>
-  </div>
-  <div class="camera-hint" id="camera-hint">Centra o código de barras no rectângulo</div>
-  <button onclick="captureFrame()" style="margin-top:16px;padding:14px 32px;background:#cc0000;color:#fff;border:none;border-radius:8px;font-size:16px;font-family:inherit;cursor:pointer;">📷 Capturar</button>
-  <button class="camera-close" onclick="closeCamera()">Fechar</button>
-</div>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+const CATALOG_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRi_0mXo4Chh0V5-n7671VbhiIzvjKRzW9i6WBt9DBviFMsXkYJjN9Uyp6OOH2pkhptnglETWUsSnur/pub?gid=200271792&single=true&output=csv';
 
-<!-- FIREBASE -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
-  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-const firebaseConfig = {
+firebase.initializeApp({
   apiKey: "AIzaSyBAhZCG7sSry2G8_hx5XKYe7Yw192WX2No",
   authDomain: "bbc-library.firebaseapp.com",
   projectId: "bbc-library",
   storageBucket: "bbc-library.firebasestorage.app",
   messagingSenderId: "1021467313357",
   appId: "1:1021467313357:web:9d3b94c23f26bb3a7e5584"
-};
+});
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+const auth = firebase.auth();
+let catalog = [];
+let currentFilter = 'todos';
 
-window._auth = auth;
-window._signIn = signInWithEmailAndPassword;
-window._signOut = signOut;
-
-onAuthStateChanged(auth, user => {
+// AUTH
+auth.onAuthStateChanged(user => {
   if (user) {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app-screen').style.display = 'flex';
@@ -686,47 +198,26 @@ onAuthStateChanged(auth, user => {
     document.getElementById('app-screen').style.display = 'none';
   }
 });
-</script>
 
-<script>
-// ── STATE ──
-let catalog = [];
-
-
-let currentFilter = 'todos';
-
-// IMPORTANT: substitui este URL pelo URL de partilha do teu CSV no Google Drive
-// Formato: exporta o catálogo como CSV, partilha com "qualquer pessoa com o link",
-// e usa: https://docs.google.com/spreadsheets/d/SEU_ID/export?format=csv&gid=SEU_GID
-const CATALOG_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRjgvbOFDy7D8_1EqIOkg0Tv8lOwu5SVvevmqPolBoWJoZ9nKcEnNgGf6Z82b0WDW9Xq4hc-EnRBuqh/pub?output=csv';
-
-// ── AUTH ──
-async function doLogin(e) {
+document.getElementById('login-form').addEventListener('submit', async e => {
   e.preventDefault();
   const btn = document.getElementById('login-btn');
   const err = document.getElementById('login-error');
-  btn.disabled = true;
-  btn.textContent = 'A entrar...';
-  err.textContent = '';
+  btn.disabled = true; btn.textContent = 'A entrar...'; err.textContent = '';
   try {
-    await window._signIn(window._auth,
-      document.getElementById('email').value,
-      document.getElementById('password').value);
+    await auth.signInWithEmailAndPassword(document.getElementById('email').value, document.getElementById('password').value);
   } catch(ex) {
     err.textContent = 'Email ou password incorrectos.';
-    btn.disabled = false;
-    btn.textContent = 'Entrar';
+    btn.disabled = false; btn.textContent = 'Entrar';
   }
-}
+});
 
-async function doLogout() {
-  await window._signOut(window._auth);
-  catalog = [];
-}
+async function doLogout() { await auth.signOut(); catalog = []; }
 
-// ── CATALOG ──
+// CATALOG
 async function loadCatalog() {
   setStatus('A carregar catálogo...');
+  document.getElementById('book-list').innerHTML = '<div class="empty"><span class="spinner"></span>A carregar...</div>';
   try {
     const r = await fetch(CATALOG_URL);
     const text = await r.text();
@@ -735,104 +226,88 @@ async function loadCatalog() {
     renderList();
   } catch(ex) {
     setStatus('Erro ao carregar catálogo');
-    document.getElementById('book-list').innerHTML =
-      '<div class="empty"><span class="empty-icon">⚠</span>Não foi possível carregar o catálogo.<br>Verifica a ligação ou o URL.</div>';
+    document.getElementById('book-list').innerHTML = '<div class="empty"><span class="empty-icon">⚠</span>Não foi possível carregar o catálogo.</div>';
   }
 }
-
-function syncCatalog() { loadCatalog(); }
 
 function parseCSV(text) {
   const lines = text.split('\n').filter(l => l.trim());
   if (lines.length < 2) return [];
-  // Auto-detect separator
-  const firstLine = lines[0];
-  const sep = firstLine.split(';').length > firstLine.split(',').length ? ';' : ',';
-  const headers = splitCSVLine(lines[0], sep).map(h => h.trim().toLowerCase());
-  return lines.slice(1).map(line => {
-    const vals = splitCSVLine(line, sep);
-    const obj = {};
-    headers.forEach((h, i) => obj[h] = (vals[i] || '').trim());
-    return obj;
-  }).filter(b => Object.keys(b).length > 2);
-}
-
-function splitCSVLine(line, sep) {
-  sep = sep || ',';
+  const first = lines[0];
+  const sep = first.split(';').length > first.split(',').length ? ';' : ',';
+  const headers = splitLine(lines[0], sep).map(h => h.trim().toLowerCase());
   const result = [];
-  let cur = '', inQ = false;
-  for (let i = 0; i < line.length; i++) {
-    const c = line[i];
-    if (c === '"') { inQ = !inQ; }
-    else if (c === sep && !inQ) { result.push(cur); cur = ''; }
-    else { cur += c; }
+  for (let i = 1; i < lines.length; i++) {
+    const vals = splitLine(lines[i], sep);
+    const obj = {};
+    headers.forEach((h, j) => obj[h] = (vals[j] || '').trim());
+    if (Object.values(obj).some(v => v)) result.push(obj);
   }
-  result.push(cur);
   return result;
 }
 
-function getField(book, ...keys) {
+function splitLine(line, sep) {
+  const res = []; let cur = '', inQ = false;
+  for (const c of line) {
+    if (c === '"') inQ = !inQ;
+    else if (c === sep && !inQ) { res.push(cur); cur = ''; }
+    else cur += c;
+  }
+  res.push(cur);
+  return res;
+}
+
+function get(book, ...keys) {
   for (const k of keys) {
-    const v = book[k] || book[k.toLowerCase()] || book[k.normalize('NFD').replace(/[\u0300-\u036f]/g, '')];
+    const v = book[k] || book[k.toLowerCase()];
     if (v) return v;
   }
   return '';
 }
 
-// ── ISBN CHECK ──
+// ISBN
 function checkISBN() {
   const val = document.getElementById('isbn-input').value.trim().replace(/[\s-]/g, '');
   const el = document.getElementById('isbn-result');
   if (!val) { el.innerHTML = ''; return; }
-
-  if (catalog.length === 0) {
-    el.innerHTML = '<div class="result-card" style="padding:14px;text-align:center;font-size:13px;color:#777">Catálogo não carregado. Vai ao separador Pesquisar para sincronizar.</div>';
-    return;
-  }
-
-  const book = catalog.find(b => {
-    const isbn = getField(b, 'isbn').replace(/[\s-]/g, '');
-    return isbn === val;
-  });
-
+  if (!catalog.length) { el.innerHTML = '<div class="result-card" style="padding:14px;text-align:center;font-size:13px;color:#777">Catálogo não carregado.</div>'; return; }
+  const book = catalog.find(b => get(b, 'isbn').replace(/[\s-]/g, '') === val);
   if (book) {
-    const titulo = getField(book, 'título', 'titulo', 'title');
-    const autor = getField(book, 'autor', 'author');
-    const num = getField(book, 'nº colecção', 'nº coleccao', 'num');
-    const estado = getField(book, 'estado');
-    const ano = getField(book, 'ano', 'year');
-    const editora = getField(book, 'editora', 'publisher');
-    const capa = getField(book, 'capa (url)', 'capa', 'cover');
-
-    el.innerHTML = `
-      <div class="result-card">
-        <div class="result-header">
-          <div class="result-cover">
-            ${capa ? `<img src="${capa}" alt="" onerror="this.parentNode.textContent='📖'" />` : '📖'}
-          </div>
-          <div class="result-info">
-            <div class="result-title">${titulo || '(sem título)'}</div>
-            <div class="result-author">${autor}</div>
-            <span class="badge badge-ok">✓ No catálogo</span>
-          </div>
-        </div>
-        <div class="result-meta">
-          <div class="meta-item"><div class="meta-label">Nº Colecção</div><div class="meta-value">${num || '—'}</div></div>
-          <div class="meta-item"><div class="meta-label">Estado</div><div class="meta-value">${estado || '—'}</div></div>
-          <div class="meta-item"><div class="meta-label">Ano</div><div class="meta-value">${ano || '—'}</div></div>
-          <div class="meta-item"><div class="meta-label">Editora</div><div class="meta-value">${editora || '—'}</div></div>
-        </div>
-      </div>`;
+    const titulo = get(book, 'título', 'titulo', 'title');
+    const autor = get(book, 'autor', 'author');
+    const num = get(book, 'nº colecção', 'nº coleccao');
+    const estado = get(book, 'estado');
+    const ano = get(book, 'ano');
+    const editora = get(book, 'editora');
+    const capa = get(book, 'capa (url)', 'capa');
+    el.innerHTML = `<div class="result-card"><div class="result-header"><div class="result-cover">${capa ? `<img src="${capa}" alt="" onerror="this.parentNode.textContent='📖'" />` : '📖'}</div><div class="result-info"><div class="result-title">${titulo || '—'}</div><div class="result-author">${autor}</div><span class="badge badge-ok">✓ No catálogo</span></div></div><div class="result-meta"><div class="meta-item"><div class="meta-label">Nº Colecção</div><div class="meta-value">${num || '—'}</div></div><div class="meta-item"><div class="meta-label">Estado</div><div class="meta-value">${estado || '—'}</div></div><div class="meta-item"><div class="meta-label">Ano</div><div class="meta-value">${ano || '—'}</div></div><div class="meta-item"><div class="meta-label">Editora</div><div class="meta-value">${editora || '—'}</div></div></div></div>`;
   } else {
-    el.innerHTML = `
-      <div class="result-card" style="padding:20px;text-align:center;">
-        <span class="badge badge-missing" style="font-size:13px;padding:6px 16px;">✕ Não encontrado no catálogo</span>
-        <div style="font-size:12px;color:#777;margin-top:10px;">ISBN: ${val}</div>
-      </div>`;
+    el.innerHTML = `<div class="result-card" style="padding:20px;text-align:center;"><span class="badge badge-missing" style="font-size:13px;padding:6px 16px;">✕ Não encontrado</span><div style="font-size:12px;color:#777;margin-top:10px;">ISBN: ${val}</div></div>`;
   }
 }
 
-// ── SEARCH ──
+async function readBarcodeFromFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const el = document.getElementById('isbn-result');
+  el.innerHTML = '<div style="padding:16px;text-align:center;font-size:13px;color:#777"><span class="spinner"></span>A ler código de barras...</div>';
+  try {
+    if (!window.ZXing) {
+      await new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'https://unpkg.com/@zxing/library@0.19.1/umd/index.min.js'; s.onload = res; s.onerror = rej; document.head.appendChild(s); });
+    }
+    const url = URL.createObjectURL(file);
+    const reader = new ZXing.BrowserMultiFormatReader();
+    const result = await reader.decodeFromImageUrl(url);
+    URL.revokeObjectURL(url);
+    if (result) { document.getElementById('isbn-input').value = result.getText(); checkISBN(); }
+    else { el.innerHTML = '<div style="padding:16px;text-align:center;font-size:13px;color:var(--red)">Não foi possível ler o código. Introduz o ISBN manualmente.</div>'; }
+  } catch(e) {
+    el.innerHTML = '<div style="padding:16px;text-align:center;font-size:13px;color:var(--red)">Não foi possível ler o código. Introduz o ISBN manualmente.</div>';
+  }
+  input.value = '';
+}
+
+// SEARCH
 function setFilter(f, el) {
   currentFilter = f;
   document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
@@ -840,105 +315,33 @@ function setFilter(f, el) {
   renderList();
 }
 
-function doSearch() { renderList(); }
-
 function renderList() {
   const q = (document.getElementById('search-input').value || '').toLowerCase().trim();
   const list = document.getElementById('book-list');
-
-  if (catalog.length === 0) {
-    list.innerHTML = '<div class="loading"><div class="spinner"></div> A carregar...</div>';
-    return;
-  }
-
+  if (!catalog.length) { list.innerHTML = '<div class="empty"><span class="empty-icon">📚</span>Catálogo não carregado.</div>'; return; }
   let items = catalog.filter(b => {
-    const titulo = getField(b, 'título', 'titulo', 'title').toLowerCase();
-    const autor = getField(b, 'autor', 'author').toLowerCase();
-    const isbn = getField(b, 'isbn').toLowerCase();
-    const estado = getField(b, 'estado');
-    const match = !q || titulo.includes(q) || autor.includes(q) || isbn.includes(q);
-    const stateOk = currentFilter === 'todos' || estado === currentFilter;
-    return match && stateOk;
+    const titulo = get(b, 'título', 'titulo', 'title').toLowerCase();
+    const autor = get(b, 'autor', 'author').toLowerCase();
+    const isbn = get(b, 'isbn').toLowerCase();
+    const estado = get(b, 'estado');
+    return (!q || titulo.includes(q) || autor.includes(q) || isbn.includes(q)) &&
+           (currentFilter === 'todos' || estado === currentFilter);
   });
-
-  if (!items.length) {
-    list.innerHTML = '<div class="empty"><span class="empty-icon">🔍</span>Nenhum resultado encontrado.</div>';
-    return;
-  }
-
+  if (!items.length) { list.innerHTML = '<div class="empty"><span class="empty-icon">🔍</span>Nenhum resultado.</div>'; return; }
   list.innerHTML = items.slice(0, 100).map(b => {
-    const titulo = getField(b, 'título', 'titulo', 'title');
-    const autor = getField(b, 'autor', 'author');
-    const num = getField(b, 'nº colecção', 'nº coleccao', 'num');
-    const ano = getField(b, 'ano', 'year');
-    const estado = getField(b, 'estado');
-    const capa = getField(b, 'capa (url)', 'capa', 'cover');
-    const dot = (estado === 'Disponível') ? 'dot-ok' : 'dot-nok';
-    return `
-      <div class="book-item">
-        <div class="book-thumb">
-          ${capa ? `<img src="${capa}" alt="" onerror="this.parentNode.textContent='📖'" />` : '📖'}
-        </div>
-        <div class="book-info">
-          <div class="book-title">${titulo || '(sem título)'}</div>
-          <div class="book-author">${autor}</div>
-          <div class="book-meta">
-            <span>${num}</span>
-            <span>·</span>
-            <span>${ano}</span>
-            <span>·</span>
-            <span><span class="estado-dot ${dot}"></span>${estado}</span>
-          </div>
-        </div>
-      </div>`;
+    const titulo = get(b, 'título', 'titulo', 'title');
+    const autor = get(b, 'autor', 'author');
+    const num = get(b, 'nº colecção', 'nº coleccao');
+    const ano = get(b, 'ano');
+    const estado = get(b, 'estado');
+    const capa = get(b, 'capa (url)', 'capa');
+    const dot = estado === 'Disponível' ? 'dot-ok' : 'dot-nok';
+    return `<div class="book-item"><div class="book-thumb">${capa ? `<img src="${capa}" alt="" onerror="this.parentNode.textContent='📖'" />` : '📖'}</div><div class="book-info"><div class="book-title">${titulo || '—'}</div><div class="book-author">${autor}</div><div class="book-meta"><span>${num}</span><span>·</span><span>${ano}</span><span>·</span><span><span class="dot ${dot}"></span>${estado}</span></div></div></div>`;
   }).join('');
-
-  if (items.length > 100) {
-    list.innerHTML += `<div style="text-align:center;padding:12px;font-size:12px;color:#777">A mostrar 100 de ${items.length} resultados. Refina a pesquisa.</div>`;
-  }
+  if (items.length > 100) list.innerHTML += `<div style="text-align:center;padding:12px;font-size:12px;color:#777">A mostrar 100 de ${items.length} resultados. Refina a pesquisa.</div>`;
 }
 
-// ── CAMERA ──
-async function loadZXing() {
-  if (window.ZXing) return;
-  await new Promise((resolve, reject) => {
-    const s = document.createElement('script');
-    s.src = 'https://unpkg.com/@zxing/library@0.19.1/umd/index.min.js';
-    s.onload = resolve;
-    s.onerror = reject;
-    document.head.appendChild(s);
-  });
-}
-
-async function readBarcodeFromFile(input) {
-  const file = input.files[0];
-  if (!file) return;
-
-  const statusEl = document.getElementById('isbn-result');
-  statusEl.innerHTML = '<div style="padding:16px;text-align:center;font-size:13px;color:#777">A ler código de barras...</div>';
-
-  try {
-    await loadZXing();
-    const url = URL.createObjectURL(file);
-    const reader = new ZXing.BrowserMultiFormatReader();
-    const result = await reader.decodeFromImageUrl(url);
-    URL.revokeObjectURL(url);
-
-    if (result) {
-      document.getElementById('isbn-input').value = result.getText();
-      checkISBN();
-    } else {
-      statusEl.innerHTML = '<div style="padding:16px;text-align:center;font-size:13px;color:#cc0000">Não foi possível ler o código. Tenta introduzir o ISBN manualmente.</div>';
-    }
-  } catch(e) {
-    statusEl.innerHTML = '<div style="padding:16px;text-align:center;font-size:13px;color:#cc0000">Não foi possível ler o código. Tenta introduzir o ISBN manualmente.</div>';
-  }
-  input.value = '';
-}
-
-function closeCamera() {}
-
-// ── TABS ──
+// TABS
 function switchTab(tab, el) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
@@ -946,10 +349,8 @@ function switchTab(tab, el) {
   document.getElementById('panel-' + tab).classList.add('active');
 }
 
-// ── STATUS ──
-function setStatus(msg) {
-  document.getElementById('status-bar').textContent = msg;
-}
+function setStatus(msg) { document.getElementById('status-bar').textContent = msg; }
+}); // end DOMContentLoaded
 </script>
 </body>
 </html>
