@@ -599,10 +599,11 @@
   <div class="panels">
     <!-- ISBN -->
     <div class="panel active" id="panel-isbn">
-      <div class="scan-area" onclick="openCamera()">
+      <div class="scan-area" onclick="document.getElementById('file-input').click()">
         <div class="scan-icon">📷</div>
-        <div class="scan-label">Toca para digitalizar com a câmara</div>
+        <div class="scan-label">Toca para fotografar o código de barras</div>
       </div>
+      <input type="file" id="file-input" accept="image/*" capture="environment" style="display:none" onchange="readBarcodeFromFile(this)" />
 
       <div class="divider">
         <div class="divider-line"></div>
@@ -695,7 +696,7 @@ let currentFilter = 'todos';
 // IMPORTANT: substitui este URL pelo URL de partilha do teu CSV no Google Drive
 // Formato: exporta o catálogo como CSV, partilha com "qualquer pessoa com o link",
 // e usa: https://docs.google.com/spreadsheets/d/SEU_ID/export?format=csv&gid=SEU_GID
-const CATALOG_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRjgvbOFDy7D8_1EqIOkg0Tv8lOwu5SVvevmqPolBoWJoZ9nKcEnNgGf6Z82b0WDW9Xq4hc-EnRBuqh/pub?output=csv';
+const CATALOG_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSKDPhit4bLyRyUR7TCatII4xJ50KsbZbod1v_jcgbLw7TBnXgU3RTb5yx9hB9sYkcKfT48GGQ9aqnY/pub?output=csv';
 
 // ── AUTH ──
 async function doLogin(e) {
@@ -892,9 +893,6 @@ function renderList() {
 }
 
 // ── CAMERA ──
-let stream = null;
-let scanInterval = null;
-
 async function loadZXing() {
   if (window.ZXing) return;
   await new Promise((resolve, reject) => {
@@ -906,73 +904,33 @@ async function loadZXing() {
   });
 }
 
-async function openCamera() {
-  try {
-    stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } }
-    });
+async function readBarcodeFromFile(input) {
+  const file = input.files[0];
+  if (!file) return;
 
-    const video = document.getElementById('camera-video');
-    video.srcObject = stream;
-    await video.play();
-    document.getElementById('camera-modal').classList.add('open');
-    document.getElementById('camera-hint').textContent = 'Centra o código de barras no rectângulo';
-
-    // Try native BarcodeDetector (Chrome Android)
-    if ('BarcodeDetector' in window) {
-      const detector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'code_128'] });
-      scanInterval = setInterval(async () => {
-        try {
-          const barcodes = await detector.detect(video);
-          if (barcodes.length > 0) {
-            const isbn = barcodes[0].rawValue;
-            closeCamera();
-            document.getElementById('isbn-input').value = isbn;
-            checkISBN();
-          }
-        } catch(e) {}
-      }, 300);
-    }
-    // On Safari: user taps Capturar button
-  } catch(e) {
-    closeCamera();
-    alert('Não foi possível aceder à câmara.\nUsa a introdução manual do ISBN.');
-  }
-}
-
-async function captureFrame() {
-  const video = document.getElementById('camera-video');
-  const canvas = document.getElementById('camera-canvas');
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  const ctx = canvas.getContext('2d');
-  ctx.drawImage(video, 0, 0);
-
-  document.getElementById('camera-hint').textContent = 'A ler código de barras...';
+  const statusEl = document.getElementById('isbn-result');
+  statusEl.innerHTML = '<div style="padding:16px;text-align:center;font-size:13px;color:#777">A ler código de barras...</div>';
 
   try {
     await loadZXing();
+    const url = URL.createObjectURL(file);
     const reader = new ZXing.BrowserMultiFormatReader();
-    const imgData = canvas.toDataURL('image/jpeg', 0.9);
-    const result = await reader.decodeFromImageUrl(imgData);
+    const result = await reader.decodeFromImageUrl(url);
+    URL.revokeObjectURL(url);
+
     if (result) {
-      const isbn = result.getText();
-      closeCamera();
-      document.getElementById('isbn-input').value = isbn;
+      document.getElementById('isbn-input').value = result.getText();
       checkISBN();
     } else {
-      document.getElementById('camera-hint').textContent = 'Não detectado. Tenta de novo.';
+      statusEl.innerHTML = '<div style="padding:16px;text-align:center;font-size:13px;color:#cc0000">Não foi possível ler o código. Tenta introduzir o ISBN manualmente.</div>';
     }
   } catch(e) {
-    document.getElementById('camera-hint').textContent = 'Não detectado. Tenta de novo.';
+    statusEl.innerHTML = '<div style="padding:16px;text-align:center;font-size:13px;color:#cc0000">Não foi possível ler o código. Tenta introduzir o ISBN manualmente.</div>';
   }
+  input.value = '';
 }
 
-function closeCamera() {
-  if (scanInterval) { clearInterval(scanInterval); scanInterval = null; }
-  if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
-  document.getElementById('camera-modal').classList.remove('open');
-}
+function closeCamera() {}
 
 // ── TABS ──
 function switchTab(tab, el) {
