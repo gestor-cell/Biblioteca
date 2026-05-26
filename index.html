@@ -680,7 +680,7 @@ onAuthStateChanged(auth, user => {
   if (user) {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app-screen').style.display = 'flex';
-    loadCatalog();
+    window.dispatchEvent(new CustomEvent('userLoggedIn'));
   } else {
     document.getElementById('login-screen').style.display = 'flex';
     document.getElementById('app-screen').style.display = 'none';
@@ -691,6 +691,8 @@ onAuthStateChanged(auth, user => {
 <script>
 // ── STATE ──
 let catalog = [];
+
+window.addEventListener('userLoggedIn', () => loadCatalog());
 let currentFilter = 'todos';
 
 // IMPORTANT: substitui este URL pelo URL de partilha do teu CSV no Google Drive
