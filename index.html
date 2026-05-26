@@ -680,7 +680,7 @@ onAuthStateChanged(auth, user => {
   if (user) {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app-screen').style.display = 'flex';
-    if (typeof window._onLogin === 'function') window._onLogin();
+    loadCatalog();
   } else {
     document.getElementById('login-screen').style.display = 'flex';
     document.getElementById('app-screen').style.display = 'none';
@@ -692,13 +692,13 @@ onAuthStateChanged(auth, user => {
 // ── STATE ──
 let catalog = [];
 
-window._onLogin = () => loadCatalog();
+
 let currentFilter = 'todos';
 
 // IMPORTANT: substitui este URL pelo URL de partilha do teu CSV no Google Drive
 // Formato: exporta o catálogo como CSV, partilha com "qualquer pessoa com o link",
 // e usa: https://docs.google.com/spreadsheets/d/SEU_ID/export?format=csv&gid=SEU_GID
-const CATALOG_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSKDPhit4bLyRyUR7TCatII4xJ50KsbZbod1v_jcgbLw7TBnXgU3RTb5yx9hB9sYkcKfT48GGQ9aqnY/pub?gid=504062179&single=true&output=csv';
+const CATALOG_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRjgvbOFDy7D8_1EqIOkg0Tv8lOwu5SVvevmqPolBoWJoZ9nKcEnNgGf6Z82b0WDW9Xq4hc-EnRBuqh/pub?output=csv';
 
 // ── AUTH ──
 async function doLogin(e) {
