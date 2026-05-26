@@ -743,22 +743,26 @@ function syncCatalog() { loadCatalog(); }
 function parseCSV(text) {
   const lines = text.split('\n').filter(l => l.trim());
   if (lines.length < 2) return [];
-  const headers = splitCSVLine(lines[0]).map(h => h.trim().toLowerCase());
+  // Auto-detect separator
+  const firstLine = lines[0];
+  const sep = firstLine.split(';').length > firstLine.split(',').length ? ';' : ',';
+  const headers = splitCSVLine(lines[0], sep).map(h => h.trim().toLowerCase());
   return lines.slice(1).map(line => {
-    const vals = splitCSVLine(line);
+    const vals = splitCSVLine(line, sep);
     const obj = {};
     headers.forEach((h, i) => obj[h] = (vals[i] || '').trim());
     return obj;
   }).filter(b => b['isbn'] || b['título'] || b['titulo']);
 }
 
-function splitCSVLine(line) {
+function splitCSVLine(line, sep) {
+  sep = sep || ',';
   const result = [];
   let cur = '', inQ = false;
   for (let i = 0; i < line.length; i++) {
     const c = line[i];
     if (c === '"') { inQ = !inQ; }
-    else if (c === ',' && !inQ) { result.push(cur); cur = ''; }
+    else if (c === sep && !inQ) { result.push(cur); cur = ''; }
     else { cur += c; }
   }
   result.push(cur);
