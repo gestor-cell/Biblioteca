@@ -752,7 +752,7 @@ function parseCSV(text) {
     const obj = {};
     headers.forEach((h, i) => obj[h] = (vals[i] || '').trim());
     return obj;
-  }).filter(b => b['isbn'] || b['título'] || b['titulo']);
+  }).filter(b => Object.keys(b).length > 2);
 }
 
 function splitCSVLine(line, sep) {
