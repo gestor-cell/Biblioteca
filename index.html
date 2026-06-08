@@ -219,7 +219,8 @@ async function loadCatalog() {
   document.getElementById('book-list').innerHTML = '<div class="empty"><span class="spinner"></span>A carregar...</div>';
   try {
     const r = await fetch(CATALOG_URL);
-    const text = await r.text();
+    const buffer = await r.arrayBuffer();
+    const text = new TextDecoder('utf-8').decode(buffer);
     catalog = parseCSV(text);
     setStatus(catalog.length + ' livros no catálogo');
     renderList();
