@@ -232,8 +232,7 @@ async function loadCatalog() {
 function parseCSV(text) {
   const lines = text.split('\n').filter(l => l.trim());
   if (lines.length < 2) return [];
-  const first = lines[0];
-  const sep = first.split(';').length > first.split(',').length ? ';' : ',';
+  const sep = ';';
   const headers = splitLine(lines[0], sep).map(h => h.trim().toLowerCase());
   const result = [];
   for (let i = 1; i < lines.length; i++) {
