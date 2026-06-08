@@ -234,12 +234,12 @@ function parseCSV(text) {
   const lines = text.split('\n').filter(l => l.trim());
   if (lines.length < 2) return [];
   const sep = ';';
-  const headers = splitLine(lines[0], sep).map(h => h.trim().toLowerCase());
+  const headers = splitLine(lines[0], sep).map(h => h.trim().toLowerCase().replace(/,+$/, '').replace(/\r$/, ''));
   const result = [];
   for (let i = 1; i < lines.length; i++) {
     const vals = splitLine(lines[i], sep);
     const obj = {};
-    headers.forEach((h, j) => obj[h] = (vals[j] || '').trim());
+    headers.forEach((h, j) => obj[h] = (vals[j] || '').trim().replace(/,+$/, '').replace(/\r$/, ''));
     if (Object.values(obj).some(v => v)) result.push(obj);
   }
   return result;
