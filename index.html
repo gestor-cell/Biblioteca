@@ -316,21 +316,33 @@ async function readBarcodeFromFile(input) {
   const el = document.getElementById('isbn-result');
   el.innerHTML = '<div style="padding:16px;text-align:center;font-size:13px;color:#777"><span class="spinner"></span>A ler código de barras...</div>';
   try {
-    if (!window.ZXingWasm) {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new window.Image();
+    const url = URL.createObjectURL(file);
+    await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = url; });
+    URL.revokeObjectURL(url);
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    ctx.drawImage(img, 0, 0);
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    if (!window.ZXing) {
       await new Promise((res, rej) => {
         const s = document.createElement('script');
-        s.src = 'https://cdn.jsdelivr.net/npm/zxing-wasm@1.2.6/dist/full/zxing-wasm.min.js';
+        s.src = 'https://cdn.jsdelivr.net/npm/@zxing/library@0.21.1/umd/index.min.js';
         s.onload = res; s.onerror = rej;
         document.head.appendChild(s);
       });
     }
-    const reader = await ZXingWasm.readBarcodesFromImageFile(file, {
-      formats: ['EAN13', 'EAN8', 'Code128', 'QRCode', 'DataMatrix'],
-      tryHarder: true
-    });
-    if (reader && reader.length > 0) {
-      const text = reader[0].text;
-      document.getElementById('isbn-input').value = text;
+    const hints = new Map();
+    hints.set(ZXing.DecodeHintType.TRY_HARDER, true);
+    const reader = new ZXing.MultiFormatReader();
+    reader.setHints(hints);
+    const luminanceSource = new ZXing.RGBLuminanceSource(imageData.data, canvas.width, canvas.height);
+    const binaryBitmap = new ZXing.BinaryBitmap(new ZXing.HybridBinarizer(luminanceSource));
+    const result = reader.decode(binaryBitmap);
+    if (result) {
+      document.getElementById('isbn-input').value = result.getText();
       checkISBN();
     } else {
       el.innerHTML = '<div style="padding:16px;text-align:center;font-size:13px;color:var(--red)">Não foi possível ler o código. Introduz o ISBN manualmente.</div>';
