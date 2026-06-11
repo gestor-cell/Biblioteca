@@ -122,7 +122,7 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
 <div id="app-screen">
   <div class="topbar">
     <div class="topbar-brand">
-      <img src="icon-192.png" alt="" style="width:28px;height:28px;object-fit:contain;" />
+      <img src="icon-192.png" alt="" style="height:1.1em;width:auto;object-fit:contain;" />
       BBC Library
     </div>
     <div class="topbar-right">
@@ -186,7 +186,6 @@ const auth = firebase.auth();
 let catalog = [];
 let currentFilter = 'todos';
 
-// AUTH
 auth.onAuthStateChanged(user => {
   if (user) {
     document.getElementById('login-screen').style.display = 'none';
@@ -213,7 +212,6 @@ document.getElementById('login-form').addEventListener('submit', async e => {
 
 async function doLogout() { await auth.signOut(); catalog = []; }
 
-// CATALOG
 async function loadCatalog() {
   setStatus('A carregar catálogo...');
   document.getElementById('book-list').innerHTML = '<div class="empty"><span class="spinner"></span>A carregar...</div>';
@@ -264,7 +262,6 @@ function get(book, ...keys) {
   return '';
 }
 
-// ISBN
 function checkISBN() {
   const val = document.getElementById('isbn-input').value.trim().replace(/[\s-]/g, '');
   const el = document.getElementById('isbn-result');
@@ -306,7 +303,6 @@ async function readBarcodeFromFile(input) {
   input.value = '';
 }
 
-// SEARCH
 function setFilter(f, el) {
   currentFilter = f;
   document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
@@ -340,7 +336,6 @@ function renderList() {
   if (items.length > 100) list.innerHTML += `<div style="text-align:center;padding:12px;font-size:12px;color:#777">A mostrar 100 de ${items.length} resultados. Refina a pesquisa.</div>`;
 }
 
-// TABS
 function switchTab(tab, el) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
