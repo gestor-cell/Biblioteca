@@ -141,11 +141,18 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
 
   <div class="panels">
     <div class="panel active" id="panel-isbn">
-      <div class="scan-area" onclick="document.getElementById('file-input').click()">
+      <div class="scan-area" id="scan-area" onclick="startCamera()">
         <div class="scan-icon">📷</div>
-        <div class="scan-label">Toca para fotografar o código de barras</div>
+        <div class="scan-label">Toca para activar a câmara</div>
       </div>
-      <input type="file" id="file-input" accept="image/*" capture="environment" style="display:none" onchange="readBarcodeFromFile(this)" />
+      <div id="camera-container" style="display:none;position:relative;margin-bottom:16px;">
+        <video id="camera-video" style="width:100%;border-radius:12px;" playsinline autoplay muted></video>
+        <div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:10px;">
+          <button onclick="captureFrame()" style="padding:10px 20px;background:#cc0000;color:white;border:none;border-radius:8px;font-size:14px;font-weight:500;">Capturar</button>
+          <button onclick="stopCamera()" style="padding:10px 16px;background:#777;color:white;border:none;border-radius:8px;font-size:14px;">X</button>
+        </div>
+      </div>
+      <canvas id="capture-canvas" style="display:none;"></canvas>
       <div class="divider"><div class="divider-line"></div><div class="divider-text">ou introduz manualmente</div><div class="divider-line"></div></div>
       <div class="isbn-row">
         <input type="text" id="isbn-input" placeholder="ISBN (10 ou 13 dígitos)" maxlength="17" inputmode="numeric" onkeydown="if(event.key==='Enter') checkISBN()" />
@@ -307,6 +314,65 @@ function checkISBN() {
     el.innerHTML = `<div class="result-card"><div class="result-header"><div class="result-cover">${capa ? `<img src="${capa}" alt="" onerror="this.parentNode.textContent='📖'" />` : '📖'}</div><div class="result-info"><div class="result-title">${titulo || '—'}</div><div class="result-author">${autor}</div><span class="badge badge-ok">✓ No catálogo</span></div></div><div class="result-meta"><div class="meta-item"><div class="meta-label">Nº Colecção</div><div class="meta-value">${num || '—'}</div></div><div class="meta-item"><div class="meta-label">Estado</div><div class="meta-value">${estado || '—'}</div></div><div class="meta-item"><div class="meta-label">Ano</div><div class="meta-value">${ano || '—'}</div></div><div class="meta-item"><div class="meta-label">Editora</div><div class="meta-value">${editora || '—'}</div></div></div></div>`;
   } else {
     el.innerHTML = `<div class="result-card" style="padding:20px;text-align:center;"><span class="badge badge-missing" style="font-size:13px;padding:6px 16px;">✕ Não encontrado</span><div style="font-size:12px;color:#777;margin-top:10px;">ISBN: ${val}</div></div>`;
+  }
+}
+
+let cameraStream = null;
+
+async function startCamera() {
+  const container = document.getElementById('camera-container');
+  const video = document.getElementById('camera-video');
+  document.getElementById('scan-area').style.display = 'none';
+  container.style.display = 'block';
+  try {
+    cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
+    video.srcObject = cameraStream;
+  } catch(e) {
+    stopCamera();
+    document.getElementById('isbn-result').innerHTML = '<div style="padding:16px;text-align:center;font-size:13px;color:var(--red)">Não foi possível aceder à câmara.</div>';
+  }
+}
+
+function stopCamera() {
+  if (cameraStream) { cameraStream.getTracks().forEach(t => t.stop()); cameraStream = null; }
+  document.getElementById('camera-container').style.display = 'none';
+  document.getElementById('scan-area').style.display = 'block';
+}
+
+async function captureFrame() {
+  const video = document.getElementById('camera-video');
+  const canvas = document.getElementById('capture-canvas');
+  const el = document.getElementById('isbn-result');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext('2d').drawImage(video, 0, 0);
+  stopCamera();
+  el.innerHTML = '<div style="padding:16px;text-align:center;font-size:13px;color:#777"><span class="spinner"></span>A ler código de barras...</div>';
+  try {
+    const imageData = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
+    if (!window.ZXing) {
+      await new Promise((res, rej) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/@zxing/library@0.21.1/umd/index.min.js';
+        s.onload = res; s.onerror = rej;
+        document.head.appendChild(s);
+      });
+    }
+    const hints = new Map();
+    hints.set(ZXing.DecodeHintType.TRY_HARDER, true);
+    const reader = new ZXing.MultiFormatReader();
+    reader.setHints(hints);
+    const luminanceSource = new ZXing.RGBLuminanceSource(imageData.data, canvas.width, canvas.height);
+    const binaryBitmap = new ZXing.BinaryBitmap(new ZXing.HybridBinarizer(luminanceSource));
+    const result = reader.decode(binaryBitmap);
+    if (result) {
+      document.getElementById('isbn-input').value = result.getText();
+      checkISBN();
+    } else {
+      el.innerHTML = '<div style="padding:16px;text-align:center;font-size:13px;color:var(--red)">Não foi possível ler o código. Tenta de novo.</div>';
+    }
+  } catch(e) {
+    el.innerHTML = '<div style="padding:16px;text-align:center;font-size:13px;color:var(--red)">Não foi possível ler o código. Tenta de novo.</div>';
   }
 }
 
