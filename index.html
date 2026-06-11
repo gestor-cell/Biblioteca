@@ -17,15 +17,12 @@
   --gray-100: #f5f5f5; --white: #fff; --radius: 12px; --radius-sm: 8px;
 }
 html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(--gray-100); color: var(--black); -webkit-font-smoothing: antialiased; }
-
 @media (min-width: 600px) {
   body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #e0e0e0; }
   #login-screen, #app-screen { width: 390px !important; height: 844px !important; border-radius: 40px !important; overflow: hidden !important; box-shadow: 0 24px 80px rgba(0,0,0,0.25); }
   #login-screen { min-height: unset; }
   #app-screen { min-height: unset; }
 }
-
-/* LOGIN */
 #login-screen { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 24px; background: var(--white); }
 .login-logo { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 600; color: var(--red); letter-spacing: -1px; line-height: 1; margin-bottom: 4px; }
 .login-sub { font-size: 13px; color: var(--gray-500); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 48px; }
@@ -36,8 +33,6 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
 .login-btn:hover { background: var(--red-dark); }
 .login-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .login-error { font-size: 13px; color: var(--red); text-align: center; min-height: 18px; }
-
-/* APP */
 #app-screen { display: none; height: 100vh; flex-direction: column; }
 .topbar { background: var(--white); border-bottom: 1px solid var(--gray-300); padding: 14px 16px 10px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
 .topbar-brand { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--red); display: flex; align-items: center; gap: 8px; }
@@ -50,8 +45,6 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
 .panels { flex: 1; overflow: hidden; }
 .panel { display: none; height: 100%; overflow-y: auto; padding: 16px; -webkit-overflow-scrolling: touch; }
 .panel.active { display: block; }
-
-/* ISBN */
 .scan-area { border: 1.5px dashed var(--gray-300); border-radius: var(--radius); padding: 36px 16px; text-align: center; cursor: pointer; margin-bottom: 16px; background: var(--white); }
 .scan-area:hover { border-color: var(--red); background: var(--red-light); }
 .scan-icon { font-size: 40px; margin-bottom: 8px; }
@@ -63,8 +56,6 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
 .isbn-row input { flex: 1; padding: 12px 14px; border: 1px solid var(--gray-300); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none; }
 .isbn-row input:focus { border-color: var(--red); }
 .isbn-row button { padding: 0 18px; background: var(--red); color: var(--white); border: none; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; }
-
-/* RESULT */
 .result-card { margin-top: 16px; background: var(--white); border: 1px solid var(--gray-300); border-radius: var(--radius); overflow: hidden; }
 .result-header { display: flex; gap: 14px; padding: 14px; border-bottom: 1px solid var(--gray-100); }
 .result-cover { width: 56px; height: 76px; border-radius: 6px; background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; overflow: hidden; }
@@ -78,38 +69,50 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
 .result-meta { padding: 12px 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .meta-label { font-size: 10px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.08em; }
 .meta-value { font-size: 13px; font-weight: 500; color: var(--black); margin-top: 2px; }
-
-/* SEARCH */
-.search-wrap { position: relative; margin-bottom: 12px; }
+.search-wrap { position: relative; margin-bottom: 10px; }
 .search-wrap input { width: 100%; padding: 12px 14px 12px 40px; border: 1px solid var(--gray-300); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none; background: var(--white); }
 .search-wrap input:focus { border-color: var(--red); }
 .search-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--gray-500); }
-.filter-row { display: flex; gap: 6px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
-.filter-row::-webkit-scrollbar { display: none; }
-.chip { font-size: 12px; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--gray-300); background: var(--white); color: var(--gray-700); white-space: nowrap; cursor: pointer; font-family: 'DM Sans', sans-serif; }
-.chip.active { background: var(--red); color: var(--white); border-color: var(--red); }
+.filter-row { display: flex; gap: 6px; margin-bottom: 14px; }
+.filter-select { flex: 1; padding: 8px 12px; border: 1px solid var(--gray-300); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--gray-700); background: var(--white); outline: none; cursor: pointer; }
+.filter-select:focus { border-color: var(--red); }
 .book-list { display: flex; flex-direction: column; gap: 8px; }
 .book-item { display: flex; gap: 12px; padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--gray-300); background: var(--white); cursor: pointer; align-items: flex-start; }
 .book-item:hover { border-color: var(--red); }
 .book-thumb { width: 38px; height: 54px; border-radius: 4px; background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; overflow: hidden; }
 .book-thumb img { width: 100%; height: 100%; object-fit: cover; }
 .book-info { flex: 1; min-width: 0; overflow: hidden; }
-.book-title { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 600; color: var(--black); white-space: normal; overflow: visible; margin-bottom: 2px; max-width: 100%; display: block; word-break: break-word; }
+.book-title { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 600; color: var(--black); margin-bottom: 2px; word-break: break-word; }
 .book-author { font-size: 12px; color: var(--gray-500); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
 .book-meta { font-size: 11px; color: var(--gray-500); display: flex; gap: 8px; flex-wrap: wrap; }
-.dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 3px; vertical-align: middle; }
-.dot-ok { background: #1e7e34; } .dot-nok { background: var(--red); }
 .empty { text-align: center; padding: 48px 16px; color: var(--gray-500); font-size: 14px; }
 .empty-icon { font-size: 36px; display: block; margin-bottom: 10px; }
 .status-bar { padding: 8px 16px; font-size: 11px; color: var(--gray-500); background: var(--gray-100); border-top: 1px solid var(--gray-300); text-align: center; flex-shrink: 0; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .spinner { width: 18px; height: 18px; border: 2px solid var(--gray-300); border-top-color: var(--red); border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; vertical-align: middle; margin-right: 8px; }
+/* DETAIL */
+#detail-screen { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--white); flex-direction: column; z-index: 100; overflow-y: auto; }
+#detail-screen.open { display: flex; }
+.detail-topbar { background: var(--white); border-bottom: 1px solid var(--gray-300); padding: 14px 16px; display: flex; align-items: center; gap: 12px; flex-shrink: 0; position: sticky; top: 0; z-index: 10; }
+.back-btn { background: none; border: none; cursor: pointer; font-size: 22px; color: var(--red); padding: 0 4px; }
+.detail-topbar-title { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--black); }
+.detail-cover-area { display: flex; justify-content: center; padding: 24px 16px 16px; }
+.detail-cover { width: 100px; height: 140px; border-radius: 8px; background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 48px; overflow: hidden; }
+.detail-cover img { width: 100%; height: 100%; object-fit: cover; }
+.detail-body { padding: 0 16px 32px; }
+.detail-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 600; color: var(--black); margin-bottom: 6px; line-height: 1.2; }
+.detail-author { font-size: 14px; color: var(--gray-500); margin-bottom: 20px; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.detail-field { }
+.detail-field-label { font-size: 10px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+.detail-field-value { font-size: 14px; font-weight: 500; color: var(--black); }
 </style>
 </head>
 <body>
 
 <div id="login-screen">
-  <div style="text-align:center;margin-bottom:2px;"><img src="icon-192.png" alt="" style="height:60px;width:auto;" /></div><div class="login-logo">BBC</div>
+  <div style="text-align:center;margin-bottom:2px;"><img src="icon-192.png" alt="" style="height:60px;width:auto;" /></div>
+  <div class="login-logo">BBC</div>
   <div class="login-sub">Library</div>
   <form class="login-form" id="login-form">
     <input type="email" id="email" placeholder="Email" autocomplete="email" required />
@@ -119,7 +122,7 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
   </form>
 </div>
 
-<div id="app-screen">
+<div id="app-screen" style="position:relative;">
   <div class="topbar">
     <div class="topbar-brand">
       <img src="icon-192.png" alt="" style="height:2em;width:auto;object-fit:contain;" />
@@ -154,18 +157,33 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
     <div class="panel" id="panel-search">
       <div class="search-wrap">
         <span class="search-icon">⌕</span>
-        <input type="search" id="search-input" placeholder="Título, autor, ISBN..." oninput="renderList()" />
+        <input type="search" id="search-input" placeholder="Título, autor, editora..." oninput="renderList()" />
       </div>
       <div class="filter-row">
-        <button class="chip active" onclick="setFilter('todos', this)">Todos</button>
-        <button class="chip" onclick="setFilter('Disponível', this)">Disponível</button>
-        <button class="chip" onclick="setFilter('Emprestado', this)">Emprestado</button>
+        <select class="filter-select" id="filter-loc" onchange="renderList()">
+          <option value="">Todas as localizações</option>
+        </select>
       </div>
       <div class="book-list" id="book-list"><div class="empty"><span class="empty-icon">📚</span>A carregar catálogo...</div></div>
     </div>
   </div>
 
   <div class="status-bar" id="status-bar">A carregar...</div>
+
+  <div id="detail-screen">
+    <div class="detail-topbar">
+      <button class="back-btn" onclick="closeDetail()">←</button>
+      <div class="detail-topbar-title">Detalhe</div>
+    </div>
+    <div class="detail-cover-area">
+      <div class="detail-cover" id="detail-cover">📖</div>
+    </div>
+    <div class="detail-body">
+      <div class="detail-title" id="detail-title"></div>
+      <div class="detail-author" id="detail-author"></div>
+      <div class="detail-grid" id="detail-grid"></div>
+    </div>
+  </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -184,7 +202,6 @@ firebase.initializeApp({
 
 const auth = firebase.auth();
 let catalog = [];
-let currentFilter = 'todos';
 
 auth.onAuthStateChanged(user => {
   if (user) {
@@ -221,11 +238,22 @@ async function loadCatalog() {
     const text = new TextDecoder('utf-8').decode(buffer);
     catalog = parseCSV(text);
     setStatus(catalog.length + ' livros no catálogo');
+    populateLocFilter();
     renderList();
   } catch(ex) {
     setStatus('Erro ao carregar catálogo');
     document.getElementById('book-list').innerHTML = '<div class="empty"><span class="empty-icon">⚠</span>Não foi possível carregar o catálogo.</div>';
   }
+}
+
+function populateLocFilter() {
+  const sel = document.getElementById('filter-loc');
+  const locs = [...new Set(catalog.map(b => get(b,'localização','localizacao')).filter(v => v))].sort();
+  locs.forEach(l => {
+    const o = document.createElement('option');
+    o.value = l; o.textContent = l;
+    sel.appendChild(o);
+  });
 }
 
 function parseCSV(text) {
@@ -303,37 +331,70 @@ async function readBarcodeFromFile(input) {
   input.value = '';
 }
 
-function setFilter(f, el) {
-  currentFilter = f;
-  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  renderList();
-}
-
 function renderList() {
   const q = (document.getElementById('search-input').value || '').toLowerCase().trim();
+  const loc = document.getElementById('filter-loc').value;
   const list = document.getElementById('book-list');
   if (!catalog.length) { list.innerHTML = '<div class="empty"><span class="empty-icon">📚</span>Catálogo não carregado.</div>'; return; }
   let items = catalog.filter(b => {
     const titulo = get(b, 'título', 'titulo', 'title').toLowerCase();
     const autor = get(b, 'autor', 'author').toLowerCase();
-    const isbn = get(b, 'isbn').toLowerCase();
-    const estado = get(b, 'estado');
-    return (!q || titulo.includes(q) || autor.includes(q) || isbn.includes(q)) &&
-           (currentFilter === 'todos' || estado === currentFilter);
+    const editora = get(b, 'editora').toLowerCase();
+    const localizacao = get(b, 'localização', 'localizacao');
+    return (!q || titulo.includes(q) || autor.includes(q) || editora.includes(q)) &&
+           (!loc || localizacao === loc);
   });
   if (!items.length) { list.innerHTML = '<div class="empty"><span class="empty-icon">🔍</span>Nenhum resultado.</div>'; return; }
-  list.innerHTML = items.slice(0, 100).map(b => {
+  list.innerHTML = items.slice(0, 100).map((b, i) => {
     const titulo = get(b, 'título', 'titulo', 'title');
     const autor = get(b, 'autor', 'author');
     const num = get(b, 'nº colecção', 'nº coleccao');
     const ano = get(b, 'ano');
-    const estado = get(b, 'estado');
+    const editora = get(b, 'editora');
     const capa = get(b, 'capa (url)', 'capa');
-    const dot = estado === 'Disponível' ? 'dot-ok' : 'dot-nok';
-    return `<div class="book-item"><div class="book-thumb">${capa ? `<img src="${capa}" alt="" onerror="this.parentNode.textContent='📖'" />` : '📖'}</div><div class="book-info"><div class="book-title">${titulo || '—'}</div><div class="book-author">${autor}</div><div class="book-meta"><span>${num}</span><span>·</span><span>${ano}</span><span>·</span><span><span class="dot ${dot}"></span>${estado}</span></div></div></div>`;
+    const idx = catalog.indexOf(b);
+    return `<div class="book-item" onclick="openDetail(${idx})"><div class="book-thumb">${capa ? `<img src="${capa}" alt="" onerror="this.parentNode.textContent='📖'" />` : '📖'}</div><div class="book-info"><div class="book-title">${titulo || '—'}</div><div class="book-author">${autor}</div><div class="book-meta"><span>${num}</span><span>·</span><span>${ano}</span><span>·</span><span>${editora}</span></div></div></div>`;
   }).join('');
   if (items.length > 100) list.innerHTML += `<div style="text-align:center;padding:12px;font-size:12px;color:#777">A mostrar 100 de ${items.length} resultados. Refina a pesquisa.</div>`;
+}
+
+function openDetail(idx) {
+  const b = catalog[idx];
+  if (!b) return;
+  const titulo = get(b, 'título', 'titulo', 'title');
+  const autor = get(b, 'autor', 'author');
+  const autor2 = get(b, 'autor2');
+  const editora = get(b, 'editora');
+  const ano = get(b, 'ano');
+  const isbn = get(b, 'isbn');
+  const num = get(b, 'nº colecção', 'nº coleccao');
+  const genero = get(b, 'género', 'genero');
+  const idioma = get(b, 'idioma');
+  const paginas = get(b, 'páginas', 'paginas');
+  const localizacao = get(b, 'localização', 'localizacao');
+  const estado = get(b, 'estado');
+  const obs = get(b, 'observações', 'observacoes');
+  const capa = get(b, 'capa (url)', 'capa');
+
+  document.getElementById('detail-title').textContent = titulo || '—';
+  document.getElementById('detail-author').textContent = autor + (autor2 ? ' / ' + autor2 : '');
+  document.getElementById('detail-cover').innerHTML = capa ? `<img src="${capa}" alt="" onerror="this.parentNode.textContent='📖'" />` : '📖';
+
+  const fields = [
+    ['Nº Colecção', num], ['ISBN', isbn], ['Editora', editora], ['Ano', ano],
+    ['Género', genero], ['Idioma', idioma], ['Páginas', paginas],
+    ['Localização', localizacao], ['Estado', estado], ['Observações', obs]
+  ];
+  document.getElementById('detail-grid').innerHTML = fields
+    .filter(([,v]) => v)
+    .map(([l,v]) => `<div class="detail-field"><div class="detail-field-label">${l}</div><div class="detail-field-value">${v}</div></div>`)
+    .join('');
+
+  document.getElementById('detail-screen').classList.add('open');
+}
+
+function closeDetail() {
+  document.getElementById('detail-screen').classList.remove('open');
 }
 
 function switchTab(tab, el) {
