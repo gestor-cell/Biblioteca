@@ -2,7 +2,7 @@
   "name": "BBC Library",
   "short_name": "BBC Library",
   "description": "Catálogo da biblioteca BBC",
-  "start_url": "/biblioteca/",
+  "start_url": "/Biblioteca/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#cc0000",
