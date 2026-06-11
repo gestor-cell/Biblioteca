@@ -316,15 +316,25 @@ async function readBarcodeFromFile(input) {
   const el = document.getElementById('isbn-result');
   el.innerHTML = '<div style="padding:16px;text-align:center;font-size:13px;color:#777"><span class="spinner"></span>A ler código de barras...</div>';
   try {
-    if (!window.ZXing) {
-      await new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'https://unpkg.com/@zxing/library@0.19.1/umd/index.min.js'; s.onload = res; s.onerror = rej; document.head.appendChild(s); });
+    if (!window.ZXingWasm) {
+      await new Promise((res, rej) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/zxing-wasm@1.2.6/dist/full/zxing-wasm.min.js';
+        s.onload = res; s.onerror = rej;
+        document.head.appendChild(s);
+      });
     }
-    const url = URL.createObjectURL(file);
-    const reader = new ZXing.BrowserMultiFormatReader();
-    const result = await reader.decodeFromImageUrl(url);
-    URL.revokeObjectURL(url);
-    if (result) { document.getElementById('isbn-input').value = result.getText(); checkISBN(); }
-    else { el.innerHTML = '<div style="padding:16px;text-align:center;font-size:13px;color:var(--red)">Não foi possível ler o código. Introduz o ISBN manualmente.</div>'; }
+    const reader = await ZXingWasm.readBarcodesFromImageFile(file, {
+      formats: ['EAN13', 'EAN8', 'Code128', 'QRCode', 'DataMatrix'],
+      tryHarder: true
+    });
+    if (reader && reader.length > 0) {
+      const text = reader[0].text;
+      document.getElementById('isbn-input').value = text;
+      checkISBN();
+    } else {
+      el.innerHTML = '<div style="padding:16px;text-align:center;font-size:13px;color:var(--red)">Não foi possível ler o código. Introduz o ISBN manualmente.</div>';
+    }
   } catch(e) {
     el.innerHTML = '<div style="padding:16px;text-align:center;font-size:13px;color:var(--red)">Não foi possível ler o código. Introduz o ISBN manualmente.</div>';
   }
