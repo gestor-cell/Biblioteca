@@ -340,6 +340,8 @@ function openDetail(idx) {
   const localizacao = get(b, 'localização', 'localizacao');
   const estado = get(b, 'estado');
   const obs = get(b, 'observações', 'observacoes');
+  const notas = get(b, 'notas');
+  const tema = get(b, 'tema');
   const capa = get(b, 'capa (url)', 'capa');
 
   document.getElementById('detail-title').textContent = titulo || '—';
@@ -348,8 +350,8 @@ function openDetail(idx) {
 
   const fields = [
     ['Nº Colecção', num], ['ISBN', isbn], ['Editora', editora], ['Ano', ano],
-    ['Género', genero], ['Idioma', idioma], ['Páginas', paginas],
-    ['Localização', localizacao], ['Estado', estado], ['Observações', obs]
+    ['Tema', tema], ['Género', genero], ['Idioma', idioma], ['Páginas', paginas],
+    ['Localização', localizacao], ['Estado', estado], ['Observações', obs], ['Notas', notas]
   ];
   document.getElementById('detail-grid').innerHTML = fields
     .filter(([,v]) => v)
