@@ -130,6 +130,7 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
   <div class="tabs">
     <button class="tab active" onclick="switchTab('isbn', this)">▦ ISBN</button>
     <button class="tab" onclick="switchTab('search', this)">⌕ Pesquisar</button>
+    <button class="tab" onclick="switchTab('loc', this)">📍 Localização</button>
   </div>
 
   <div class="panels">
@@ -152,6 +153,44 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
         </select>
       </div>
       <div class="book-list" id="book-list"><div class="empty"><span class="empty-icon">📚</span>A carregar catálogo...</div></div>
+    </div>
+
+    <div class="panel" id="panel-loc">
+      <div id="loc-progress" style="font-size:12px;color:var(--gray-500);margin-bottom:10px;"></div>
+      <div style="display:flex;gap:8px;margin-bottom:10px;">
+        <button onclick="locScanNFC()" id="nfcBtn" style="flex:1;padding:8px;font-size:12px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);background:var(--white);">📶 Detectar sala (NFC)</button>
+        <button onclick="locScanCompass()" id="compassBtn" style="flex:1;padding:8px;font-size:12px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);background:var(--white);">🧭 Sugerir parede</button>
+      </div>
+      <div id="loc-sensor-msg" style="font-size:12px;color:var(--red);margin-bottom:8px;min-height:16px;"></div>
+      <div id="loc-book" style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;margin-bottom:12px;"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+        <select id="loc-sala" onchange="locUpdateParedeOptions()" style="flex:1;min-width:60px;padding:8px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);"><option>1</option><option>2</option><option>3</option></select>
+        <select id="loc-parede" style="flex:1;min-width:60px;padding:8px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);"></select>
+        <input id="loc-coluna" type="number" min="1" value="1" style="flex:1;min-width:60px;padding:8px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);" placeholder="Coluna"/>
+        <select id="loc-prateleira" style="flex:1;min-width:60px;padding:8px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select>
+      </div>
+      <svg width="100%" viewBox="0 0 380 170" style="margin-bottom:8px;">
+        <rect x="130" y="35" width="120" height="95" fill="none" stroke="var(--gray-300)" stroke-width="1"/>
+        <text x="190" y="25" text-anchor="middle" font-size="12" fill="var(--gray-500)">N</text>
+        <text x="190" y="148" text-anchor="middle" font-size="12" fill="var(--gray-500)">S</text>
+        <text x="270" y="86" text-anchor="middle" font-size="12" fill="var(--gray-500)">E</text>
+        <text x="110" y="86" text-anchor="middle" font-size="12" fill="var(--gray-500)">O</text>
+        <rect id="loc-wallN" x="130" y="33" width="120" height="4" fill="var(--gray-300)"/>
+        <rect id="loc-wallS" x="130" y="128" width="120" height="4" fill="var(--gray-300)"/>
+        <rect id="loc-wallE" x="248" y="35" width="4" height="95" fill="var(--gray-300)"/>
+        <rect id="loc-wallO" x="128" y="35" width="4" height="95" fill="var(--gray-300)"/>
+      </svg>
+      <div style="overflow-x:auto;padding:4px 0 12px;">
+        <svg id="loc-grid" width="700" height="200" viewBox="0 0 700 200"></svg>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:8px;">
+        <button onclick="locPrev()" style="flex:1;padding:12px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);background:var(--white);">← Anterior</button>
+        <button onclick="locConfirm()" style="flex:2;padding:12px;border:none;border-radius:var(--radius-sm);background:var(--red);color:var(--white);font-weight:500;">Confirmar e avançar</button>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="locSkip()" style="flex:1;padding:10px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);background:var(--white);font-size:13px;">Saltar (sem localização)</button>
+        <button onclick="locDownload()" style="flex:1;padding:10px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);background:var(--white);font-size:13px;">⬇ Descarregar CSV (<span id="loc-count">0</span>)</button>
+      </div>
     </div>
   </div>
 
@@ -227,6 +266,9 @@ async function loadCatalog() {
     setStatus(catalog.length + ' livros no catálogo');
     populateLocFilter();
     renderList();
+    locBuildList();
+    locUpdateParedeOptions();
+    locRenderBook();
   } catch(ex) {
     setStatus('Erro ao carregar catálogo');
     document.getElementById('book-list').innerHTML = '<div class="empty"><span class="empty-icon">⚠</span>Não foi possível carregar o catálogo.</div>';
@@ -370,9 +412,209 @@ function switchTab(tab, el) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   el.classList.add('active');
   document.getElementById('panel-' + tab).classList.add('active');
+  if (tab === 'loc') locRenderBook();
 }
 
 function setStatus(msg) { document.getElementById('status-bar').textContent = msg; }
+
+// --- Localização (ferramenta de carregamento rápido) ---
+const WALLS_BY_SALA = {
+  '1': ['N','S','E','O'],
+  '2': ['N1','N2','S','E','O'],
+  '3': ['N','S','E'],
+};
+
+function locUpdateParedeOptions() {
+  const sala = document.getElementById('loc-sala').value;
+  const sel = document.getElementById('loc-parede');
+  const prev = sel.value;
+  sel.innerHTML = WALLS_BY_SALA[sala].map(w => `<option value="${w}">${w}</option>`).join('');
+  if (WALLS_BY_SALA[sala].includes(prev)) sel.value = prev;
+  locRenderGrid();
+}
+
+// NFC: cada etiqueta deve conter um registo de texto simples "1", "2" ou "3" (o número da sala).
+async function locScanNFC() {
+  const msg = document.getElementById('loc-sensor-msg');
+  if (!('NDEFReader' in window)) {
+    msg.textContent = 'Este telemóvel/browser não suporta NFC (funciona em Chrome no Android).';
+    return;
+  }
+  try {
+    const reader = new NDEFReader();
+    await reader.scan();
+    msg.textContent = 'A aproximar do telemóvel à etiqueta...';
+    reader.onreading = (event) => {
+      const record = event.message.records[0];
+      const decoder = new TextDecoder(record.encoding || 'utf-8');
+      const text = decoder.decode(record.data).trim();
+      if (WALLS_BY_SALA[text]) {
+        document.getElementById('loc-sala').value = text;
+        locUpdateParedeOptions();
+        msg.textContent = `Sala ${text} detectada.`;
+      } else {
+        msg.textContent = 'Etiqueta lida, mas não corresponde a nenhuma sala conhecida.';
+      }
+    };
+  } catch (e) {
+    msg.textContent = 'Não foi possível ligar ao NFC (verifica se está activado e se deste permissão).';
+  }
+}
+
+// Bússola: sugere o ponto cardeal mais próximo da orientação actual do telemóvel.
+function locHeadingToCardinal(heading) {
+  const dirs = [['N',0],['E',90],['S',180],['O',270]];
+  let best = 'N', bestDiff = 360;
+  dirs.forEach(([name, deg]) => {
+    let diff = Math.abs(heading - deg);
+    if (diff > 180) diff = 360 - diff;
+    if (diff < bestDiff) { bestDiff = diff; best = name; }
+  });
+  return best;
+}
+
+function locApplyCompassReading(heading) {
+  const msg = document.getElementById('loc-sensor-msg');
+  const cardinal = locHeadingToCardinal(heading);
+  const sala = document.getElementById('loc-sala').value;
+  const options = WALLS_BY_SALA[sala].filter(w => w.replace(/[0-9]/g, '') === cardinal);
+  if (!options.length) {
+    msg.textContent = `Direcção detectada (${cardinal}) não corresponde a nenhuma parede desta sala.`;
+    return;
+  }
+  document.getElementById('loc-parede').value = options[0];
+  locRenderGrid();
+  if (options.length > 1) {
+    msg.textContent = `Direcção ${cardinal} detectada — esta sala tem ${options.join(' e ')}, confirma qual é.`;
+  } else {
+    msg.textContent = `Parede ${options[0]} sugerida pela bússola.`;
+  }
+}
+
+async function locScanCompass() {
+  const msg = document.getElementById('loc-sensor-msg');
+  function attach() {
+    window.addEventListener('deviceorientationabsolute', onOrient, true);
+    window.addEventListener('deviceorientation', onOrient, true);
+  }
+  function onOrient(e) {
+    let heading = null;
+    if (typeof e.webkitCompassHeading === 'number') heading = e.webkitCompassHeading; // iOS Safari
+    else if (e.absolute && typeof e.alpha === 'number') heading = 360 - e.alpha; // Android
+    if (heading !== null) {
+      locApplyCompassReading(heading);
+      window.removeEventListener('deviceorientationabsolute', onOrient, true);
+      window.removeEventListener('deviceorientation', onOrient, true);
+    }
+  }
+  if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+    try {
+      const perm = await DeviceOrientationEvent.requestPermission();
+      if (perm !== 'granted') { msg.textContent = 'Permissão da bússola recusada.'; return; }
+      attach();
+    } catch (e) {
+      msg.textContent = 'Não foi possível pedir acesso à bússola.';
+    }
+  } else if (typeof DeviceOrientationEvent !== 'undefined') {
+    attach();
+  } else {
+    msg.textContent = 'Este telemóvel/browser não tem sensor de orientação disponível.';
+  }
+}
+
+let locList = [];
+let locIdx = 0;
+let locResults = JSON.parse(localStorage.getItem('locResults') || '[]');
+
+function locBuildList() {
+  locList = catalog
+    .map((b, i) => ({ idx: i, num: get(b, 'nº colecção', 'nº coleccao'), titulo: get(b, 'título', 'titulo', 'title'), loc: get(b, 'localização', 'localizacao') }))
+    .filter(x => !x.loc);
+  const doneNums = new Set(locResults.map(r => r.num));
+  locList = locList.filter(x => !doneNums.has(x.num));
+  locIdx = 0;
+}
+
+function locRenderGrid() {
+  const coluna = parseInt(document.getElementById('loc-coluna').value) || 1;
+  const prat = parseInt(document.getElementById('loc-prateleira').value);
+  const parede = document.getElementById('loc-parede').value;
+  const paredeDir = parede.replace(/[0-9]/g, '');
+  ['N','S','E','O'].forEach(p => document.getElementById('loc-wall'+p).setAttribute('fill', 'var(--gray-300)'));
+  document.getElementById('loc-wall'+paredeDir).setAttribute('fill', 'var(--red)');
+  const totalCols = Math.max(coluna + 4, 20);
+  const cw = 32, rh = 24, x0 = 10, y0 = 10;
+  const w = totalCols * cw + 20, h = 7 * rh + 20;
+  const svg = document.getElementById('loc-grid');
+  svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  svg.setAttribute('width', Math.min(w, 700));
+  svg.setAttribute('height', h);
+  let html = '';
+  for (let c = 1; c <= totalCols; c++) {
+    for (let r = 1; r <= 7; r++) {
+      const x = x0 + (c-1)*cw, y = y0 + (r-1)*rh;
+      const isTarget = (c === coluna && r === prat);
+      html += `<rect x="${x}" y="${y}" width="${cw-2}" height="${rh-2}" rx="2" fill="${isTarget ? 'var(--red)' : 'var(--gray-100)'}" stroke="var(--gray-300)" stroke-width="0.5"/>`;
+      if (isTarget) html += `<text x="${x+cw/2-1}" y="${y+rh/2+3}" text-anchor="middle" font-size="11" fill="var(--white)">${r}</text>`;
+    }
+  }
+  svg.innerHTML = html;
+}
+
+function locRenderBook() {
+  document.getElementById('loc-count').textContent = locResults.length;
+  if (!locList.length) {
+    document.getElementById('loc-book').textContent = 'Sem livros por localizar.';
+    document.getElementById('loc-progress').textContent = '';
+    return;
+  }
+  if (locIdx >= locList.length) locIdx = locList.length - 1;
+  const item = locList[locIdx];
+  document.getElementById('loc-progress').textContent = `${locIdx+1} de ${locList.length} por localizar (${locResults.length} confirmados nesta sessão)`;
+  document.getElementById('loc-book').textContent = `${item.num} — ${item.titulo}`;
+  locRenderGrid();
+}
+
+function locConfirm() {
+  const item = locList[locIdx];
+  if (!item) return;
+  const sala = document.getElementById('loc-sala').value;
+  const parede = document.getElementById('loc-parede').value;
+  const coluna = document.getElementById('loc-coluna').value;
+  const prat = document.getElementById('loc-prateleira').value;
+  const loc = `S${sala}, P${parede}, C${coluna}, P${prat}`;
+  locResults.push({ num: item.num, loc });
+  localStorage.setItem('locResults', JSON.stringify(locResults));
+  locList.splice(locIdx, 1);
+  if (locIdx >= locList.length) locIdx = 0;
+  locRenderBook();
+}
+
+function locSkip() {
+  locIdx = (locIdx + 1) % Math.max(locList.length, 1);
+  locRenderBook();
+}
+
+function locPrev() {
+  locIdx = (locIdx - 1 + locList.length) % Math.max(locList.length, 1);
+  locRenderBook();
+}
+
+function locDownload() {
+  if (!locResults.length) return;
+  let csv = 'Nº Colecção;Localização\n' + locResults.map(r => `${r.num};${r.loc}`).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'localizacoes.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+['loc-sala','loc-parede','loc-coluna','loc-prateleira'].forEach(id => {
+  document.getElementById(id).addEventListener('input', locRenderGrid);
+});
+
 </script>
 </body>
 </html>
