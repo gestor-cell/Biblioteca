@@ -397,7 +397,14 @@ function openDetail(idx) {
   ];
   document.getElementById('detail-grid').innerHTML = fields
     .filter(([,v]) => v)
-    .map(([l,v]) => `<div class="detail-field"><div class="detail-field-label">${l}</div><div class="detail-field-value">${v}</div></div>`)
+    .map(([l,v]) => {
+      if (l === 'Localização') {
+        const friendly = friendlyLocalizacao(v).replace(/'/g, "\\'");
+        const compact = v.replace(/'/g, "\\'");
+        return `<div class="detail-field"><div class="detail-field-label">${l}</div><div class="detail-field-value" style="cursor:pointer;text-decoration:underline dotted;" data-compact="${v}" data-friendly="${friendlyLocalizacao(v)}" onclick="this.textContent = this.textContent === this.dataset.compact ? this.dataset.friendly : this.dataset.compact;">${v}</div></div>`;
+      }
+      return `<div class="detail-field"><div class="detail-field-label">${l}</div><div class="detail-field-value">${v}</div></div>`;
+    })
     .join('');
 
   document.getElementById('detail-screen').classList.add('open');
@@ -416,6 +423,17 @@ function switchTab(tab, el) {
 }
 
 function setStatus(msg) { document.getElementById('status-bar').textContent = msg; }
+
+const CARDINAL_NAMES = { N: 'Norte', S: 'Sul', E: 'Este', O: 'Oeste' };
+
+function friendlyLocalizacao(loc) {
+  // Espera o formato "S{sala}, P{parede}, C{coluna}, P{prateleira}"
+  const m = String(loc).match(/S(\d+)\s*,\s*P([A-Z]+)(\d*)\s*,\s*C(\d+)\s*,\s*P(\d+)/i);
+  if (!m) return loc;
+  const [, sala, dir, num, coluna, prateleira] = m;
+  const nomeDir = CARDINAL_NAMES[dir.toUpperCase()] || dir;
+  return `Sala ${sala}, Parede ${nomeDir}${num ? ' ' + num : ''}, Coluna ${coluna}, Prateleira ${prateleira}`;
+}
 
 // --- Localização (ferramenta de carregamento rápido) ---
 const WALLS_BY_SALA = {
