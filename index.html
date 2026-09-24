@@ -491,22 +491,39 @@ function locApplyCompassReading(heading) {
   }
 }
 
+let compassActive = false;
+let compassOnOrient = null;
+
 async function locScanCompass() {
   const msg = document.getElementById('loc-sensor-msg');
-  function attach() {
-    window.addEventListener('deviceorientationabsolute', onOrient, true);
-    window.addEventListener('deviceorientation', onOrient, true);
+  const btn = document.getElementById('compassBtn');
+
+  if (compassActive) {
+    if (compassOnOrient) {
+      window.removeEventListener('deviceorientationabsolute', compassOnOrient, true);
+      window.removeEventListener('deviceorientation', compassOnOrient, true);
+    }
+    compassActive = false;
+    btn.textContent = '🧭 Sugerir parede';
+    msg.textContent = 'Bússola parada.';
+    return;
   }
+
   function onOrient(e) {
     let heading = null;
     if (typeof e.webkitCompassHeading === 'number') heading = e.webkitCompassHeading; // iOS Safari
-    else if (e.absolute && typeof e.alpha === 'number') heading = 360 - e.alpha; // Android
-    if (heading !== null) {
-      locApplyCompassReading(heading);
-      window.removeEventListener('deviceorientationabsolute', onOrient, true);
-      window.removeEventListener('deviceorientation', onOrient, true);
-    }
+    else if (typeof e.alpha === 'number') heading = 360 - e.alpha; // Android
+    if (heading !== null) locApplyCompassReading(heading);
   }
+
+  function attach() {
+    compassOnOrient = onOrient;
+    window.addEventListener('deviceorientationabsolute', onOrient, true);
+    window.addEventListener('deviceorientation', onOrient, true);
+    compassActive = true;
+    btn.textContent = '🧭 Parar bússola';
+  }
+
   if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
     try {
       const perm = await DeviceOrientationEvent.requestPermission();
