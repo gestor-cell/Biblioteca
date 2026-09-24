@@ -432,7 +432,7 @@ function friendlyLocalizacao(loc) {
   if (!m) return loc;
   const [, sala, dir, num, coluna, prateleira] = m;
   const nomeDir = CARDINAL_NAMES[dir.toUpperCase()] || dir;
-  return `Sala ${sala}, Parede ${nomeDir}${num ? ' ' + num : ''}, Coluna ${coluna}, Prateleira ${prateleira}`;
+  return `O título que procura está em: Sala ${sala}, Parede ${nomeDir}${num || ''}, Coluna ${coluna}, Prateleira ${prateleira}`;
 }
 
 // --- Localização (ferramenta de carregamento rápido) ---
