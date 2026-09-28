@@ -1,5 +1,5 @@
 Nº Colecção;ISBN;Título;Edição;Autor;Autor 2;Editora;Ano;Tema;Género;Idioma;Páginas;Localização;Estado;Valor;Capa (URL);Observações;Notas
-150-1;9780952745365;Alex Katz: Twenty Five Years of Painting;;Katz, Alex;Sylvester, David/Alloway, Lawrence et al.;Saatchi Gallery;1997;Pintores;Livro;Inglês;228;S2, PN1, C3, P5;Disponível;5;https://covers.openlibrary.org/b/id/2694214-L.jpg;;
+150-1;9780952745365;Alex Katz: Twenty Five Years of Painting;;Katz, Alex;Sylvester, David/Alloway, Lawrence et al.;Saatchi Gallery;1997;Pintores;Livro;Inglês;228;;Disponível;5;https://covers.openlibrary.org/b/id/2694214-L.jpg;;
 150-2;9789726996651;Olhares de Lisboa;;Moura, Albino;Vaz, Rodrigues;Vega;2000;Pintores;Livro;Português;125;;Disponível;5;https://static.fnac-static.com/multimedia/Images/PT/NR/03/20/85/8724483/1507-1.jpg;;
 150-3;9781851585908;Alberto Morrocco;;Keller, Victoria;Young, Clara;Trafalgar Square Publishing;1994;Pintores;Livro;Inglês;96;;Disponível;5;https://covers.openlibrary.org/b/id/11383093-L.jpg;;
 150-4;9728392648;Cruzeiro Seixas: Desenho;;Seixas, Cruzeiro;Moura Sobral, Luís de;Casa da Cerca - Centro de Arte Contemporânea;2001;Pintores;;Português;79;;Disponível;;;;
@@ -35,7 +35,7 @@ Nº Colecção;ISBN;Título;Edição;Autor;Autor 2;Editora;Ano;Tema;Género;Idio
 150-34;9780500201695;Francis Bacon;;Russell, John;;Thames & Hudson;1979;Pintores;Livro;Inglês;192;;Disponível;;https://covers.openlibrary.org/b/id/7432097-L.jpg;Colecção World of Art (Thames & Hudson);
 150-35;0847801888;Balthus;;Leymarie, Jean;;Rizzoli;1979;Pintores;Livro;Inglês;155;;Disponível;20;https://m.media-amazon.com/images/I/81cPMdt+j9L._SL1500_.jpg;;
 150-36;9788417173289;Balthus;;Bouvier, Raphaël;;Fundación Colección-Thyssen Bornemisza;2019;Pintores;Catálogo;Espanhol;183;;Disponível;;https://covers.openlibrary.org/b/id/13624807-L.jpg;;
-150-37;9783823854722;The painter's house;;Shinoyama, Kishin;;Schirmer/Mosel;2000;;;;85;;Disponível;;https://covers.openlibrary.org/b/id/12195959-L.jpg;;
+150-37;9783823854722;The painter's house - Balthus at the Grand Chalet;;Shinoyama, Kishin;;Schirmer/Mosel;2000;Pintores;Livro;Inglês;85;;Disponível;;https://covers.openlibrary.org/b/id/12195959-L.jpg;;
 150-38;9788589804028;The Painter's House: Balthus at the Grand Chalet;;von Boehm, Gero;;Expomus;2010;Pintores;Livro;Inglês;96;;Disponível;;https://images.tcdn.com.br/img/img_prod/796789/a_abstracao_lirica_na_pintura_de_bandeira_l_abstraction_lyrique_dans_la_peinture_de_bandeira_40199_1_1f200e039bfaf32bf56e5be9d69d284d.jpg;"Sobre o pintor Antônio Bandeira; Coleção ABN AMRO Real; ISBN-10 equivalente: 858980402X; Fotografias de Kishin Shinoyama";
 150-39;9781854379979;Barry Flanagan: Early Works, 1965-1982;;Wallis, Clarrie;Wilson, Andrew;Tate Pub.;2011;Escultores;Livro;Inglês;159;;Disponível;10;https://pictures.abebooks.com/isbn/9781854379979-us.jpg;Contributos de Jo Melvin e Jennifer Powell;
 150-40;9780955828577;Barry Flanagan: Works 1966-2008;;Melvin, Jo;;Waddington Galleries;2010;Escultores;Livro;Inglês;130;;Disponível;10;https://pictures.abebooks.com/isbn/9780955828577-uk.jpg;;
@@ -130,10 +130,9 @@ Nº Colecção;ISBN;Título;Edição;Autor;Autor 2;Editora;Ano;Tema;Género;Idio
 150-129;2911780116;Gérard Deschamps: Rétrospective (1956-2003);;Deschamps, Gérard;Nuridsany, Michel;Musée de l'hospice Saint-Roch;2003;Pintores;Catálogo;Francês;81;;Disponível;5;;;
 150-130;9053251626;Desmond Morris;;Levy, Silvano;;Pandora;2001;;;;462;;Disponível;;;;
 150-131;0932169260;Dogancay Doors and Walls;;Dogancay, Burhan;;Nicholas & Alexander Gallery;1994;Pintores;Catálogo;Inglês;112;;Disponível;5;https://i.ebayimg.com/images/g/sU8AAeSwO3BqKkBX/s-l1600.webp;;
-150-132;9788882152963;Domenico Gnoli: Catalogo della Mostra (Modena);;Gnoli, Domenico;Guadagnini, Walter/Bonito Oliva, Achille;Silvana;2001;Pintores;Catálogo;Italiano/Inglês;168;;Disponível;2;https://pictures.abebooks.com/isbn/9788882152963-uk.jpg;;
-150-133;9789726473763;Domingos Rebêlo;;Rebêlo, Domingos;;Secretaria Regional da Educação e Cultura, Direção Regional da Cultura;2020;Pintores;Catálogo;Português;178;;Disponível;3;;;
-150-134;0968970192;Don Resnick: A Sense of Place;;Resnick, Don;Clothier, Peter;Odon Wagner Gallery;2004;Pintores;Catálogo;Inglês;32;;Disponível;3;;;
-150-135;1885013248;Jean Dubuffet;;Dubuffet, Jean;Dubuffent, Jean;Michael Werner;2001;;;;;;Disponível;;;;
+150-133;9539773989;Songye Masks and Figure Sculpture;;Hersak, Dunja;;LASERplus;2007;Étnica africana;Livro;Inglês;189;;Disponível;30;https://pictures.abebooks.com/isbn/9780905788500-us.jpg;Reedição expandida do estudo original (1986, Ethnographica, Londres).;Compra individual ADC
+150-134;n/a;Francis Smith: 1881-1961: Desenhos;;Smith, Francis;Cardoso, António;Cooperativa Árvore;2002;Pintores;Catálogo;Português;50;;Disponível;5;;Exposição na Cooperativa Árvore — Galeria de Vilar, Porto.;Cooperativa Árvore
+150-135;n/a;Francisco Biojone: Oceano;;Biojone, Francisco;;"Museu de Arte Contemporânea de Campinas ""José Pancetti"" (MACC)";2003;Pintores;Catálogo;Português;48;;Disponível;3;https://http2.mlstatic.com/D_NQ_NP_190121-MLB20688446943_042016-O.webp;Exposição, 29 Nov 2003-15 Fev 2004, MACC, Campinas. Tradução: Maria Lúcia Amâncio de Camargo.;
 150-136;0821205250;Jean Dubuffet: Délits, Déportements, Lieux de Haut Jeu;;Loreau, Max;;Weber;1971;Pintores;Catálogo;Francês;605;;Disponível;3;https://www.artpane.com/Books/B1005_Z_Jean_Dubuffet_Delits_Deportements_Lieux_De_Haut_Jeu.jpg;;
 150-137;9782879392394;Jean Dubuffet;;Danchin, Laurent;;Terrail;2001;Pintores;Catálogo;Francês;205;;Disponível;3;https://pictures.abebooks.com/isbn/9782879392394-uk.jpg;;
 150-138;9789492660008;Jean Dubuffet: In het Rijksmuseum = At the Rijksmuseum;;Dubuffet, Jean;Pacquement, Alfred;Rijksmuseum;2017;Pintores;Catálogo;Neerlandês/Inglês;77;;Disponível;5;https://www.deslegte.com/images/cached/resample/webp/data/uploads/796/975/cms_visual_1766970.jpg_1648211762000_796x975_0.8_p-cfcf6f1c45.webp;;
@@ -170,29 +169,29 @@ Nº Colecção;ISBN;Título;Edição;Autor;Autor 2;Editora;Ano;Tema;Género;Idio
 150-169;8472329011;Fajardo: Arte Español Para el Exterior;;Fajardo, José Luis;;Ministério dos Assuntos Exteriores de Espanha;2002;Pintores;Catálogo;Espanhol/Inglês;189;;Disponível;15;https://m.media-amazon.com/images/I/813Cl2MkUIL._SL1500_.jpg;;
 150-170;847232902X;Feito;;Feito, Luis;;Cultura Hispanica;2002;Pintores;Catálogo;Inglês/Espanhol;93;;Disponível;20;https://m.media-amazon.com/images/I/81pEqiKkuIL._SL1500_.jpg;;
 150-171;2870277385;Félicien Rops: Rops Suis, Aultre ne Veulx Estre;;Rops, Felicien;Bonnier, Bernadette;Éditions Complexe / Éditions de l'Amateur;1998;Pintores;Catálogo;Francês;287;;Disponível;20;https://images.fr.shopping.rakuten.com/photo/1197250035.jpg;;Geert Bourgois
-150-172;9686258329;Fernando Leal Audirac;;Leal Audirac, Fernando;;Espejo de Obsidiana Ediciones;1993;;;;518;;Disponível;;;;
-150-173;9789899970649;Fernando Marques de Oliveira;;Marques de Oliveira, Fernando;;Blue Book;2017;;;;200;;Disponível;;;;
-150-174;9780955310270;Fiona Rae.;;Rae, Fiona;;Timothy Taylor Gallery;2008;;;;43;;Disponível;;;;
-150-175;0810903199;Fletcher Martin;;Fletcher Martin;;Abrams;1977;;;;232;;Disponível;;;;
+150-172;9686258329;Fernando Leal Audirac;;Leal Audirac, Fernando;;Espejo de Obsidiana Ediciones;1993;Pintores;Catálogo;Inglês/Espanhol;518;;Disponível;20;https://pictures.abebooks.com/inventory/32255613098.jpg;;
+150-173;9789899970649;Fernando Marques de Oliveira - espaços imprevisíveis (unpredictable spaces);;Marques de Oliveira, Fernando;;Blue Book;2017;Pintores;Catálogo;Português/Inglês;200;;Disponível;5;https://img.wook.pt/images/espacos-imprevisiveis-fernando-marques-de-oliveira/MXwxOTM2OTMwNnwxNTE4NjQ4OXwxNzc3MDMzMTgxMDAwfHdlYnB8MTI4NzY0/550x;;
+150-174;9780955310270;Fiona Rae;;Rae, Fiona;Collings, Matthew;Timothy Taylor Gallery;2008;Pintores;Catálogo;Inglês;43;;Disponível;15;https://m.media-amazon.com/images/I/51uJ060FoiL.jpg;;
+150-175;0810903199;Fletcher Martin;;Martin, Fletcher;Cooke, Jr., H. Lester;Abrams;1977;Pintores;Monografia;Inglês;232;;Disponível;10;https://pictures.abebooks.com/isbn/9780810903197-us.jpg;;
 150-176;1904621228;François Morellet;;Morellet, François;;Annely Juda Fine Art;2008;;;;;;Disponível;;;;
 150-177;9780500276754;Frank Auerbach;;Hughes, Robert;;Thames & Hudson;1992;;;;240;;Disponível;;https://covers.openlibrary.org/b/id/8449391-L.jpg;;
 150-178;9783931354398;From the Terreiro;;Zagajewski, Adam;Clemente, Francesco;Jablonka Galerie;2008;;;;84;;Disponível;;;;
 150-179;1576870537;Life Is Paradise;;Clemente, Francesco;Katz, Vincent;powerHouse Books;1999;;;;193;;Disponível;;https://covers.openlibrary.org/b/id/832008-L.jpg;;
-150-180;9789898236050;Luxúria Branca e Gabriela;;de Melo, João;;Nelson de Matos;2009;;;;76;;Disponível;;;;
-150-181;0954393066;Frank Bowling;;Frank Bowling;Matthew Collins;ArtSway;2006;;;;36;;Disponível;;;;
-150-182;9781906072261;Fred Tomaselli;;Siegel, Katy;;White Cube;2009;;;;87;;Disponível;;;;
-150-183;9782850253812;Domin et Zeze legende;;Bruly Bouabre, Frederic;;Hazan;1994;;;;192;;Disponível;;;;
-150-184;9789722408516;Frederico George, ver pelo desenho.;;George, Frederico;;Camara Municipal de Lisboa, Cultura;1993;;;;222;;Disponível;;;;
+150-180;9789898236050;Luxúria Branca e Gabriela;;de Melo, João;Simões, Francisco;Nelson de Matos;2009;Ficção;Livro;Português;76;;Disponível;3;https://static.fnac-static.com/multimedia/Images/PT/NR/73/b2/13/1290867/1507-1/tsp20170908174443/Luxuria-Branca-e-Gabriela.jpg;;
+150-181;0954393066;Frank Bowling RA;;Bowling, Frank;Collings, Matthew/Gillespie, Simon R./Segal, Mark/Ewer, Diana;ArtSway / ROLLO Contemporary Art;2006;Pintores;Catálogo;Inglês;36;;Disponível;5;https://diaspora-artists.net/file_uploads/artefacts/742_800x600.jpg;;
+150-182;9781906072261;Fred Tomaselli;;Tomaselli, Fred;Siegel, Katy;White Cube;2009;Pintores;Catálogo;Inglês;87;;Disponível;10;https://m.media-amazon.com/images/I/517Tu7eaaQL.jpg;;
+150-183;9782850253812;La Légende de Domin et Zézê;;Bruly Bouabre, Frederic;;Hazan;1994;Pintores;Livro;Francês;192;;Disponível;10;https://bibliotheques-specialisees.paris.fr/in/rest/Thumb/image?id=p%3A%3Ausmarcdef_0000091657&isbn=9782850253812&author=Bruly+Bouabré%2C+Frédéric+%281923-2014%29&title=Domin+et+Zézê+%3A+légende&year=1994&publisher=Paris+%3A+Hazan+%3A+%22Revue+noire%22%2C;;
+150-184;9789722408516;Ver Pelo Desenho - Frederico George;;George, Frederico;;Livros Horizonte / Câmara Municipal de Lisboa, Cultura;1993;Pintores;Livro;Português;222;;Disponível;5;https://d3cr86nr52kve0.cloudfront.net/media/catalog/product/cache/c73e0a6cfea70a4087effc41a7ebf589/9/7/9789722408516_1586188608.jpg;;
 150-185;9789729258190;Ilusionismos;;Baccherelli, Vincenzo;Raggi, Giuseppina;MNAA, Museu Nacional de Arte Antiga;2013;;;;79;;Disponível;;;;
-150-186;9781572153233;Frida Kahlo;;Grimberg, Salomon;;JG Press;2002;;;;128;;Disponível;;;;
-150-187;9783791328638;Frida Kahlo;;Holzhey, Magdalena;;Prestel;2003;;;;28;;Disponível;;https://covers.openlibrary.org/b/id/1027149-L.jpg;;
-150-188;9780691089225;Frederick Carl Frieseke;;C. Frieseke, Frederick;Kilmer, Nicholas;Telfair Museum of Art;2001;;;;218;;Disponível;;https://covers.openlibrary.org/b/id/7385055-L.jpg;;
-150-189;9783791318660;Gabriele Munter;;Heller, Reinhold;;Prestel;1997;;;;184;;Disponível;;https://covers.openlibrary.org/b/id/2240927-L.jpg;;
-150-190;9783791327846;Thomas Gainsborough;;Belsey, Hugh;Gainsborough, Thomas;Prestel Publishing;2002;;;;96;;Disponível;;https://covers.openlibrary.org/b/id/1027129-L.jpg;;
-150-191;9781851708567;Gainsborough;;Butler, Stephen;;Studio Edns.;1992;;;;144;;Disponível;;;;
-150-192;9783038280828;Garo;;Garo, Bernard;;Till Schaap Edition;2017;;;;431;;Disponível;;;;
-150-193;371651294X;Barcelona Basel Berlin.;;Garo, Bernard;;Benteli;2003;;;;433;;Disponível;;;;
-150-194;0863554121;Gary Hume (British Council);;Rose, Andrea;Searle, Adrian;The British Council (Visual Arts publications);1999;;;;128;;Disponível;;https://covers.openlibrary.org/b/id/5547720-L.jpg;;
+150-186;9781572153233;Frida Kahlo;;Grimberg, Salomon;;JG Press;2002;Pintores;Livro;Inglês;128;;Disponível;5;https://m.media-amazon.com/images/I/91LqOdxFZzL._AC_UF1000,1000_QL80_.jpg;;
+150-187;9783791328638;Frida Kahlo: The Artist in the Blue House;;Holzhey, Magdalena;;Prestel;2003;Pintores;Livro;Inglês;28;;Disponível;2;https://m.media-amazon.com/images/I/41Ncc+84nqL.jpg;;
+150-188;9780691089225;Frederick Carl Frieseke: The Evolution of an American Impressionist;;Frieseke, Frederick Carl;Kilmer, Nicholas/Sellin, David/Weinberg, H. Barbara/Mecklenburg, Virginia M.;Princeton University Press / Telfair Museum of Art;2001;Pintores;Livro;Inglês;218;;Disponível;5;https://m.media-amazon.com/images/I/71gZxoExCBL._SL1326_.jpg;;
+150-189;9783791318660;Gabriele Münter: The Years of Expressionism, 1903-1920;;Heller, Reinhold;;Prestel;1997;Pintores;Livro;Inglês;184;;Disponível;15;https://pictures.abebooks.com/isbn/9783791318660-us.jpg;;
+150-190;9783791327846;Thomas Gainsborough - A Country Life;;Belsey, Hugh;;Prestel Publishing;2002;Pintores;Livro;Inglês;96;;Disponível;3;https://covers.openlibrary.org/b/id/1027129-L.jpg;;
+150-191;9781851708567;Gainsborough;;Butler, Stephen;;Studio Editions;1992;Pintores;Livro;Inglês;144;;Disponível;5;https://i.ebayimg.com/images/g/kiIAAeSwjuFpf70~/s-l1600.webp;"Colecção ""Master Painters Series"".";
+150-192;9783038280828;Garo: Déflagration. Éloge de la peinture et poétique élémentale de notre terre;;Garo, Bernard;Thévoz, Michel/Kunz, Nicole/Basset, Thierry/David, Paulo;Till Schaap Edition;2017;Pintores;Livro;Francês/Inglês;431;;Disponível;5;https://pictures.abebooks.com/isbn/9783038280828-us._FMavif_.jpg;;
+150-193;9783716512944;Bernard Garo: Barcelona - Basel - Berlin;;Garo, Bernard;De Dardel, Jean-Jacques et al.;Benteli;2003;Pintores;Livro;Alemão/Francês/Inglês/Espanhol;438;;Disponível;15;https://pictures.abebooks.com/inventory/31658339031._FMavif_.jpg;;
+150-194;9780863554124;Gary Hume - XLVIII Venice Biennale;;Hume, Gary;Rose, Andrea/Searle, Adrian/Batchelor, David;The British Council (Visual Arts publications);1999;Pintores;Catálogo;Inglês;128;;Disponível;20;https://pictures.abebooks.com/inventory/32148987847._FMavif_.jpg;;
 150-195;9781901352382;Gary Hume;;Hume, Gary;;Modern Art Oxford;2008;;;;63;;Disponível;;;;
 150-196;3822800678;Gaudí, 1852-1926;;Zerbst, Rainer;;Taschen;1987;;;;239;;Disponível;;https://covers.openlibrary.org/b/id/13216509-L.jpg;;Geert Bourgois
 150-197;3475525321;Friedrich Gauermann, 1807-1862;;Feuchtmuller, Rupert;;Rosenheimer Verlagshaus;1987;;;;319;;Disponível;;https://covers.openlibrary.org/b/id/8391378-L.jpg;;
@@ -604,7 +603,7 @@ Nº Colecção;ISBN;Título;Edição;Autor;Autor 2;Editora;Ano;Tema;Género;Idio
 150-603;9788881181667;Giambattista Tiepolo;;Venise, Tiepolo/Cat.;;Skira;1996;;;;398;;Disponível;;;;Geert Bourgois
 150-604;0888842899;Etchings by the Tiepolos;;Knox, George;;National Gallery of Canada : obtainable from National Museums of Canada;1976;;;;167;;Disponível;;;;
 150-605;9780500080542;Tiepolo (Masters of Art);;L. Barcham, William;;Thames & Hudson Ltd;1992;;;;128;;Disponível;;https://covers.openlibrary.org/b/id/2468597-L.jpg;;
-150-606;9781851494576;Louis C. Tiffany;;Duncan, Alastair;;Antique Collectors' Club;2004;;;;671;;Disponível;;https://covers.openlibrary.org/b/id/6650003-L.jpg;;
+150-606;9781851494576;Louis C. Tiffany;;Duncan, Alastair;;Antique Collectors' Club;2004;Vidreiro;Livro;Inglês;671;;Disponível;5;https://covers.openlibrary.org/b/id/6650003-L.jpg;;
 150-607;9780955493102;Tilson;;Tilson, Joe;Gooding, Mel;Waddington Galleries;2007;;;;50;;Disponível;;https://covers.openlibrary.org/b/id/13799103-L.jpg;;
 150-608;9788496233348;Tintoretto, El paraso;;Habert, Jean-Pierre;;Fundación Colección Thyssen-Bornemisza;2006;;;;183;;Disponível;;;;
 150-609;9788876660207;Jacopo Tintoretto and the scuola grande of San Rocco;;Valcanover, Francesco;;Edizioni Storti;1991;;;;127;;Disponível;;https://covers.openlibrary.org/b/id/8205922-L.jpg;;Geert Bourgois
@@ -1177,7 +1176,7 @@ Nº Colecção;ISBN;Título;Edição;Autor;Autor 2;Editora;Ano;Tema;Género;Idio
 150-1176;9788492505067;Public photographic spaces;;Ribalta, Jorge;;Museu d'Art Contemporani de Barcelona;2008;;;;491;;Disponível;;;;
 150-1177;9780500202081;Photomontage;;Ades, Dawn;;Thames and Hudson;1993;;;;176;;Disponível;;https://covers.openlibrary.org/b/id/10008084-L.jpg;;
 150-1178;9782850255885;1968 Magnum Throughout the World;;Hobsbawm, Eric;;Distributed Art Publishers (DAP);1998;Fotografia & Fotógrafos;;;267;;Disponível;;https://covers.openlibrary.org/b/id/990195-L.jpg;;
-150-1179;9789988550233;The slave ship Fredensborg;;Svalesen, Leif;;Sub-Saharan Publishers;2000;;;;243;;Disponível;;;;Geert Bourgois
+150-1179;9789988550233;The slave ship Fredensborg;;Svalesen, Leif;;Sub-Saharan Publishers;2000;História;Livro;Inglês;243;;Disponível;5;https://pictures.abebooks.com/inventory/31463212484.jpg;;Geert Bourgois
 150-1180;9780500017135;Contemporary art of Africa;;MAGNIN, Andre & SOULILLOU, Jacques;;Thames & Hudson;1996;;;;;;Disponível;;https://covers.openlibrary.org/b/id/10495351-L.jpg;;Geert Bourgois
 150-1181;9783822877630;Tahiti tattoos;;Paolo Barbieri, Gian;Barbieri, Gianpaolo;Taschen;1998;;;;126;;Disponível;;https://covers.openlibrary.org/b/id/12442978-L.jpg;;
 150-1182;9780207189081;Rock art of the dreamtime;;Flood, Josephine;;Angus & Robertson;1997;;;;372;;Disponível;;https://covers.openlibrary.org/b/id/138509-L.jpg;;
@@ -1305,11 +1304,10 @@ Nº Colecção;ISBN;Título;Edição;Autor;Autor 2;Editora;Ano;Tema;Género;Idio
 150-1304;9727690327;Fernanda Fragateiro: Quarto a Céu Aberto;;Fragateiro, Fernanda;;Culturgest;2003;Escultores;Catálogo;Português/Inglês;77;;Disponível;5;https://d14eshuyutzycx.cloudfront.net/eyJidWNrZXQiOiJiYWx0aWMtYXJjaGl2ZSIsImtleSI6InVwbG9hZHMvbTE3OWZkL20xNzlmZC5qcGciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjIwMCwiZml0IjoiY292ZXIifX19;;
 150-1305;9780993475535;François Morellet: Les Règles du Jeu;;Morellet, François;;The Mayor Gallery;2016;Pintores;;Francês;99;;Disponível;;;;
 150-1306;1932598243;Francesco Clemente: Self Portraits;;Clemente, Francesco;Rushdie, Salman;Gagosian Gallery;2006;Pintores;;Inglês;42;;Disponível;;;;
-150-1307;9729713006;Francisco Maya (1915-1993): Pintura;;Maya, Francisco José Peile da Costa;;Câmara Municipal de Évora;1996;Pintores;;Português;;;Disponível;;;;
-150-1308;9896251029;Discurso Amoroso;;Carvalho Homem, Maria Aurora;Simões, Francisco;Campo das Letras;2006;História de Arte;;Português;89;;Disponível;;;;
-150-1309;9782743452728;Franz Marc (1880-1916);;Partsch, Susanna;;Taschen;2004;História de Arte;;Francês;96;;Disponível;;;;João Mimoso
-150-1310;208011560X;Hundertwasser;;Mathey, François;;Flammarion;1991;História de Arte;;Francês;96;;Disponível;;;;
-150-1311;9788496501546;Después del Diluvio / After the Deluge;;Xingjian, Gao;;Museo Würth;2008;História de Arte;;Espanhol;145;;Disponível;;;;
+150-1307;9729713006;Francisco Maya (1915-1993): Pintura;;Maya, Francisco José Peile da Costa;Maya, Delfim/Castanheira, Pedro;Espaço de Comunicação e Design;1996;Pintores;Catálogo;Português/Inglês;145;;Disponível;3;;;
+150-1308;9896251029;Discurso Amoroso;;Carvalho Homem, Maria Aurora;Simões, Francisco;Campo das Letras;2006;Ficção;Poesia;Português;89;;Disponível;3;https://antiquariat-peter-sodann.de/images/product_images/popup_images/39509.jpg;;
+150-1309;9782743452728;Franz Marc (1880-1916);;Marc, Franz;Partsch, Susanna;Taschen;2004;História de Arte;Livro;Francês;96;;Disponível;5;https://m.media-amazon.com/images/I/41VxGxSda2L.jpg;;João Mimoso
+150-1311;9788496501546;Después del Diluvio / After the Deluge;;Gao Xingjian;;Museo Würth;2008;Pintores;Catálogo;Espanhol/Inglês/Francês/Alemão;145;;Disponível;20;https://m.media-amazon.com/images/I/41H77UHwU0L.jpg;;
 150-1312;9782839905145;Daniel Polliand Sculpteur;;Delhoume, Olivier;Butor, Michel;Ô quai des arts;2009;História de Arte;;Francês;;;Disponível;;;;
 150-1313;8450520053;Antoni Gaudí (1852-1926);;Bassegoda Nonell, Juan;;Fundació Caixa de Pensions;1985;História de Arte;;Neerlandês;281;;Disponível;;;;Geert Bourgois
 150-1314;9789727063154;Noa Noa;;Gauguin, Paul;;Livros Quetzal;1997;História de Arte;;Português;148;;Disponível;;;;
@@ -1766,7 +1764,7 @@ Nº Colecção;ISBN;Título;Edição;Autor;Autor 2;Editora;Ano;Tema;Género;Idio
 150-1765;9780486296357;Authentic art deco interiors and furniture in full color;;L. Druesedow, Jean;;Dover Publications;1997;;;;78;;Disponível;;https://covers.openlibrary.org/b/id/312191-L.jpg;;
 150-1766;9780715317440;Art Deco House Style;;Cranfield, Ingrid;;David & Charles Publishers;2004;;;;160;;Disponível;;https://covers.openlibrary.org/b/id/454819-L.jpg;;
 150-1767;9789081024310;Art Deco Ceramics Made in Belgium;;Pairon, Marc;;Fondation Charles Catteau;2006;;;;500;;Disponível;;;;
-150-1768;9780810980464;Art deco complete;;Duncan, Alastair;;Abrams;2009;;;;544;;Disponível;;;;
+150-1768;9780810980464;Art deco complete;;Duncan, Alastair;;Abrams;2009;História de Arte;Livro;Inglês;544;;Disponível;5;https://pictures.abebooks.com/isbn/9780810980464-us._FMavif_.jpg;;
 150-1769;9783897901797;Jakob Bengel;;Weber, Christianne;;Arnoldsche;2002;;;;288;;Disponível;;https://covers.openlibrary.org/b/isbn/9783897901797-L.jpg;;
 150-1770;9781851773879;ART DECO, 1910-1939;;Benton, Charlotte;Benton, Tim;V&A PUBLICATIONS;2003;;;;;;Disponível;;https://covers.openlibrary.org/b/id/9006036-L.jpg;;
 150-1771;9781851491193;Authentic art deco interiors;;Dufrène, Maurice;;Antique Collectors Club;1989;;;;223;;Disponível;;https://covers.openlibrary.org/b/id/2043247-L.jpg;;
@@ -1791,7 +1789,7 @@ Nº Colecção;ISBN;Título;Edição;Autor;Autor 2;Editora;Ano;Tema;Género;Idio
 150-1790;0517516624;The Lithographs of Chagall: 1969-1973;;Chagall, Marc;Sorlier, Charles/Mourlot, Fernand;Editions André Sauret / Crown Publishers;1974;Pintores;Livro;Inglês;;;Disponível;30;https://m.media-amazon.com/images/I/91-lcygSgJL._SL1500_.jpg;"Volume IV da série ""The Lithographs of Chagall""";
 150-1791;9728323174;Carlos Gordilho: com este sinal vencerás: obras plásticas 1996-1992;;Casa Fernando Pessoa / Câmara Municipal de Lisboa;;C.F.P.;1998;Pintores;Catálogo;Português;43;;Disponível;1;;;
 150-1792;n/a;O Surrealismo Abrangente: Colecção Particular de Cruzeiro Seixas;;Seixas, Cruzeiro;Cuadrado Fernández, Perfecto/Gonçalves, António;Fundação Cupertino de Miranda / Centro de Estudos do Surrealismo;2004;Pintores;Catálogo;Português;207;;Disponível;5;;Selecção de obras da colecção particular de Cruzeiro Seixas, doadas à Fundação Cupertino de Miranda. Comissários: Perfecto Cuadrado Fernández e António Gonçalves.;
-150-1793;9782080115607;Hundertwasser;;Mathey, François;;Flammarion;2003;Pintores;;Francês;;;Disponível;;;;
+150-1793;9782080115607;Hundertwasser;;Mathey, François;;Flammarion;1991;Pintores;Livro;Francês;96;;Disponível;3;https://i.ebayimg.com/images/g/0rsAAOSw0GJZnnve/s-l500.webp;Duplicado fundido (150-1310, esvaziado).;
 150-1794;9728505159;Paisagens = Landscapes: Emília Nadal [1972-2006];;Nadal, Emília;Rosa, António Ramos;Museu Municipal de Arqueologia de Silves / Câmara Municipal de Silves;2006;Pintores;Catálogo;Português/Inglês;48;;Disponível;10;;ISBN alternativo (mesma edição, exemplar fundido): 9789728505158 (150-1700, esvaziado).;
 150-1795;9728403143;Inez Teixeira: De volta ao futuro;;Museu da Cidade - Pavilhão Branco;;Câmara Municipal de Lisboa;2002;Pintores;;Português;31;;Disponível;;;;
 150-1796;9727690246;Pintura;;Martins, Jorge;;Grupo Caixa Geral de Depósitos;2001;Pintores;;Português/Inglês;118;;Disponível;;;;
@@ -1920,7 +1918,7 @@ Nº Colecção;ISBN;Título;Edição;Autor;Autor 2;Editora;Ano;Tema;Género;Idio
 150-1919;849819475X;A Grande História da Arte — Vol. 16;;;;Mediasat / Jornal Público;2006;História de Arte;;Português;;;Disponível;;;;
 150-1920;8498194768;A Grande História da Arte — Vol. 17;;;;Mediasat / Jornal Público;2006;História de Arte;;Português;;;Disponível;;;;
 150-1921;8498194776;A Grande História da Arte — Vol. 18;;;;Mediasat / Jornal Público;2006;História de Arte;;Português;;;Disponível;;;;
-150-1922;9781851492244;Orrefors Glass;;Duncan, Alastair;;ACC Distribution;1995;;;;231;;Disponível;;https://covers.openlibrary.org/b/id/7745897-L.jpg;;
+150-1922;9781851492244;Orrefors Glass;;Duncan, Alastair;;ACC Distribution;1995;Vidreiro;Livro;Inglês;231;;Disponível;5;https://covers.openlibrary.org/b/id/7745897-L.jpg;;
 150-1923;9782919769124;Mayodon;;GERARD, LANDROT;;ARGUS VALENTINES;2006;;;;;;Disponível;;https://covers.openlibrary.org/b/id/13595152-L.jpg;;
 150-1924;9783791327938;Glass art;;Ricke, Helmut;;Prestel;2002;;;;384;;Disponível;;https://covers.openlibrary.org/b/id/2241134-L.jpg;;
 150-1925;9788487369599;Las hazañas de un rey;;Angel de Bunes Ibarra, Miguel;Maes de Wit, Yvan;Fundación Carlos de Amberes;2010;;;;85;;Disponível;;;;
@@ -2436,9 +2434,9 @@ Nº Colecção;ISBN;Título;Edição;Autor;Autor 2;Editora;Ano;Tema;Género;Idio
 150-2435;9782844450685;Les symboles des Africains;;Owusu, Heike;;Maisnie Tredaniel;1999;;;;320;;Disponível;;https://covers.openlibrary.org/b/id/3142012-L.jpg;;
 150-2436;9789725891216;Era uma Vez... Angola;;Salvador, Paulo;;Quimera, 2004;2004;;;;184;;Disponível;;;;
 150-2437;9782915258295;Angola;;Falgayrettes-Leveau, Christiane;;Musée Dapper;2010;;;;307;;Disponível;;;;
-150-2438;9788843553006;De sculptuur van Angola;;Bastin, Marie Louise;;Electa;1995;;;;191;;Disponível;;;;Geert Bourgois
+150-2438;9788843553006;De sculptuur van Angola;;Bastin, Marie-Louise;;Electa;1995;Étnica africana;Catálogo;Neerlandês;191;;Disponível;10;https://pictures.abebooks.com/inventory/32371830111._FMavif_.jpg;;Geert Bourgois
 150-2439;9783952249512;Chokwe and their Bantu Neigh Bours;;Gernot Mayr,Manuel Laranjeira Rodrigues de Areia,Reynold C Kerr Marlene S Linville;;Galerie Walu;2003;;;;131;;Disponível;;https://covers.openlibrary.org/b/id/14401761-L.jpg;;
-150-2440;9782700020618;Arts primitifs;;Newton, Douglas;Julie Jones;Gründ;1989;;;;160;;Disponível;;https://covers.openlibrary.org/b/id/12735406-L.jpg;;
+150-2440;9782700020618;Arts primitifs - les îles du Pacifique, l'Afrique, les Amériques;;Newton, Douglas;Jones, Julie;Gründ;1989;Arte étnica;Livro;Francês;160;;Disponível;2;https://covers.openlibrary.org/b/id/12735406-L.jpg;;Eduardo Nery
 150-2441;9788816690059;African art;;Bargna, Ivan;;Antique Collectors' Club;2000;;;;256;;Disponível;;https://covers.openlibrary.org/b/id/2274644-L.jpg;;
 150-2442;9782843232831;Art Africain, formes et rites;;Meyer, Laure;;Assouline;2001;;;;199;;Disponível;;https://covers.openlibrary.org/b/id/3140698-L.jpg;;
 150-2443;9788874390052;Art de l'Afrique du Sud-Est: De la Collection Conru;;Klopper, Sandra et al.;;5 Continents Editions;2002;;;Francês;224;;Disponível;10;https://www.fivecontinentseditions.com/wp-content/uploads/2017/12/5-continents-editions-9788874390052-art-de-lafrique-du-sud-est-1251x1536.jpg;;Geert Bourgois
@@ -2573,7 +2571,7 @@ Nº Colecção;ISBN;Título;Edição;Autor;Autor 2;Editora;Ano;Tema;Género;Idio
 150-2572;9781779090232;Life in Stone (Afram Aserewa Series, 5);;Sultan, Olivier;;Baobab;1999;;;;116;;Disponível;;;;
 150-2573;9780435089771;Are we not also men?;;Ranger, Terence O.;;Baobab;1995;;;;211;;Disponível;;https://covers.openlibrary.org/b/id/3809787-L.jpg;;
 150-2574;9780631176787;The Shona and their neighbours;;Beach, D. N.;;Blackwell;1994;;;;246;;Disponível;;https://covers.openlibrary.org/b/id/8478033-L.jpg;;Geert Bourgois
-150-2575;9780714125138;Smashing Pots;;Barley, Nigel;;British Museum Press;1994;;;;176;;Disponível;;;;
+150-2575;9780714125138;Smashing Pots: Feats of Clay from Africa;;Barley, Nigel;;British Museum Press;1994;Étnica africana;Livro;Inglês;176;;Disponível;2;https://i.ebayimg.com/images/g/LdsAAeSwqOJpOc2R/s-l500.webp;;Geert Bourgois
 150-2576;9789068325232;Merchants, Missionaries and Migrants;;van Kessel, I.;;KIT Publishers;2002;;;;150;;Disponível;;https://covers.openlibrary.org/b/id/3341130-L.jpg;;
 150-2577;9781560986027;African Masterworks in the Detroit Institute of Arts;;Kan, Michael;Sieber, Roy;Smithsonian Books;1995;;;Inglês;192;;Disponível;5;https://m.media-amazon.com/images/I/71J3BIr5n1L._SL1099_.jpg;Com a colaboração de David W. Penney;
 150-2578;9789492244253;NWSO;;Volper, Julien;;Royal Museum for Central Africa;2016;;;;96;;Disponível;;;;
@@ -2661,7 +2659,7 @@ Nº Colecção;ISBN;Título;Edição;Autor;Autor 2;Editora;Ano;Tema;Género;Idio
 150-2660;9780415907590;Representing Black men;;Blount, Marcellus;;Routledge;1996;;;;236;;Disponível;;https://covers.openlibrary.org/b/id/3882861-L.jpg;;Geert Bourgois
 150-2661;9780691037790;Multiculturalism;;Taylor, Charles;Gutmann, Amy;Princeton University Press;1994;;;;175;;Disponível;;https://covers.openlibrary.org/b/id/441205-L.jpg;;
 150-2662;9780195778038;Image and Identity;;Naqvi, Akbar;;Oxford University Press, USA;1998;;;;912;;Disponível;;https://covers.openlibrary.org/b/id/128334-L.jpg;;
-150-2663;9782851083531;Fastueuse Afrique;;Fisher, Angela;;Le Chêne;1984;;;;304;;Disponível;;https://covers.openlibrary.org/b/id/990322-L.jpg;;Geert Bourgois
+150-2663;9782851083531;Fastueuse Afrique;;Fisher, Angela;;Le Chêne;1984;Étnica africana;Livro;Francês;304;;Disponível;15;https://images.fr.shopping.rakuten.com/photo/1274575730.jpg;;Geert Bourgois
 150-2664;9780140048261;Shaka Zulu;;Ritter, E. A.;;Penguin;1985;;;;;;Disponível;;https://covers.openlibrary.org/b/id/15212803-L.jpg;;
 150-2665;9781868725151;Ceremonies;;Magubane, Peter;;Struik;2001;;;;96;;Disponível;;https://covers.openlibrary.org/b/id/2071325-L.jpg;;
 150-2666;9780875186597;Monomotapa, Zulu, Basuto;;Mann, Kenny;;Dillon Press;1996;;;;105;;Disponível;;https://covers.openlibrary.org/b/id/3818882-L.jpg;;
@@ -3337,7 +3335,7 @@ Sequel to the ""Treatise on Calligraphy"" (Xu shu pu) Jiang Kui (Shu Pu : Sequel
 150-4059;9726351375;Work in progress;;Fernando Calhau;;Fundação Calouste Gulbenkian;2001;Instalação;;Português;250;;Disponível;;;;
 150-4089;9780955493133;Double vision: the poetic focus of Claes Oldenburg and Coosje Bruggen;;Claes Oldenburg;;Waddington Galleries;2007;Colectivas;;Inglês;63;;Disponível;;;;
 150-4091;9788877570963;Mario Merz;;Mario Merz;;Hopefulmonster Editore Srl,Italy;1999;Instalação;;Português/Italiano;44;;Disponível;;;;
-150-4123;9780810936171;Louis Majorelle;;Duncan, Alastair;;Abrams;1991;Design;;;224;;Disponível;;;;
+150-4123;9780810936171;Louis Majorelle;;Duncan, Alastair;;Abrams;1991;Mobiliário;Livro;Inglês;224;;Disponível;5;https://pictures.abebooks.com/isbn/9780810936171-us._FMavif_.jpg;;
 150-4124;9727390579;Gerardo Burmester;;Gerardo Burmester;;Fundação Serralves;1998;Instalação;;;165;;Disponível;;https://covers.openlibrary.org/b/id/4121983-L.jpg;;
 150-4154;9788492498536;Sin actividad / Sem actividade / Without activity;;Ignasi Aballí;;La Fábrica;2008;Fotografia & Fotógrafos;;Português/Espanhol/Inglês;116;;Disponível;;https://covers.openlibrary.org/b/id/4121983-L.jpg;"Catálogo da exposição ""Sin actividad"", Museu de Portimão, PhotoEspaña 2008 / ALLGARVE";
 150-4155;1904621171;Annely Juda: A Celebration;;Lynton, Norbert et al.;;Annely Juda Fine Art;2007;Museus e Colecções;;Inglês;144;;Disponível;;https://covers.openlibrary.org/b/id/4121983-L.jpg;Catálogo comemorativo da marchande Annely Juda (1914-2006), Annely Juda Fine Art, Londres;
@@ -3790,9 +3788,9 @@ Sequel to the ""Treatise on Calligraphy"" (Xu shu pu) Jiang Kui (Shu Pu : Sequel
 150-5127;n/a;Obra gravada de Alice Jorge: 1953-1988;;Jorge, Alice;Gouveia, Rosita;Câmara Municipal da Amadora / Associação de Gravura da Amadora (AGA);1992;Pintores;Livro;Português;;;Disponível;;;Organizado no âmbito da III Bienal de Gravura da Amadora.;Cooperativa Árvore
 150-5128;n/a;Ce que les cartes ne disent pas / O que as cartas não dizem;;Luz, Alfredo;;Parlamento Europeu;2004;Pintores;Catálogo;Francês/Português;;;Disponível;5;;;
 150-5129;n/a;A Nossa Necessidade De Consolo É Impossível de Satisfazer #3;;Geirinhas, Alice;;António Henriques – Galeria de Arte Contemporânea;2003;Pintores;Catálogo;Português;;;Disponível;5;;Título apropria-se do ensaio homónimo de Stig Dagerman.;
-150-5130;n/a;Obras Recentes;;Garcia Revuelta, Alfredo;;Centro Cultural São Lourenço;2003;Pintores;Catálogo;Português;32;;Disponível;;;;
-150-5131;n/a;Pinturas, Esculturas;;Garcia Revuelta, Alfredo;;Centro Cultural São Lourenço;1988;Pintores;Catálogo;Português;32;;Disponível;;;;
-150-5132;n/a;Pinturas, Esculturas;;Garcia Revuelta, Alfredo;;Centro Cultural São Lourenço;1995;Pintores;Catálogo;Português;32;;Disponível;;;;
+150-5130;n/a;Obras Recentes;;García Revuelta, Alfredo;;Centro Cultural São Lourenço;2003;Pintores;Catálogo;Português;32;;Disponível;;;;
+150-5131;n/a;Pinturas, Esculturas;;García Revuelta, Alfredo;;Centro Cultural São Lourenço;1988;Pintores;Catálogo;Português;32;;Disponível;;;;
+150-5132;n/a;Pinturas, Esculturas;;García Revuelta, Alfredo;;Centro Cultural São Lourenço;1995;Pintores;Catálogo;Português;32;;Disponível;;;;
 150-5133;n/a;Kunstschilder Alfred Ost: een getuigenis;;Van Passen, Robert;;Davidsfonds;1947;Pintores;Livro;Neerlandês;144;;Disponível;5;https://boekdag.be/images/thumbs/0007885_kunstschilder-alfred-ost-een-getuigenis_550.jpeg;"Colecção ""Volksreeks"" (n.º 349).";Geert Bourgois
 150-5134;n/a;Escrita irrequieta / Alexandra Mesquita;;Mesquita, Alexandra;;Galeria Arte Periférica;2002;Pintores;Catálogo;Português;;;Disponível;;https://www.arteperiferica.pt/wp-content/uploads/Captura-de-ecra-2026-05-22-140436-2.png;;
 150-5135;n/a;Alex Katz: pintura;;Katz, Alex;Sequeira, Ana Paula / Almeida, Bernardo Pinto de;Galeria Mário Sequeira;1997;Pintores;Catálogo;Português/Inglês;64;;Disponível;5;;Tradução de Samuel Gonçalves. Primeiro catálogo individual do artista editado em Portugal, roteiro da exposição de 17 de Maio a 20 de Junho de 1997.;
@@ -4377,7 +4375,7 @@ Sequel to the ""Treatise on Calligraphy"" (Xu shu pu) Jiang Kui (Shu Pu : Sequel
 150-3982;n/a;X Bienal Internacional de Arte de Vila Nova de Cerveira: Catálogo País Convidado Brasil;;Projeto - Núcleo de Desenvolvimento Cultural;;Câmara Municipal de Vila Nova de Cerveira;1999;Prémios e Bienais;Catálogo;Português;63;;Disponível;5;;Volume 2 de 5 da X Bienal Internacional de Arte de Vila Nova de Cerveira.;Cooperativa Árvore
 150-3983;n/a;X Bienal Internacional de Arte de Vila Nova de Cerveira: Catálogo Homenagem Jaime Isidoro;;Projeto - Núcleo de Desenvolvimento Cultural;;Câmara Municipal de Vila Nova de Cerveira;1999;Prémios e Bienais;Catálogo;Português;68;;Disponível;5;;Volume 3 de 5 da X Bienal Internacional de Arte de Vila Nova de Cerveira.;Cooperativa Árvore
 150-3984;n/a;X Bienal Internacional de Arte de Vila Nova de Cerveira: Catálogo Concurso;;Projeto - Núcleo de Desenvolvimento Cultural;;Câmara Municipal de Vila Nova de Cerveira;1999;Prémios e Bienais;Catálogo;Português;117;;Disponível;5;;Volume 4 de 5 da X Bienal Internacional de Arte de Vila Nova de Cerveira.;Cooperativa Árvore
-150-3985;n/a;X Bienal Internacional de Arte de Vila Nova de Cerveira: Catálogo Geral;;Projeto - Núcleo de Desenvolvimento Cultural;;Câmara Municipal de Vila Nova de Cerveira;1999;Prémios e Bienais;Catálogo;Português;189;;Disponível;5;;Volume 5 de 5 da X Bienal Internacional de Arte de Vila Nova de Cerveira.;Cooperativa Árvore
+150-5138;n/a;X Bienal Internacional de Arte de Vila Nova de Cerveira: Catálogo Geral;;Projeto - Núcleo de Desenvolvimento Cultural;;Câmara Municipal de Vila Nova de Cerveira;1999;Prémios e Bienais;Catálogo;Português;189;;Disponível;5;;Volume 5 de 5 da X Bienal Internacional de Arte de Vila Nova de Cerveira.;Cooperativa Árvore
 150-3986;n/a;IX Bienal Internacional de Arte de Vila Nova de Cerveira: Catálogo Geral;;Câmara Municipal de Vila Nova de Cerveira;;Câmara Municipal de Vila Nova de Cerveira;1997;Prémios e Bienais;Catálogo;Português;113;;Disponível;5;http://bienaldecerveira.pt/assets/uploads/2015/05/Catálogo-Bienal-IX.jpg;;Cooperativa Árvore
 150-3987;n/a;IX Bienal Internacional de Arte de Vila Nova de Cerveira: Catálogo Concurso;;Câmara Municipal de Vila Nova de Cerveira;;Câmara Municipal de Vila Nova de Cerveira;1997;Prémios e Bienais;Catálogo;Português;135;;Disponível;5;;;Cooperativa Árvore
 150-3988;n/a;IX Bienal Internacional de Arte de Vila Nova de Cerveira: Catálogo Art Car;;Câmara Municipal de Vila Nova de Cerveira;;Câmara Municipal de Vila Nova de Cerveira;1997;Prémios e Bienais;Catálogo;Português;55;;Disponível;5;;;Cooperativa Árvore
@@ -4394,7 +4392,7 @@ Sequel to the ""Treatise on Calligraphy"" (Xu shu pu) Jiang Kui (Shu Pu : Sequel
 150-3999;n/a;Prémio Árvore das Virtudes;;;;Árvore - Cooperativa de Actividades Artísticas;2023;Prémios e Bienais;Catálogo;Português;;;Disponível;;;;Cooperativa Árvore
 150-4000;n/a;Prémio Árvore das Virtudes;;;;Árvore - Cooperativa de Actividades Artísticas;2024;Prémios e Bienais;Catálogo;Português;;;Disponível;;;;Cooperativa Árvore
 150-4001;n/a;Prémio Árvore das Virtudes;;;;Árvore - Cooperativa de Actividades Artísticas;2025;Prémios e Bienais;Catálogo;Português;;;Disponível;;;;Cooperativa Árvore
-150-4002;9789729258206;O Frei Carlos da América: Investigação e Crítica;;;;DGPC/MNAA;2013;Pintores;Catálogo;Português;72;;Disponível;5;;"Colecção ""Sala do Tecto Pintado"". Sobre a atribuição a Frei Carlos de um São Vicente, em colaboração com o MET (Nova Iorque).";João Mimoso
+150-4002;9789729258206;O Frei Carlos da América: Investigação e Crítica;;Carvalho, José Alberto Seabra;;DGPC/MNAA;2013;Pintores;Catálogo;Português;72;;Disponível;5;http://imgs.sapo.pt/files/mnaa/dev/img/o_frei_carlos_da_america._investigacao_e_critica._catalogo_de_exposicao.jpg;"Colecção ""Sala do Tecto Pintado"". Sobre a atribuição a Frei Carlos de um São Vicente, em colaboração com o MET (Nova Iorque).";João Mimoso
 150-4003;0901571334;The Story of the Lamp (and the Candle);;Robins, F.W.;;Kingsmead Reprints;1970;Artes Decorativas;Livro;Inglês;155;;Disponível;10;https://m.media-amazon.com/images/I/51dxug-cDhL._SL1000_.jpg;Reedição de 1970 (Kingsmead) do original de 1939, Oxford University Press.;João Mimoso
 150-4004;8816601256;Roma e il Lazio;;Parlato, Enrico/Romano, Serena;;Jaca Book;1992;História de Arte;Livro;Italiano;536;;Disponível;10;https://m.media-amazon.com/images/I/51X0F9tnt3L.jpg;"Colecção ""Italia Romanica"", Volume 13.";João Mimoso
 150-4005;1856691101;Production for Graphic Designers;2ª edição;Pipes, Alan;;Laurence King Publishing;1997;Design;Livro;Inglês;240;;Disponível;10;https://i.ebayimg.com/images/g/ehwAAOSwOLlm5YHg/s-l1600.webp;;João Mimoso
@@ -4452,7 +4450,7 @@ Sequel to the ""Treatise on Calligraphy"" (Xu shu pu) Jiang Kui (Shu Pu : Sequel
 150-4065;n/a;Exposição 10 Anos Cais - Pintura Dina Aguiar;;Aguiar, Dina;;Associação CAIS;2005;Pintores;Catálogo;Português;57;;Disponível;1;;Exposição comemorativa do 10º aniversário da Associação CAIS, Museu da Água, Lisboa, Maio 2005. Obras leiloadas a favor da associação.;
 150-4066;n/a;L'Atelier de Dora Maar: Succession de Madame Markovitch;;Maar, Dora;;PIASA;1998;Pintores;Catálogo;Francês;52;;Disponível;10;https://pictures.abebooks.com/inventory/32367601153._FMavif_.jpg;Catálogo de leilão, Espace Drouot Montaigne, Paris, 26 Nov 1998. Commissaire-priseur J.J. Mathias. 169 lotes, incluindo obras de Wifredo Lam, Oscar Domínguez e Marie-Laure de Noailles.;
 150-4067;9728392753;Sete Virtudes, Sete Vícios;;Rego, Domingos;;Casa da Cerca - Centro de Arte Contemporânea;2000;Pintores;Catálogo;Português;60;;Disponível;2;;;
-150-4068;1885013248;Jean Dubuffet: Late Paintings;;Dubuffet, Jean;;Michael Werner Gallery;2001;Pintores;Catálogo;Inglês;28;;Disponível;5;https://pictures.abebooks.com/inventory/32299067083.jpg;;
+150-4068;1885013248;Jean Dubuffet: Late Paintings;;Dubuffet, Jean;;Michael Werner Gallery;2001;Pintores;Catálogo;Inglês;28;;Disponível;5;https://pictures.abebooks.com/inventory/32299067083.jpg;Duplicado fundido (150-135, esvaziado).;
 150-4069;n/a;O Neo-Realismo em Dorindo Carvalho;;Carvalho, Dorindo;Baptista Bastos et al.;Fundação D. Luís I / Galeria Municipal de Vila Franca de Xira;2003;Pintores;Catálogo;Português;10;;Disponível;1;;;
 150-4070;9781838441906;Marcel Duchamp: An Illusion of Freedom Inside Four Walls;;Duchamp, Marcel;;Luxembourg & Dayan;2009;Pintores;Catálogo;Inglês;46;;Disponível;10;https://pictures.abebooks.com/inventory/31291154381._FMavif_.jpg;Título inspirado em carta de Duchamp a Maria Martins (1946). Exposição de 9 Nov 2009-30 Jan 2010.;
 150-4071;095364372X;Jean Dubuffet: Late Paintings;;Dubuffet, Jean;Waddington, Leslie;Waddington Galleries;2000;Pintores;Catálogo;Inglês;64;;Disponível;5;https://pictures.abebooks.com/inventory/19793600374._FMavif_.jpg;Exposição em Londres, 6-30 Set 2000. Edição diferente da Michael Werner Gallery (150-4068, 2001).;
@@ -4508,5 +4506,44 @@ Sequel to the ""Treatise on Calligraphy"" (Xu shu pu) Jiang Kui (Shu Pu : Sequel
 150-4125;n/a;Os Dois Espíritos, A Porta e Os Primeiros Anti-Símbolos;;Mariam, Fala;Gonçalves, Rui-Mário;Galeria de Arte São Mamede;2007;Pintores;Catálogo;Português;16;;Disponível;2;https://castroesilva.com/imagens/2302/2302MA021_1.jpg;Exposição, 8-29 Mar 2007.;
 150-4126;n/a;Felipe Patrício: Trabalhos Recentes;;Patrício, Felipe;;Câmara Municipal de Estarreja;2002;Pintores;Catálogo;Português;20;;Disponível;2;;Exposição, Maio 2002.;
 150-4127;n/a;Fernando Bryce: Kolonial Post;;Bryce, Fernando;;Galeria Joan Prats;2006;Pintores;Catálogo;Espanhol/Inglês;36;;Disponível;5;;;
-150-4128;n/a;6ª Bienal de Artes Plásticas da Cidade do Montijo: Prémio Vespeira - Fernando de Azevedo;;Azevedo, Fernando de;;Câmara Municipal do Montijo;1999;Pintores;Catálogo;Português;24;;Disponível;3;;;
+150-4128;n/a;Fernando de Azevedo - 6ª Bienal de Artes Plásticas da Cidade do Montijo: Prémio Vespeira;;Azevedo, Fernando de;;Câmara Municipal do Montijo;1999;Pintores;Catálogo;Português;24;;Disponível;3;;;
 150-4129;n/a;Fernando Gaspar: Terra Separada II;;Gaspar, Fernando;;Galeria de Arte do Casino Estoril;2015;Pintores;Catálogo;Português;16;;Disponível;3;;Exposição, 17 Out-18 Nov 2015.;
+150-4130;n/a;A colecção de arte do Casino da Póvoa: circunstâncias e particularidades - (The Casino of Póvoa art collection: circumstances and particularities);;Castro, Laura;;Casino da Póvoa;2018;Pintores;Catálogo;Português/Inglês;117;;Disponível;10;https://rnod.bnportugal.gov.pt/ImagesBN/winlibimg.aspx?skey=&doc=2054426&img=142741&save=true;Emprestado ao Álvaro que transferiu para a Alice, dias 22/23 Setembro 2026;Cooperativa Árvore
+150-4131;n/a;Fernand Maillaud;1ª edição;Christoflour, Raymond;;Editions de la Revue du Centre (Paris);1932;Pintores;Livro;Francês;132;;Disponível;20;https://i.ebayimg.com/images/g/JxkAAOSwXrBa6dIs/s-l1600.webp;;
+150-4132;9789725641705;Uma casa na Lapa;1ª edição;Matos, José Sarmento de;;Fundação Luso-Americana para o Desenvolvimento (FLAD) / Quetzal Editores;1994;História;Livro;Português;240;;Disponível;20;https://d3525k1ryd2155.cloudfront.net/h/951/609/1495609951.0.l.jpg;;João Mimoso
+150-4133;9782850567889;Paul Ranson: 1861-1909;;Genty, Gilles et al.;;Somogy Éditions d'Art;2004;Pintores;Livro;Francês;176;;Disponível;20;https://pictures.abebooks.com/isbn/9782850567889-uk._FMavif_.jpg;;João Mimoso
+150-4134;9789729391576;Fernando Lanhas Hoje;;Lanhas, Fernando;Leite Pereira, José et al.;Controlinveste;2008;Pintores;Catálogo;Português;29;;Disponível;3;;;
+150-4135;n/a;O Céu Inteiro;;Lanhas, Fernando;;Fundação de Serralves;2010;Pintores;Catálogo;Português;24;;Disponível;3;https://loja.serralves.pt/6304-large_default/friendly-url-autogeneration-failed.jpg;Excertos escritos pelo próprio Fernando Lanhas sobre o Universo e o espaço.;
+150-4136;n/a;Exposición de pintura - Fernando Ledesma ;;Hierro, José et al.;;Caja Duero;2001;Pintores;Catálogo;Espanhol;124;;Disponível;5;;;
+150-4137;n/a;Fernando Ribeiro - flores, frutos e outras coisas;;Ribeiro, Fernando;;Edição de Autor;2001;Pintores;Livro;Português;80;;Disponível;1;;;
+150-4138;n/a;99 - Ferran García Sevilla;;Sevilla, Ferran García;;Diputación Provincial de Granada;1995;Pintores;Catálogo;Espanhol;116;;Disponível;1;https://pictures.abebooks.com/inventory/32129280796.jpg;;
+150-4139;n/a;Ferran García Sevilla ;;Sevilla, Ferran García;Reyes, Juan Antonio Álvarez/Sevilla, Lluis Garcia;Galeria Joan Prats;2007;Pintores;Catálogo;Espanhol/Catalão/Inglês;41;;Disponível;2;;;
+150-4140;n/a;Filipa Amaral - Painting on metal;;Amaral, Filipa;Teixeira, Nuno Pinto;Galeria Quattro;2008;Pintores;Catálogo;Português;20;;Disponível;1;;;
+150-4141;n/a;Lucio Fontana II - catalogue raisonné des peintures, sculptures et environnements spatiaux;1ª edição;Crispolti, Enrico;;La connaissance;1974;Pintores;Livro;Francês;242;;Disponível;20;https://pictures.abebooks.com/inventory/31437850714.jpg;;
+150-4142;n/a;Lucio Fontana: 10 October - 5 December 2002;;Fontana, Lucio;;de Pury & Luxembourg;2002;Pintores;Catálogo;Inglês;20;;Disponível;5;https://i.ebayimg.com/images/g/qOUAAOSwiJlnhsUq/s-l1600.webp;;
+150-4143;9783791325804;World Art: Africa;;Stepan, Peter;;Prestel;2001;Étnica africana;Livro;Inglês;128;;Disponível;2;https://pictures.abebooks.com/isbn/9783791325804-us.jpg;;Eduardo Nery
+150-4144;9780295975719;Objects - signs of Africa;1ª edição;Heusch, Luc de;;Snoeck-Ducaju & Zoon;1995;Étnica africana;Catálogo;Inglês;213;;Disponível;10;https://pictures.abebooks.com/inventory/30600719025.jpg;;Eduardo Nery
+150-4145;n/a;Diálogos Interculturais: Poetas Contemporâneos Revisitados por Francisco Simões;;Simões, Francisco;Ponce de Leão, Isabel/Bizarro, Rosa;Cordeiros Galeria;2008;Ficção;Poesia;Português/Inglês/Francês;153;;Disponível;3;;;
+150-4146;n/a;Frans Masereel;;Masereel, Frans;Hoozee, Robert/Bracke, Georges/Gheysens, Godwin/Schmidt, Gudrun/Vanfleteren, Hilde;Gemeentekrediet;1986;Pintores;Catálogo;Holandês;175;;Disponível;4;https://www.belgicana.be/wp-content/uploads/2021/12/P1440407.jpg;Museum voor Schone Kunsten (Gante). ISBN 9789050660648 pertence à reedição de 1990.;Geert Bourgois
+150-4147;n/a;Idée: Sa Naissance, sa Vie, sa Mort (edição holandesa);;Masereel, Frans;;Ministerie van de Nederlandse Cultuur;1973;Pintores;Catálogo;Holandês;46;;Disponível;5;;Edição original francesa: Édition Ollendorff, Paris, 1920, 83 xilogravuras, tiragem limitada a 800 exemplares.;
+150-4148;3791316036;Africa: The Art of a Continent;;Phillips, Tom;;Prestel Publishing;1995;Étnica africana;Livro;Inglês;613;;Disponível;15;https://pictures.abebooks.com/inventory/32404894297.jpg;;Geert Bourgois
+150-4149;n/a;Urbanisme in Belgisch Kongo;;Belgique. Ministère des Colonies;Heymans, G.R./Ricquier, Georges/Gilson, Jean/van Malleghem, Noël;Les Éditions De Visscher;1949;Arquitectura;Livro;Holandês;211;;Disponível;5;;"Também publicado em francês como ""L'Urbanisme au Congo Belge"". Ilustrações de Léopoldville e Élisabethville.";
+150-4150;n/a;Escultura Africana: Perenidade e Mudança;;Rodrigues, Adriano Vasco;;Escola Profissional de Economia Social;1996;Étnica africana;Livro;Português;260;;Disponível;20;https://castroesilva.com/imagens/1810/1810JC027_1.jpg;Edição dactilopolicopiada de tiragem muito limitada.;
+150-4151;2218028050;Sénégal, Mali, Mauritanie, Niger;;Eyraud, Arlette;;Hatier;1975;Guias turísticos;Livro;Francês;272;;Disponível;2;https://m.media-amazon.com/images/I/61qMT-qc-HL._SL1024_.jpg;Colaboração da companhia aérea Air Afrique.;
+150-4152;n/a;Tout l'Œuvre Peint de Füssli;;Füssli, Henry;Viotto, Paola/Schiff, Gert;Flammarion;1980;Pintores;Livro;Francês;124;;Disponível;3;https://artbid.pt/uploads/items/1729252353_6484906.jpeg;"Colecção ""Les Classiques de l'Art"", volume nº 50.";Geert Bourgois
+150-4153;n/a;Gabriela Machado: Desenhos;;Machado, Gabriela;Venancio Filho, Paulo;Banco do Brasil;2002;Pintores;Catálogo;Português;52;;Disponível;1;;Exposição no CCBB, Rio de Janeiro, 2002.;
+150-5136;n/a;Gabriela Vaz;;Vaz, Gabriela;Matos Chaves, Joaquim;Galeria Nasoni;1988;Pintores;Catálogo;Português;28;;Disponível;1;;Direcção gráfica: Armando Alves. Fotografia: Angel Ordiales. Tiragem limitada a 750 exemplares.;Cooperativa Árvore
+150-5137;n/a;Gaëtan: Cavaterra (1981-1998);;Gaëtan;Pinharanda, João;Museu de Arte Contemporânea do Funchal - Fortaleza de São Tiago;1999;Pintores;Catálogo;Português;45;;Disponível;2;;;
+150-5139;n/a;Escultura Angolana: Memorial de Culturas;;Bastin, Marie-Louise;;Lisboa '94 / Electa;1994;Étnica africana;Catálogo;Português;191;;Disponível;10;https://www.livraria-trindade.pt/wp-content/uploads/2025/02/marielouisebastinesculturaangolanamemorialdeculturaselectalisboa1994.jpg;Organização: Museu Nacional de Etnologia. Inclui inventário das 250 peças expostas.;Eduardo Nery
+150-5140;9782913978010;Galant, les Français du siècle;;Galant, René;Buron, Nicole de/Dard, Frédéric/Deconinck, Bernard/Lentin, André;Éditions Art Témoin;1999;Pintores;Catálogo;Francês;96;;Disponível;2;https://m.media-amazon.com/images/I/51kCt5qB7bL.jpg;;
+150-5141;n/a;García Revuelta;;García Revuelta, Alfredo;;Galería Seiquer;1987;Pintores;Catálogo;Espanhol;24;;Disponível;5;;;
+150-5142;n/a;Garo: Art Unlimited;;Garo, Bernard;;Éditions Ferrari;2011;Pintores;Catálogo;Francês/Inglês;80;;Disponível;5;;"ISBN indicado: 9782839905145, igual ao do 150-1312 (Daniel Polliand Sculpteur); campo ISBN deixado em n/a para não duplicar.";
+150-5143;9789729666353;Waves of Influence: Cinco Séculos do Azulejo Português;;Georgia, Olivia et al.;;Snug Harbor Cultural Center;1995;Azulejaria;Catálogo;Português/Inglês;94;;Disponível;5;;;
+150-5144;9781851493746;Art Nouveau Designers at the Paris Salons, 1895-1914. Volume VI: Textiles and Leather;;Duncan, Alastair;;ACC Art Books / Antique Collectors' Club;2002;Têxteis;Livro;Inglês;397;;Disponível;20;https://m.media-amazon.com/images/I/71pMxXES6nL._SL1303_.jpg;;
+150-5145;9781851493043;Art Nouveau Designers at the Paris Salons, 1895-1914. Volume V: Objects d'Art & Metalware;;Duncan, Alastair;;ACC Art Books / Antique Collectors' Club;1999;Metalurgia;Livro;Inglês;565;;Disponível;20;https://pictures.abebooks.com/isbn/9781851493043-us._FMavif_.jpg;;
+150-5146;9781851491902;Art Nouveau Designers at the Paris Salons, 1895-1914. Volume III: Furniture;;Duncan, Alastair;;ACC Art Books / Antique Collectors' Club;1996;Mobiliário;Livro;Inglês;575;;Disponível;20;https://pictures.abebooks.com/isbn/9781851491902-us._FMavif_.jpg;;
+150-5147;9781851492299;Art Nouveau Designers at the Paris Salons, 1895-1914. Volume IV: Ceramics & Glass;;Duncan, Alastair;;ACC Art Books / Antique Collectors' Club;1998;Vidreiro;Livro;Inglês;463;;Danificado;20;https://pictures.abebooks.com/isbn/9781851492299-us._FMavif_.jpg;;
+150-5148;9781851491681;Art Nouveau Designers at the Paris Salons, 1895-1914. Volume II: Jewellery - The Designers L-Z;;Duncan, Alastair;;ACC Art Books / Antique Collectors' Club;1995;Joalharia;Livro;Inglês;305;;Disponível;20;https://m.media-amazon.com/images/I/51up8vmkWAL.jpg;;
+150-5149;9781851491599;Art Nouveau Designers at the Paris Salons, 1895-1914. Volume I: Jewellery - The Designers A-K;;Duncan, Alastair;;ACC Art Books / Antique Collectors' Club;1994;Joalharia;Livro;Inglês;350;;Disponível;20;https://m.media-amazon.com/images/I/61f2MRKIshL._SL1280_.jpg;;
+150-5150;n/a;Dynamique de l'art Bidjogo (Guinée-Bissau): contribution à une anthropologie de l'art des sociétés africaines;;Gallois Duquette, Danielle;;Instituto de Investigação Científica Tropical (IICT);1983;Étnica africana;Livro;Francês;340;;Disponível;5;https://cdnx.jumpseller.com/livraria-ler-com-gosto/image/46022207/site__2_.jpg?1709320869;;Eduardo Nery
+150-5151;9782912646132;Magie Lobi;;Bosc, Julien;Itzikovitz, Max;L'Enfance de l'Art / Galerie Flak;2004;Étnica africana;Catálogo;Francês/Inglês;143;;Disponível;20;https://pictures.abebooks.com/isbn/9782912646132-fr.jpg;;Eduardo Nery
