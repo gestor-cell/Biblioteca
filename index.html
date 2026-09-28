@@ -436,7 +436,7 @@ function openDetail(idx) {
 
   const ADMIN_EMAIL = 'antonionmeister@gmail.com';
   const reqBtn = document.getElementById('detail-request-btn');
-  const isDisponivel = (estado || '').toLowerCase() === 'disponível';
+  const isDisponivel = ['disponível', 'danificado'].includes((estado || '').toLowerCase());
   if (isDisponivel) {
     reqBtn.textContent = '📤 Vou levar este livro';
     const subject = encodeURIComponent(`Requisição: ${num} — ${titulo}`);
