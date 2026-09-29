@@ -196,7 +196,7 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
         <select id="loc-sala" onchange="locUpdateParedeOptions()" style="flex:1;min-width:60px;padding:8px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);"><option>1</option><option>2</option><option>3</option></select>
         <select id="loc-parede" style="flex:1;min-width:60px;padding:8px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);"></select>
         <input id="loc-coluna" type="number" min="1" value="1" style="flex:1;min-width:60px;padding:8px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);" placeholder="Column"/>
-        <select id="loc-prateleira" style="flex:1;min-width:60px;padding:8px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select>
+        <select id="loc-prateleira" style="flex:1;min-width:60px;padding:8px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);"><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select>
       </div>
       <svg width="100%" viewBox="0 0 380 170" style="margin-bottom:8px;">
         <rect x="130" y="35" width="120" height="95" fill="none" stroke="var(--gray-300)" stroke-width="1"/>
@@ -490,10 +490,12 @@ window.addEventListener('resize', () => positionTabIndicator(document.querySelec
 function setStatus(msg) { document.getElementById('status-bar').textContent = msg; }
 
 const CARDINAL_NAMES = { N: 'North', S: 'South', E: 'East', O: 'West' };
+function prateleiraParaLinha(p) { return (String(p).toUpperCase().charCodeAt(0) || 64) - 64; }
+function linhaParaPrateleira(r) { return String.fromCharCode(64 + r); }
 
 function friendlyLocalizacao(loc) {
   // Espera o formato "S{sala}, P{parede}, C{coluna}, P{prateleira}"
-  const m = String(loc).match(/S(\d+)\s*,\s*P([A-Z]+)(\d*)\s*,\s*C(\d+)\s*,\s*P(\d+)/i);
+  const m = String(loc).match(/S(\d+)\s*,\s*P([A-Z]+)(\d*)\s*,\s*C(\d+)\s*,\s*P([A-Za-z]+)/i);
   if (!m) return loc;
   const [, sala, dir, num, coluna, prateleira] = m;
   const nomeDir = CARDINAL_NAMES[dir.toUpperCase()] || dir;
@@ -503,11 +505,11 @@ function friendlyLocalizacao(loc) {
 let currentDetailIdx = null;
 
 function viewLocalizacao(compact) {
-  const m = String(compact).match(/S(\d+)\s*,\s*P([A-Z]+)(\d*)\s*,\s*C(\d+)\s*,\s*P(\d+)/i);
+  const m = String(compact).match(/S(\d+)\s*,\s*P([A-Z]+)(\d*)\s*,\s*C(\d+)\s*,\s*P([A-Za-z]+)/i);
   if (!m) return;
   const [, sala, dir, num, coluna, prateleira] = m;
   document.getElementById('loc-view-caption').textContent = friendlyLocalizacao(compact);
-  locRenderGridInto('loc-grid-view', parseInt(coluna), parseInt(prateleira));
+  locRenderGridInto('loc-grid-view', parseInt(coluna), prateleiraParaLinha(prateleira));
   closeDetail();
   document.getElementById('loc-admin-ui').style.display = 'none';
   document.getElementById('loc-view-ui').style.display = 'block';
@@ -534,7 +536,7 @@ function locRenderGridInto(svgId, coluna, prat) {
       const x = x0 + (c-1)*cw, y = y0 + (r-1)*rh;
       const isTarget = (c === coluna && r === prat);
       html += `<rect x="${x}" y="${y}" width="${cw-2}" height="${rh-2}" rx="2" fill="${isTarget ? 'var(--red)' : 'var(--gray-100)'}" stroke="var(--gray-300)" stroke-width="0.5"/>`;
-      if (isTarget) html += `<text x="${x+cw/2-1}" y="${y+rh/2+3}" text-anchor="middle" font-size="11" fill="var(--white)">${r}</text>`;
+      if (isTarget) html += `<text x="${x+cw/2-1}" y="${y+rh/2+3}" text-anchor="middle" font-size="11" fill="var(--white)">${linhaParaPrateleira(r)}</text>`;
     }
   }
   svg.innerHTML = html;
@@ -677,7 +679,7 @@ function locBuildList() {
 
 function locRenderGrid() {
   const coluna = parseInt(document.getElementById('loc-coluna').value) || 1;
-  const prat = parseInt(document.getElementById('loc-prateleira').value);
+  const prat = prateleiraParaLinha(document.getElementById('loc-prateleira').value);
   const parede = document.getElementById('loc-parede').value;
   const paredeDir = parede.replace(/[0-9]/g, '');
   ['N','S','E','O'].forEach(p => document.getElementById('loc-wall'+p).setAttribute('fill', 'var(--gray-300)'));
@@ -695,7 +697,7 @@ function locRenderGrid() {
       const x = x0 + (c-1)*cw, y = y0 + (r-1)*rh;
       const isTarget = (c === coluna && r === prat);
       html += `<rect x="${x}" y="${y}" width="${cw-2}" height="${rh-2}" rx="2" fill="${isTarget ? 'var(--red)' : 'var(--gray-100)'}" stroke="var(--gray-300)" stroke-width="0.5"/>`;
-      if (isTarget) html += `<text x="${x+cw/2-1}" y="${y+rh/2+3}" text-anchor="middle" font-size="11" fill="var(--white)">${r}</text>`;
+      if (isTarget) html += `<text x="${x+cw/2-1}" y="${y+rh/2+3}" text-anchor="middle" font-size="11" fill="var(--white)">${linhaParaPrateleira(r)}</text>`;
     }
   }
   svg.innerHTML = html;
