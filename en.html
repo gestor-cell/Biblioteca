@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="theme-color" content="#cc0000" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="BBC Library" />
+<link rel="manifest" href="manifest.json" />
+<title>BBC Library</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --red: #cc0000; --red-light: #f9e6e6; --red-dark: #990000;
+  --gold: #b8923f; --gold-light: #f5efdd;
+  --black: #111; --gray-700: #444; --gray-500: #777; --gray-300: #ccc;
+  --gray-100: #f5f5f5; --white: #fff; --radius: 12px; --radius-sm: 8px;
+}
+button { transition: transform 0.12s ease; }
+button:active { transform: scale(0.96); }
+@keyframes fadeSlideIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes shimmer { 0% { background-position: -200px 0; } 100% { background-position: 200px 0; } }
+.img-reveal { opacity: 0; transition: opacity 0.4s ease; }
+.img-reveal.loaded { opacity: 1; }
+html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(--gray-100); color: var(--black); -webkit-font-smoothing: antialiased; }
+@media (min-width: 600px) {
+  body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #e0e0e0; }
+  #login-screen, #app-screen { width: 390px !important; height: 844px !important; border-radius: 40px !important; overflow: hidden !important; box-shadow: 0 24px 80px rgba(0,0,0,0.25); }
+  #login-screen { min-height: unset; }
+  #app-screen { min-height: unset; }
+}
+#login-screen { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 24px; background: var(--white); }
+.login-logo { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 600; color: var(--red); letter-spacing: -1px; line-height: 1; margin-bottom: 4px; }
+.login-sub { font-size: 13px; color: var(--gray-500); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 48px; }
+.login-form { width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 14px; }
+.login-form input { width: 100%; padding: 14px 16px; border: 1px solid var(--gray-300); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none; transition: border-color 0.15s; }
+.login-form input:focus { border-color: var(--red); }
+.login-btn { width: 100%; padding: 14px; background: var(--red); color: var(--white); border: none; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; }
+.login-btn:hover { background: var(--red-dark); }
+.login-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.login-error { font-size: 13px; color: var(--red); text-align: center; min-height: 18px; }
+#app-screen { display: none; height: 100vh; flex-direction: column; }
+.topbar { background: linear-gradient(135deg, var(--white) 0%, var(--red-light) 140%); border-bottom: 1px solid var(--gray-300); padding: 14px 16px 10px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+.topbar-brand { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--red); display: flex; align-items: center; gap: 8px; }
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+.sync-btn { background: none; border: none; cursor: pointer; font-size: 20px; color: var(--gray-500); padding: 4px; }
+.logout-btn { font-size: 12px; color: var(--gray-500); background: none; border: none; cursor: pointer; padding: 4px 8px; }
+.tabs { display: flex; background: var(--white); border-bottom: 1px solid var(--gray-300); flex-shrink: 0; position: relative; }
+.tab { flex: 1; padding: 11px 0; font-size: 13px; font-family: 'DM Sans', sans-serif; text-align: center; color: var(--gray-500); cursor: pointer; border: none; background: transparent; border-bottom: 2px solid transparent; transition: color 0.2s; }
+.tab-emoji { font-size: 17px; display: block; margin-bottom: 2px; transition: transform 0.2s; }
+.tab.active .tab-emoji { transform: scale(1.15); }
+.tab.active { color: var(--red); font-weight: 500; }
+.tab-indicator { position: absolute; bottom: -1px; height: 2px; background: var(--red); transition: left 0.3s cubic-bezier(.4,0,.2,1), width 0.3s cubic-bezier(.4,0,.2,1); }
+.panels { flex: 1; overflow: hidden; }
+.panel { display: none; height: 100%; overflow-y: auto; padding: 16px; -webkit-overflow-scrolling: touch; }
+.panel.active { display: block; animation: fadeSlideIn 0.25s ease; }
+.isbn-row { display: flex; gap: 8px; }
+.isbn-row input { flex: 1; padding: 12px 14px; border: 1px solid var(--gray-300); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none; }
+.isbn-row input:focus { border-color: var(--red); }
+.isbn-row button { padding: 0 18px; background: var(--red); color: var(--white); border: none; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; }
+.result-card { margin-top: 16px; background: var(--white); border: 1px solid var(--gray-300); border-radius: var(--radius); overflow: hidden; transition: box-shadow 0.2s; animation: fadeSlideIn 0.3s ease; }
+.result-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+.result-header { display: flex; gap: 14px; padding: 14px; border-bottom: 1px solid var(--gray-100); }
+.result-cover { width: 56px; height: 76px; border-radius: 6px; background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; overflow: hidden; }
+.result-cover img { width: 100%; height: 100%; object-fit: cover; }
+.result-info { flex: 1; min-width: 0; }
+.result-title { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--black); margin-bottom: 3px; line-height: 1.2; }
+.result-author { font-size: 12px; color: var(--gray-500); margin-bottom: 8px; }
+.badge { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 999px; font-weight: 500; }
+.badge-ok { background: var(--gold-light); color: var(--gold); border: 1px solid var(--gold); }
+.badge-missing { background: var(--red-light); color: var(--red-dark); }
+.result-meta { padding: 12px 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.meta-label { font-size: 10px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.08em; }
+.meta-value { font-size: 13px; font-weight: 500; color: var(--black); margin-top: 2px; }
+.search-wrap { position: relative; margin-bottom: 10px; }
+.search-wrap input { width: 100%; padding: 12px 14px 12px 40px; border: 1px solid var(--gray-300); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none; background: var(--white); }
+.search-wrap input:focus { border-color: var(--red); }
+.search-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--gray-500); }
+.filter-row { display: flex; gap: 6px; margin-bottom: 14px; }
+.filter-select { flex: 1; padding: 8px 12px; border: 1px solid var(--gray-300); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--gray-700); background: var(--white); outline: none; cursor: pointer; }
+.filter-select:focus { border-color: var(--red); }
+.book-list { display: flex; flex-direction: column; gap: 8px; }
+.book-item { display: flex; gap: 12px; padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--gray-300); background: var(--white); cursor: pointer; align-items: flex-start; transition: box-shadow 0.2s, border-color 0.2s; opacity: 0; animation: fadeSlideIn 0.35s ease forwards; }
+.book-item:hover { border-color: var(--red); box-shadow: 0 3px 12px rgba(0,0,0,0.06); }
+.book-thumb { width: 38px; height: 54px; border-radius: 4px; background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; overflow: hidden; }
+.book-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.book-info { flex: 1; min-width: 0; overflow: hidden; }
+.book-title { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 600; color: var(--black); margin-bottom: 2px; word-break: break-word; }
+.book-author { font-size: 12px; color: var(--gray-500); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+.book-meta { font-size: 11px; color: var(--gray-500); display: flex; gap: 8px; flex-wrap: wrap; }
+.empty { text-align: center; padding: 48px 16px; color: var(--gray-500); font-size: 14px; }
+.skeleton-item { height: 78px; border-radius: var(--radius-sm); margin-bottom: 10px; background: linear-gradient(90deg, var(--gray-100) 25%, #ececec 37%, var(--gray-100) 63%); background-size: 400px 100%; animation: shimmer 1.4s ease-in-out infinite; }
+.empty-icon { font-size: 36px; display: block; margin-bottom: 10px; }
+.status-bar { padding: 8px 16px; font-size: 11px; color: var(--gray-500); background: var(--gray-100); border-top: 1px solid var(--gray-300); text-align: center; flex-shrink: 0; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner { width: 18px; height: 18px; border: 2px solid var(--gray-300); border-top-color: var(--red); border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; vertical-align: middle; margin-right: 8px; }
+/* DETAIL */
+#detail-screen { display: flex; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--white); flex-direction: column; z-index: 100; overflow-y: auto; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
+#detail-screen.open { opacity: 1; pointer-events: auto; }
+.detail-topbar { background: var(--white); border-bottom: 1px solid var(--gray-300); padding: 14px 16px; display: flex; align-items: center; gap: 12px; flex-shrink: 0; position: sticky; top: 0; z-index: 10; }
+.back-btn { background: none; border: none; cursor: pointer; font-size: 22px; color: var(--red); padding: 0 4px; }
+.detail-topbar-title { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--black); }
+.detail-cover-area { display: flex; justify-content: center; padding: 24px 16px 16px; }
+.detail-cover { width: 100px; height: 140px; border-radius: 8px; background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 48px; overflow: hidden; perspective: 600px; }
+.detail-cover img { width: 100%; height: 100%; object-fit: cover; animation: flipIn 1.5s cubic-bezier(.34,1.56,.64,1); }
+@keyframes flipIn { from { transform: rotateY(90deg); opacity: 0; } to { transform: rotateY(0deg); opacity: 1; } }
+.detail-body { padding: 0 16px 32px; }
+.detail-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 600; color: var(--black); margin-bottom: 6px; line-height: 1.2; }
+.detail-author { font-size: 14px; color: var(--gray-500); margin-bottom: 20px; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.detail-field { }
+.detail-field-label { font-size: 10px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+.detail-field-value { font-size: 14px; font-weight: 500; color: var(--black); }
+.lang-btn { font-size: 12px; font-weight: 500; color: var(--gray-500); text-decoration: none; border: 1px solid var(--gray-300); border-radius: 6px; padding: 3px 8px; margin-right: 4px; }
+</style>
+</head>
+<body>
+
+<div id="login-screen">
+  <div style="text-align:center;margin-bottom:2px;"><img src="icon-192.png" alt="" style="height:60px;width:auto;" /></div>
+  <div class="login-logo">BBC</div>
+  <div class="login-sub">Library</div>
+  <form class="login-form" id="login-form">
+    <input type="email" id="email" placeholder="Email" autocomplete="email" required />
+    <input type="password" id="password" placeholder="Password" autocomplete="current-password" required />
+    <button type="submit" class="login-btn" id="login-btn">Sign in</button>
+    <div class="login-error" id="login-error"></div>
+  </form>
+</div>
+
+<div id="app-screen" style="position:relative;">
+  <div class="topbar">
+    <div class="topbar-brand">
+      <img src="icon-192.png" alt="" style="height:2em;width:auto;object-fit:contain;" />
+      <span>BBC</span> <span style="color:var(--gray-500);font-weight:300;">Library</span>
+    </div>
+    <div class="topbar-right">
+      <a class="lang-btn" href="index.html">PT</a>
+      <button class="sync-btn" onclick="loadCatalog()" title="Sync">⟳</button>
+      <button class="logout-btn" onclick="doLogout()">Sign out</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('isbn', this)"><span class="tab-emoji">▦</span>ISBN</button>
+    <button class="tab" onclick="switchTab('search', this)"><span class="tab-emoji">⌕</span>Search</button>
+    <button class="tab" onclick="switchTab('loc', this)"><span class="tab-emoji">📍</span>Location</button>
+    <span class="tab-indicator" id="tab-indicator"></span>
+  </div>
+
+  <div class="panels">
+    <div class="panel active" id="panel-isbn">
+      <div class="isbn-row">
+        <input type="text" id="isbn-input" placeholder="ISBN (10 or 13 digits)" maxlength="17" inputmode="numeric" onkeydown="if(event.key==='Enter') checkISBN()" />
+        <button onclick="checkISBN()">Check</button>
+      </div>
+      <div id="isbn-result"></div>
+    </div>
+
+    <div class="panel" id="panel-search">
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input type="search" id="search-input" placeholder="Title, author, publisher..." oninput="renderList()" />
+      </div>
+      <div class="filter-row">
+        <select class="filter-select" id="filter-loc" onchange="renderList()">
+          <option value="">All locations</option>
+        </select>
+      </div>
+      <div class="book-list" id="book-list">
+        <div class="skeleton-item"></div>
+        <div class="skeleton-item"></div>
+        <div class="skeleton-item"></div>
+      </div>
+    </div>
+
+    <div class="panel" id="panel-loc">
+      <div id="loc-view-ui" style="display:none;">
+        <div id="loc-view-caption" style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;margin-bottom:14px;"></div>
+        <div style="overflow-x:auto;padding:4px 0 12px;">
+          <svg id="loc-grid-view" width="700" height="200" viewBox="0 0 700 200"></svg>
+        </div>
+        <button onclick="closeLocView()" style="width:100%;padding:12px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);background:var(--white);margin-top:6px;">‹ Back to book</button>
+      </div>
+      <div id="loc-admin-ui">
+      <div id="loc-progress" style="font-size:12px;color:var(--gray-500);margin-bottom:10px;"></div>
+      <div style="display:flex;gap:8px;margin-bottom:10px;">
+        <button onclick="locScanNFC()" id="nfcBtn" style="flex:1;padding:8px;font-size:12px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);background:var(--white);">📶 Detect room (NFC)</button>
+        <button onclick="locScanCompass()" id="compassBtn" style="flex:1;padding:8px;font-size:12px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);background:var(--white);">🧭 Suggest wall</button>
+      </div>
+      <div id="loc-sensor-msg" style="font-size:12px;color:var(--red);margin-bottom:8px;min-height:16px;"></div>
+      <div id="loc-book" style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;margin-bottom:12px;"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+        <select id="loc-sala" onchange="locUpdateParedeOptions()" style="flex:1;min-width:60px;padding:8px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);"><option>1</option><option>2</option><option>3</option></select>
+        <select id="loc-parede" style="flex:1;min-width:60px;padding:8px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);"></select>
+        <input id="loc-coluna" type="number" min="1" value="1" style="flex:1;min-width:60px;padding:8px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);" placeholder="Column"/>
+        <select id="loc-prateleira" style="flex:1;min-width:60px;padding:8px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select>
+      </div>
+      <svg width="100%" viewBox="0 0 380 170" style="margin-bottom:8px;">
+        <rect x="130" y="35" width="120" height="95" fill="none" stroke="var(--gray-300)" stroke-width="1"/>
+        <text x="190" y="25" text-anchor="middle" font-size="12" fill="var(--gray-500)">N</text>
+        <text x="190" y="148" text-anchor="middle" font-size="12" fill="var(--gray-500)">S</text>
+        <text x="270" y="86" text-anchor="middle" font-size="12" fill="var(--gray-500)">E</text>
+        <text x="110" y="86" text-anchor="middle" font-size="12" fill="var(--gray-500)">W</text>
+        <rect id="loc-wallN" x="130" y="33" width="120" height="4" fill="var(--gray-300)"/>
+        <rect id="loc-wallS" x="130" y="128" width="120" height="4" fill="var(--gray-300)"/>
+        <rect id="loc-wallE" x="248" y="35" width="4" height="95" fill="var(--gray-300)"/>
+        <rect id="loc-wallO" x="128" y="35" width="4" height="95" fill="var(--gray-300)"/>
+      </svg>
+      <div style="overflow-x:auto;padding:4px 0 12px;">
+        <svg id="loc-grid" width="700" height="200" viewBox="0 0 700 200"></svg>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:8px;">
+        <button onclick="locPrev()" style="flex:1;padding:12px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);background:var(--white);">← Previous</button>
+        <button onclick="locConfirm()" style="flex:2;padding:12px;border:none;border-radius:var(--radius-sm);background:var(--red);color:var(--white);font-weight:500;">Confirm and next</button>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="locSkip()" style="flex:1;padding:10px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);background:var(--white);font-size:13px;">Skip (no location)</button>
+        <button onclick="locDownload()" style="flex:1;padding:10px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);background:var(--white);font-size:13px;">⬇ Download CSV (<span id="loc-count">0</span>)</button>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="status-bar" id="status-bar">Loading...</div>
+
+  <div id="detail-screen">
+    <div class="detail-topbar">
+      <button class="back-btn" onclick="closeDetail()">←</button>
+      <div class="detail-topbar-title">Details</div>
+    </div>
+    <div class="detail-cover-area">
+      <div class="detail-cover" id="detail-cover">📖</div>
+    </div>
+    <div class="detail-body">
+      <div class="detail-title" id="detail-title"></div>
+      <div class="detail-author" id="detail-author"></div>
+      <div class="detail-grid" id="detail-grid"></div>
+      <button id="detail-request-btn" style="display:none;width:100%;margin-top:16px;padding:14px;border:none;border-radius:var(--radius-sm);background:var(--red);color:var(--white);font-weight:500;font-size:14px;"></button>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script>
+const CATALOG_URL = 'https://raw.githubusercontent.com/gestor-cell/Biblioteca/main/catalogo.csv';
+
+firebase.initializeApp({
+  apiKey: "AIzaSyBAhZCG7sSry2G8_hx5XKYe7Yw192WX2No",
+  authDomain: "bbc-library.firebaseapp.com",
+  projectId: "bbc-library",
+  storageBucket: "bbc-library.firebasestorage.app",
+  messagingSenderId: "1021467313357",
+  appId: "1:1021467313357:web:9d3b94c23f26bb3a7e5584"
+});
+
+const auth = firebase.auth();
+let catalog = [];
+
+auth.onAuthStateChanged(user => {
+  if (user) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app-screen').style.display = 'flex';
+    loadCatalog();
+  } else {
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('app-screen').style.display = 'none';
+  }
+});
+
+document.getElementById('login-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = document.getElementById('login-btn');
+  const err = document.getElementById('login-error');
+  btn.disabled = true; btn.textContent = 'Signing in...'; err.textContent = '';
+  try {
+    await auth.signInWithEmailAndPassword(document.getElementById('email').value, document.getElementById('password').value);
+  } catch(ex) {
+    err.textContent = 'Wrong email or password.';
+    btn.disabled = false; btn.textContent = 'Sign in';
+  }
+});
+
+async function doLogout() { await auth.signOut(); catalog = []; }
+
+async function loadCatalog() {
+  setStatus('Loading catalogue...');
+  document.getElementById('book-list').innerHTML = '<div class="empty"><span class="spinner"></span>Loading...</div>';
+  try {
+    const r = await fetch(CATALOG_URL);
+    const buffer = await r.arrayBuffer();
+    const text = new TextDecoder('utf-8').decode(buffer);
+    catalog = parseCSV(text);
+    setStatus(catalog.length + ' books in the catalogue');
+    populateLocFilter();
+    renderList();
+    locBuildList();
+    locUpdateParedeOptions();
+    locRenderBook();
+  } catch(ex) {
+    setStatus('Error loading the catalogue');
+    document.getElementById('book-list').innerHTML = '<div class="empty"><span class="empty-icon">⚠</span>Could not load the catalogue.</div>';
+  }
+}
+
+function populateLocFilter() {
+  const sel = document.getElementById('filter-loc');
+  const locs = [...new Set(catalog.map(b => get(b,'localização','localizacao')).filter(v => v))].sort();
+  locs.forEach(l => {
+    const o = document.createElement('option');
+    o.value = l; o.textContent = l;
+    sel.appendChild(o);
+  });
+}
+
+function parseCSV(text) {
+  const lines = text.split('\n').filter(l => l.trim());
+  if (lines.length < 2) return [];
+  const sep = ';';
+  const headers = splitLine(lines[0], sep).map(h => h.trim().toLowerCase().replace(/,+$/, '').replace(/\r$/, ''));
+  const result = [];
+  for (let i = 1; i < lines.length; i++) {
+    const vals = splitLine(lines[i], sep);
+    const obj = {};
+    headers.forEach((h, j) => obj[h] = (vals[j] || '').trim().replace(/,+$/, '').replace(/\r$/, ''));
+    if (Object.values(obj).some(v => v)) result.push(obj);
+  }
+  return result;
+}
+
+function splitLine(line, sep) {
+  const res = []; let cur = '', inQ = false;
+  for (const c of line) {
+    if (c === '"') { inQ = !inQ; }
+    else if (c === sep && !inQ) { res.push(cur); cur = ''; }
+    else cur += c;
+  }
+  res.push(cur);
+  return res;
+}
+
+function get(book, ...keys) {
+  for (const k of keys) {
+    const v = book[k] || book[k.toLowerCase()];
+    if (v) return v;
+  }
+  return '';
+}
+
+function checkISBN() {
+  const val = document.getElementById('isbn-input').value.trim().replace(/[\s-]/g, '');
+  const el = document.getElementById('isbn-result');
+  if (!val) { el.innerHTML = ''; return; }
+  if (!catalog.length) { el.innerHTML = '<div class="result-card" style="padding:14px;text-align:center;font-size:13px;color:#777">Catalogue not loaded.</div>'; return; }
+  const book = catalog.find(b => get(b, 'isbn').replace(/[\s-]/g, '') === val);
+  if (book) {
+    const titulo = get(book, 'título', 'titulo', 'title');
+    const autor = get(book, 'autor', 'author');
+    const num = get(book, 'nº colecção', 'nº coleccao');
+    const estado = get(book, 'estado');
+    const ano = get(book, 'ano');
+    const editora = get(book, 'editora');
+    const capa = get(book, 'capa (url)', 'capa');
+    el.innerHTML = `<div class="result-card"><div class="result-header"><div class="result-cover">${capa ? `<img class="img-reveal" src="${capa}" alt="" onload="this.classList.add('loaded')" onerror="this.parentNode.textContent='📖'" />` : '📖'}</div><div class="result-info"><div class="result-title">${titulo || '—'}</div><div class="result-author">${autor}</div><span class="badge badge-ok">✓ In the catalogue</span></div></div><div class="result-meta"><div class="meta-item"><div class="meta-label">Collection no.</div><div class="meta-value">${num || '—'}</div></div><div class="meta-item"><div class="meta-label">Status</div><div class="meta-value">${estado || '—'}</div></div><div class="meta-item"><div class="meta-label">Year</div><div class="meta-value">${ano || '—'}</div></div><div class="meta-item"><div class="meta-label">Publisher</div><div class="meta-value">${editora || '—'}</div></div></div></div>`;
+  } else {
+    el.innerHTML = `<div class="result-card" style="padding:20px;text-align:center;"><span class="badge badge-missing" style="font-size:13px;padding:6px 16px;">✕ Not found</span><div style="font-size:12px;color:#777;margin-top:10px;">ISBN: ${val}</div></div>`;
+  }
+}
+
+function renderList() {
+  const q = (document.getElementById('search-input').value || '').toLowerCase().trim();
+  const loc = document.getElementById('filter-loc').value;
+  const list = document.getElementById('book-list');
+  if (!catalog.length) { list.innerHTML = '<div class="empty"><span class="empty-icon">📚</span>Catalogue not loaded.</div>'; return; }
+  let items = catalog.filter(b => {
+    const titulo = get(b, 'título', 'titulo', 'title').toLowerCase();
+    const autor = get(b, 'autor', 'author').toLowerCase();
+    const editora = get(b, 'editora').toLowerCase();
+    const localizacao = get(b, 'localização', 'localizacao');
+    return (!q || titulo.includes(q) || autor.includes(q) || editora.includes(q)) &&
+           (!loc || localizacao === loc);
+  });
+  if (!items.length) { list.innerHTML = '<div class="empty"><span class="empty-icon">🔍</span>No results.</div>'; return; }
+  list.innerHTML = items.slice(0, 100).map((b, i) => {
+    const titulo = get(b, 'título', 'titulo', 'title');
+    const autor = get(b, 'autor', 'author');
+    const num = get(b, 'nº colecção', 'nº coleccao');
+    const ano = get(b, 'ano');
+    const editora = get(b, 'editora');
+    const capa = get(b, 'capa (url)', 'capa');
+    const idx = catalog.indexOf(b);
+    return `<div class="book-item" style="animation-delay:${Math.min(i,12)*0.12}s;animation-duration:0.6s;" onclick="openDetail(${idx})"><div class="book-thumb">${capa ? `<img class="img-reveal" src="${capa}" alt="" onload="this.classList.add('loaded')" onerror="this.parentNode.textContent='📖'" />` : '📖'}</div><div class="book-info"><div class="book-title">${titulo || '—'}</div><div class="book-author">${autor}</div><div class="book-meta"><span>${num}</span><span>·</span><span>${ano}</span><span>·</span><span>${editora}</span></div></div></div>`;
+  }).join('');
+  if (items.length > 100) list.innerHTML += `<div style="text-align:center;padding:12px;font-size:12px;color:#777">A mostrar 100 de ${items.length} resultados. Refina a pesquisa.</div>`;
+}
+
+function openDetail(idx) {
+  const b = catalog[idx];
+  if (!b) return;
+  currentDetailIdx = idx;
+  const titulo = get(b, 'título', 'titulo', 'title');
+  const autor = get(b, 'autor', 'author');
+  const autor2 = get(b, 'autor2');
+  const editora = get(b, 'editora');
+  const ano = get(b, 'ano');
+  const isbn = get(b, 'isbn');
+  const num = get(b, 'nº colecção', 'nº coleccao');
+  const genero = get(b, 'género', 'genero');
+  const idioma = get(b, 'idioma');
+  const paginas = get(b, 'páginas', 'paginas');
+  const localizacao = get(b, 'localização', 'localizacao');
+  const estado = get(b, 'estado');
+  const obs = get(b, 'observações', 'observacoes');
+  const notas = get(b, 'notas');
+  const tema = get(b, 'tema');
+  const capa = get(b, 'capa (url)', 'capa');
+
+  document.getElementById('detail-title').textContent = titulo || '—';
+  document.getElementById('detail-author').textContent = autor + (autor2 ? ' / ' + autor2 : '');
+  document.getElementById('detail-cover').innerHTML = capa ? `<img class="img-reveal" src="${capa}" alt="" onload="this.classList.add('loaded')" onerror="this.parentNode.textContent='📖'" />` : '📖';
+
+  const fields = [
+    ['Collection no.', num], ['ISBN', isbn], ['Publisher', editora], ['Year', ano],
+    ['Subject', tema], ['Type', genero], ['Language', idioma], ['Pages', paginas],
+    ['Location', localizacao], ['Status', estado], ['Remarks', obs], ['Notes', notas]
+  ];
+  document.getElementById('detail-grid').innerHTML = fields
+    .filter(([,v]) => v)
+    .map(([l,v]) => {
+      if (l === 'Location') {
+        return `<div class="detail-field"><div class="detail-field-label">${l}</div><div class="detail-field-value" style="cursor:pointer;text-decoration:underline;color:var(--red);" onclick="viewLocalizacao('${v.replace(/'/g, "\\'")}')">${friendlyLocalizacao(v)}</div></div>`;
+      }
+      return `<div class="detail-field"><div class="detail-field-label">${l}</div><div class="detail-field-value">${v}</div></div>`;
+    })
+    .join('');
+
+  const ADMIN_EMAIL = 'antonionmeister@gmail.com';
+  const reqBtn = document.getElementById('detail-request-btn');
+  const isDisponivel = ['disponível', 'danificado'].includes((estado || '').toLowerCase());
+  if (isDisponivel) {
+    reqBtn.textContent = '📤 I\'ll borrow this book';
+    const subject = encodeURIComponent(`Requisição: ${num} — ${titulo}`);
+    const body = encodeURIComponent(`Sim, vou consultar/levar o livro:\n\n${num} — ${titulo}\n${autor}`);
+    reqBtn.onclick = () => {
+      if (confirm('Confirm: "Yes, I\'ll borrow" this book?')) {
+        window.location.href = `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
+      }
+    };
+  } else {
+    reqBtn.textContent = '📥 I returned this book';
+    const subject = encodeURIComponent(`Devolução: ${num} — ${titulo}`);
+    const body = encodeURIComponent(`Devolvi o livro:\n\n${num} — ${titulo}\n${autor}`);
+    reqBtn.onclick = () => {
+      if (confirm('Confirm you are returning this book?')) {
+        window.location.href = `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
+      }
+    };
+  }
+  reqBtn.style.display = 'block';
+
+  document.getElementById('detail-screen').classList.add('open');
+}
+
+function closeDetail() {
+  document.getElementById('detail-screen').classList.remove('open');
+}
+
+function positionTabIndicator(el) {
+  const indicator = document.getElementById('tab-indicator');
+  if (!indicator || !el) return;
+  indicator.style.left = el.offsetLeft + 'px';
+  indicator.style.width = el.offsetWidth + 'px';
+}
+
+function switchTab(tab, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('panel-' + tab).classList.add('active');
+  positionTabIndicator(el);
+  if (tab === 'loc') locRenderBook();
+}
+
+window.addEventListener('load', () => positionTabIndicator(document.querySelector('.tab.active')));
+window.addEventListener('resize', () => positionTabIndicator(document.querySelector('.tab.active')));
+
+function setStatus(msg) { document.getElementById('status-bar').textContent = msg; }
+
+const CARDINAL_NAMES = { N: 'North', S: 'South', E: 'East', O: 'West' };
+
+function friendlyLocalizacao(loc) {
+  // Espera o formato "S{sala}, P{parede}, C{coluna}, P{prateleira}"
+  const m = String(loc).match(/S(\d+)\s*,\s*P([A-Z]+)(\d*)\s*,\s*C(\d+)\s*,\s*P(\d+)/i);
+  if (!m) return loc;
+  const [, sala, dir, num, coluna, prateleira] = m;
+  const nomeDir = CARDINAL_NAMES[dir.toUpperCase()] || dir;
+  return `The title you are looking for is in: Room ${sala}, ${nomeDir}${num || ''} wall, Column ${coluna}, Shelf ${prateleira}`;
+}
+
+let currentDetailIdx = null;
+
+function viewLocalizacao(compact) {
+  const m = String(compact).match(/S(\d+)\s*,\s*P([A-Z]+)(\d*)\s*,\s*C(\d+)\s*,\s*P(\d+)/i);
+  if (!m) return;
+  const [, sala, dir, num, coluna, prateleira] = m;
+  document.getElementById('loc-view-caption').textContent = friendlyLocalizacao(compact);
+  locRenderGridInto('loc-grid-view', parseInt(coluna), parseInt(prateleira));
+  closeDetail();
+  document.getElementById('loc-admin-ui').style.display = 'none';
+  document.getElementById('loc-view-ui').style.display = 'block';
+  switchTab('loc', document.querySelector('.tab[onclick*="loc"]'));
+}
+
+function closeLocView() {
+  document.getElementById('loc-view-ui').style.display = 'none';
+  document.getElementById('loc-admin-ui').style.display = 'block';
+  if (currentDetailIdx !== null) openDetail(currentDetailIdx);
+}
+
+function locRenderGridInto(svgId, coluna, prat) {
+  const totalCols = Math.max(coluna + 4, 20);
+  const cw = 32, rh = 24, x0 = 10, y0 = 10;
+  const w = totalCols * cw + 20, h = 7 * rh + 20;
+  const svg = document.getElementById(svgId);
+  svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  svg.setAttribute('width', Math.min(w, 700));
+  svg.setAttribute('height', h);
+  let html = '';
+  for (let c = 1; c <= totalCols; c++) {
+    for (let r = 1; r <= 7; r++) {
+      const x = x0 + (c-1)*cw, y = y0 + (r-1)*rh;
+      const isTarget = (c === coluna && r === prat);
+      html += `<rect x="${x}" y="${y}" width="${cw-2}" height="${rh-2}" rx="2" fill="${isTarget ? 'var(--red)' : 'var(--gray-100)'}" stroke="var(--gray-300)" stroke-width="0.5"/>`;
+      if (isTarget) html += `<text x="${x+cw/2-1}" y="${y+rh/2+3}" text-anchor="middle" font-size="11" fill="var(--white)">${r}</text>`;
+    }
+  }
+  svg.innerHTML = html;
+}
+
+// --- Localização (ferramenta de carregamento rápido) ---
+const WALLS_BY_SALA = {
+  '1': ['N','S','E','O'],
+  '2': ['N1','N2','S','E','O'],
+  '3': ['N','S','E'],
+};
+
+function locUpdateParedeOptions() {
+  const sala = document.getElementById('loc-sala').value;
+  const sel = document.getElementById('loc-parede');
+  const prev = sel.value;
+  sel.innerHTML = WALLS_BY_SALA[sala].map(w => `<option value="${w}">${w}</option>`).join('');
+  if (WALLS_BY_SALA[sala].includes(prev)) sel.value = prev;
+  locRenderGrid();
+}
+
+// NFC: cada etiqueta deve conter um registo de texto simples "1", "2" ou "3" (o número da sala).
+async function locScanNFC() {
+  const msg = document.getElementById('loc-sensor-msg');
+  if (!('NDEFReader' in window)) {
+    msg.textContent = 'This phone/browser does not support NFC (works in Chrome on Android).';
+    return;
+  }
+  try {
+    const reader = new NDEFReader();
+    await reader.scan();
+    msg.textContent = 'Bring the phone close to the tag...';
+    reader.onreading = (event) => {
+      const record = event.message.records[0];
+      const decoder = new TextDecoder(record.encoding || 'utf-8');
+      const text = decoder.decode(record.data).trim();
+      if (WALLS_BY_SALA[text]) {
+        document.getElementById('loc-sala').value = text;
+        locUpdateParedeOptions();
+        msg.textContent = `Room ${text} detected.`;
+      } else {
+        msg.textContent = 'Tag read, but it does not match any known room.';
+      }
+    };
+  } catch (e) {
+    msg.textContent = 'Could not connect to NFC (check it is turned on and that you gave permission).';
+  }
+}
+
+// Bússola: sugere o ponto cardeal mais próximo da orientação actual do telemóvel.
+function locHeadingToCardinal(heading) {
+  const dirs = [['N',0],['E',90],['S',180],['O',270]];
+  let best = 'N', bestDiff = 360;
+  dirs.forEach(([name, deg]) => {
+    let diff = Math.abs(heading - deg);
+    if (diff > 180) diff = 360 - diff;
+    if (diff < bestDiff) { bestDiff = diff; best = name; }
+  });
+  return best;
+}
+
+function locApplyCompassReading(heading) {
+  const msg = document.getElementById('loc-sensor-msg');
+  const cardinal = locHeadingToCardinal(heading);
+  const sala = document.getElementById('loc-sala').value;
+  const options = WALLS_BY_SALA[sala].filter(w => w.replace(/[0-9]/g, '') === cardinal);
+  if (!options.length) {
+    msg.textContent = `Detected direction (${cardinal}) does not match any wall in this room.`;
+    return;
+  }
+  document.getElementById('loc-parede').value = options[0];
+  locRenderGrid();
+  if (options.length > 1) {
+    msg.textContent = `Direction ${cardinal} detected — this room has ${options.join(' and ')}, confirm which one.`;
+  } else {
+    msg.textContent = `Wall ${options[0]} suggested by the compass.`;
+  }
+}
+
+let compassActive = false;
+let compassOnOrient = null;
+
+async function locScanCompass() {
+  const msg = document.getElementById('loc-sensor-msg');
+  const btn = document.getElementById('compassBtn');
+
+  if (compassActive) {
+    if (compassOnOrient) {
+      window.removeEventListener('deviceorientationabsolute', compassOnOrient, true);
+      window.removeEventListener('deviceorientation', compassOnOrient, true);
+    }
+    compassActive = false;
+    btn.textContent = '🧭 Suggest wall';
+    msg.textContent = 'Compass stopped.';
+    return;
+  }
+
+  function onOrient(e) {
+    let heading = null;
+    if (typeof e.webkitCompassHeading === 'number') heading = e.webkitCompassHeading; // iOS Safari
+    else if (typeof e.alpha === 'number') heading = 360 - e.alpha; // Android
+    if (heading !== null) locApplyCompassReading(heading);
+  }
+
+  function attach() {
+    compassOnOrient = onOrient;
+    window.addEventListener('deviceorientationabsolute', onOrient, true);
+    window.addEventListener('deviceorientation', onOrient, true);
+    compassActive = true;
+    btn.textContent = '🧭 Stop compass';
+  }
+
+  if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+    try {
+      const perm = await DeviceOrientationEvent.requestPermission();
+      if (perm !== 'granted') { msg.textContent = 'Compass permission denied.'; return; }
+      attach();
+    } catch (e) {
+      msg.textContent = 'Could not request compass access.';
+    }
+  } else if (typeof DeviceOrientationEvent !== 'undefined') {
+    attach();
+  } else {
+    msg.textContent = 'This phone/browser has no orientation sensor available.';
+  }
+}
+
+let locList = [];
+let locIdx = 0;
+let locResults = JSON.parse(localStorage.getItem('locResults') || '[]');
+
+function locBuildList() {
+  locList = catalog
+    .map((b, i) => ({ idx: i, num: get(b, 'nº colecção', 'nº coleccao'), titulo: get(b, 'título', 'titulo', 'title'), loc: get(b, 'localização', 'localizacao') }))
+    .filter(x => !x.loc);
+  const doneNums = new Set(locResults.map(r => r.num));
+  locList = locList.filter(x => !doneNums.has(x.num));
+  locIdx = 0;
+}
+
+function locRenderGrid() {
+  const coluna = parseInt(document.getElementById('loc-coluna').value) || 1;
+  const prat = parseInt(document.getElementById('loc-prateleira').value);
+  const parede = document.getElementById('loc-parede').value;
+  const paredeDir = parede.replace(/[0-9]/g, '');
+  ['N','S','E','O'].forEach(p => document.getElementById('loc-wall'+p).setAttribute('fill', 'var(--gray-300)'));
+  document.getElementById('loc-wall'+paredeDir).setAttribute('fill', 'var(--red)');
+  const totalCols = Math.max(coluna + 4, 20);
+  const cw = 32, rh = 24, x0 = 10, y0 = 10;
+  const w = totalCols * cw + 20, h = 7 * rh + 20;
+  const svg = document.getElementById('loc-grid');
+  svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  svg.setAttribute('width', Math.min(w, 700));
+  svg.setAttribute('height', h);
+  let html = '';
+  for (let c = 1; c <= totalCols; c++) {
+    for (let r = 1; r <= 7; r++) {
+      const x = x0 + (c-1)*cw, y = y0 + (r-1)*rh;
+      const isTarget = (c === coluna && r === prat);
+      html += `<rect x="${x}" y="${y}" width="${cw-2}" height="${rh-2}" rx="2" fill="${isTarget ? 'var(--red)' : 'var(--gray-100)'}" stroke="var(--gray-300)" stroke-width="0.5"/>`;
+      if (isTarget) html += `<text x="${x+cw/2-1}" y="${y+rh/2+3}" text-anchor="middle" font-size="11" fill="var(--white)">${r}</text>`;
+    }
+  }
+  svg.innerHTML = html;
+}
+
+function locRenderBook() {
+  document.getElementById('loc-count').textContent = locResults.length;
+  if (!locList.length) {
+    document.getElementById('loc-book').textContent = 'No books left to locate.';
+    document.getElementById('loc-progress').textContent = '';
+    return;
+  }
+  if (locIdx >= locList.length) locIdx = locList.length - 1;
+  const item = locList[locIdx];
+  document.getElementById('loc-progress').textContent = `${locIdx+1} of ${locList.length} to locate (${locResults.length} confirmed this session)`;
+  document.getElementById('loc-book').textContent = `${item.num} — ${item.titulo}`;
+  locRenderGrid();
+}
+
+function locConfirm() {
+  const item = locList[locIdx];
+  if (!item) return;
+  const sala = document.getElementById('loc-sala').value;
+  const parede = document.getElementById('loc-parede').value;
+  const coluna = document.getElementById('loc-coluna').value;
+  const prat = document.getElementById('loc-prateleira').value;
+  const loc = `S${sala}, P${parede}, C${coluna}, P${prat}`;
+  locResults.push({ num: item.num, loc });
+  localStorage.setItem('locResults', JSON.stringify(locResults));
+  locList.splice(locIdx, 1);
+  if (locIdx >= locList.length) locIdx = 0;
+  locRenderBook();
+}
+
+function locSkip() {
+  locIdx = (locIdx + 1) % Math.max(locList.length, 1);
+  locRenderBook();
+}
+
+function locPrev() {
+  locIdx = (locIdx - 1 + locList.length) % Math.max(locList.length, 1);
+  locRenderBook();
+}
+
+function locDownload() {
+  if (!locResults.length) return;
+  let csv = 'Nº Colecção;Localização\n' + locResults.map(r => `${r.num};${r.loc}`).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'localizacoes.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+['loc-sala','loc-parede','loc-coluna','loc-prateleira'].forEach(id => {
+  document.getElementById(id).addEventListener('input', locRenderGrid);
+});
+
+</script>
+</body>
+</html>
