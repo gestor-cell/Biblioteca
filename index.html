@@ -144,14 +144,14 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
   </div>
 
   <div class="tabs">
-    <button class="tab active" onclick="switchTab('isbn', this)"><span class="tab-emoji">▦</span>ISBN</button>
-    <button class="tab" onclick="switchTab('search', this)"><span class="tab-emoji">⌕</span>Pesquisar</button>
+    <button class="tab" onclick="switchTab('isbn', this)"><span class="tab-emoji">▦</span>ISBN</button>
+    <button class="tab active" onclick="switchTab('search', this)"><span class="tab-emoji">⌕</span>Pesquisar</button>
     <button class="tab" onclick="switchTab('loc', this)"><span class="tab-emoji">📍</span>Localização</button>
     <span class="tab-indicator" id="tab-indicator"></span>
   </div>
 
   <div class="panels">
-    <div class="panel active" id="panel-isbn">
+    <div class="panel" id="panel-isbn">
       <div class="isbn-row">
         <input type="text" id="isbn-input" placeholder="ISBN (10 ou 13 dígitos)" maxlength="17" inputmode="numeric" onkeydown="if(event.key==='Enter') checkISBN()" />
         <button onclick="checkISBN()">Verificar</button>
@@ -159,7 +159,7 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
       <div id="isbn-result"></div>
     </div>
 
-    <div class="panel" id="panel-search">
+    <div class="panel active" id="panel-search">
       <div class="search-wrap">
         <span class="search-icon">⌕</span>
         <input type="search" id="search-input" placeholder="Título, autor, editora..." oninput="renderList()" />
@@ -378,9 +378,10 @@ function renderList() {
   let items = catalog.filter(b => {
     const titulo = get(b, 'título', 'titulo', 'title').toLowerCase();
     const autor = get(b, 'autor', 'author').toLowerCase();
+    const autor2 = get(b, 'autor 2', 'autor2').toLowerCase();
     const editora = get(b, 'editora').toLowerCase();
     const localizacao = get(b, 'localização', 'localizacao');
-    return (!q || titulo.includes(q) || autor.includes(q) || editora.includes(q)) &&
+    return (!q || titulo.includes(q) || autor.includes(q) || autor2.includes(q) || editora.includes(q)) &&
            (!loc || localizacao === loc);
   });
   if (!items.length) { list.innerHTML = '<div class="empty"><span class="empty-icon">🔍</span>Nenhum resultado.</div>'; return; }
@@ -403,7 +404,7 @@ function openDetail(idx) {
   currentDetailIdx = idx;
   const titulo = get(b, 'título', 'titulo', 'title');
   const autor = get(b, 'autor', 'author');
-  const autor2 = get(b, 'autor2');
+  const autor2 = get(b, 'autor 2', 'autor2');
   const editora = get(b, 'editora');
   const ano = get(b, 'ano');
   const isbn = get(b, 'isbn');
