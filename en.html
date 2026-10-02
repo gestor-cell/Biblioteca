@@ -744,7 +744,7 @@ function locPrev() {
 
 function locDownload() {
   if (!locResults.length) return;
-  let csv = 'Nº Colecção;Localização\n' + locResults.map(r => `${r.num};${r.loc}`).join('\n');
+  let csv = 'Collection No.;Location\n' + locResults.map(r => `${r.num};${r.loc}`).join('\n');
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
