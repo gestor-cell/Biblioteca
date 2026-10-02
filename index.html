@@ -162,10 +162,10 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
     <div class="panel active" id="panel-search">
       <div class="search-wrap">
         <span class="search-icon">⌕</span>
-        <input type="search" id="search-input" placeholder="Título, autor, editora..." oninput="renderList()" />
+        <input type="search" id="search-input" placeholder="Título, autor, editora..." oninput="resetSearchPage()" />
       </div>
       <div class="filter-row">
-        <select class="filter-select" id="filter-loc" onchange="renderList()">
+        <select class="filter-select" id="filter-loc" onchange="resetSearchPage()">
           <option value="">Todas as localizações</option>
         </select>
       </div>
@@ -370,6 +370,10 @@ function checkISBN() {
   }
 }
 
+let searchPage = 1;
+
+function resetSearchPage() { searchPage = 1; renderList(); }
+
 function renderList() {
   const q = (document.getElementById('search-input').value || '').toLowerCase().trim();
   const loc = document.getElementById('filter-loc').value;
@@ -385,7 +389,8 @@ function renderList() {
            (!loc || localizacao === loc);
   });
   if (!items.length) { list.innerHTML = '<div class="empty"><span class="empty-icon">🔍</span>Nenhum resultado.</div>'; return; }
-  list.innerHTML = items.slice(0, 100).map((b, i) => {
+  const visivel = searchPage * 100;
+  list.innerHTML = items.slice(0, visivel).map((b, i) => {
     const titulo = get(b, 'título', 'titulo', 'title');
     const autor = get(b, 'autor', 'author');
     const num = get(b, 'nº colecção', 'nº coleccao');
@@ -395,7 +400,12 @@ function renderList() {
     const idx = catalog.indexOf(b);
     return `<div class="book-item" style="animation-delay:${Math.min(i,12)*0.12}s;animation-duration:0.6s;" onclick="openDetail(${idx})"><div class="book-thumb">${capa ? `<img class="img-reveal" src="${capa}" alt="" onload="this.classList.add('loaded')" onerror="this.parentNode.textContent='📖'" />` : '📖'}</div><div class="book-info"><div class="book-title">${titulo || '—'}</div><div class="book-author">${autor}</div><div class="book-meta"><span>${num}</span><span>·</span><span>${ano}</span><span>·</span><span>${editora}</span></div></div></div>`;
   }).join('');
-  if (items.length > 100) list.innerHTML += `<div style="text-align:center;padding:12px;font-size:12px;color:#777">A mostrar 100 de ${items.length} resultados. Refina a pesquisa.</div>`;
+  if (items.length > visivel) {
+    list.innerHTML += `<div style="text-align:center;padding:12px;">
+      <div style="font-size:12px;color:#777;margin-bottom:8px;">A mostrar ${visivel} de ${items.length} resultados.</div>
+      <button onclick="searchPage++;renderList();" style="padding:10px 20px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);background:var(--white);">Ver mais 100</button>
+    </div>`;
+  }
 }
 
 function openDetail(idx) {
