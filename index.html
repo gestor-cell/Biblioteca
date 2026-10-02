@@ -374,16 +374,20 @@ let searchPage = 1;
 
 function resetSearchPage() { searchPage = 1; renderList(); }
 
+function semAcento(s) {
+  return (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
 function renderList() {
-  const q = (document.getElementById('search-input').value || '').toLowerCase().trim();
+  const q = semAcento((document.getElementById('search-input').value || '').toLowerCase().trim());
   const loc = document.getElementById('filter-loc').value;
   const list = document.getElementById('book-list');
   if (!catalog.length) { list.innerHTML = '<div class="empty"><span class="empty-icon">📚</span>Catálogo não carregado.</div>'; return; }
   let items = catalog.filter(b => {
-    const titulo = get(b, 'título', 'titulo', 'title').toLowerCase();
-    const autor = get(b, 'autor', 'author').toLowerCase();
-    const autor2 = get(b, 'autor 2', 'autor2').toLowerCase();
-    const editora = get(b, 'editora').toLowerCase();
+    const titulo = semAcento(get(b, 'título', 'titulo', 'title').toLowerCase());
+    const autor = semAcento(get(b, 'autor', 'author').toLowerCase());
+    const autor2 = semAcento(get(b, 'autor 2', 'autor2').toLowerCase());
+    const editora = semAcento(get(b, 'editora').toLowerCase());
     const localizacao = get(b, 'localização', 'localizacao');
     return (!q || titulo.includes(q) || autor.includes(q) || autor2.includes(q) || editora.includes(q)) &&
            (!loc || localizacao === loc);
