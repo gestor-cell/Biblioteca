@@ -162,7 +162,7 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
     <div class="panel active" id="panel-search">
       <div class="search-wrap">
         <span class="search-icon">⌕</span>
-        <input type="search" id="search-input" placeholder="Título, autor, editora..." oninput="resetSearchPage()" />
+        <input type="search" id="search-input" placeholder="Título, autor, editora, observações..." oninput="resetSearchPage()" />
       </div>
       <div class="filter-row">
         <select class="filter-select" id="filter-loc" onchange="resetSearchPage()">
@@ -378,20 +378,54 @@ function semAcento(s) {
   return (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
+// Normaliza para pesquisa: minúsculas, sem acentos, pontuação (vírgulas, pontos, hífenes...) passa a espaço.
+function normPesquisa(s) {
+  return semAcento((s || '').toLowerCase()).replace(/[^a-z0-9]+/g, ' ').trim();
+}
+
+// Texto pesquisável de cada livro, calculado uma só vez:
+//  _p = campos principais (título, autor, autor 2, editora)
+//  _s = campos secundários (observações, notas)
+function textoPesquisa(b) {
+  if (b._p === undefined) {
+    b._p = ' ' + normPesquisa([
+      get(b, 'título', 'titulo', 'title'),
+      get(b, 'autor', 'author'),
+      get(b, 'autor 2', 'autor2'),
+      get(b, 'editora')
+    ].join(' ')) + ' ';
+    b._s = ' ' + normPesquisa([
+      get(b, 'observações', 'observacoes'),
+      get(b, 'notas')
+    ].join(' ')) + ' ';
+  }
+}
+
+// Palavras com 3+ letras: basta aparecerem em qualquer ponto; com 1-2 letras (d', de, S.): só no início de uma palavra.
+function temPalavra(texto, t) {
+  return t.length >= 3 ? texto.includes(t) : texto.includes(' ' + t);
+}
+
 function renderList() {
-  const q = semAcento((document.getElementById('search-input').value || '').toLowerCase().trim());
+  // A pesquisa é por palavras soltas: "António Saint Silvestre" encontra "Saint Silvestre, António".
+  const tokens = normPesquisa(document.getElementById('search-input').value || '').split(' ').filter(Boolean);
   const loc = document.getElementById('filter-loc').value;
   const list = document.getElementById('book-list');
   if (!catalog.length) { list.innerHTML = '<div class="empty"><span class="empty-icon">📚</span>Catálogo não carregado.</div>'; return; }
-  let items = catalog.filter(b => {
-    const titulo = semAcento(get(b, 'título', 'titulo', 'title').toLowerCase());
-    const autor = semAcento(get(b, 'autor', 'author').toLowerCase());
-    const autor2 = semAcento(get(b, 'autor 2', 'autor2').toLowerCase());
-    const editora = semAcento(get(b, 'editora').toLowerCase());
+  const principais = [], secundarios = [];
+  catalog.forEach(b => {
     const localizacao = get(b, 'localização', 'localizacao');
-    return (!q || titulo.includes(q) || autor.includes(q) || autor2.includes(q) || editora.includes(q)) &&
-           (!loc || localizacao === loc);
+    if (loc && localizacao !== loc) return;
+    if (!tokens.length) { principais.push(b); return; }
+    textoPesquisa(b);
+    if (tokens.every(t => temPalavra(b._p, t))) principais.push(b);
+    else {
+      const tudo = b._p + b._s;
+      if (tokens.every(t => temPalavra(tudo, t))) secundarios.push(b);
+    }
   });
+  // Primeiro os livros em que todas as palavras estão em título/autor/editora; depois os que só as têm com Observações/Notas.
+  let items = principais.concat(secundarios);
   if (!items.length) { list.innerHTML = '<div class="empty"><span class="empty-icon">🔍</span>Nenhum resultado.</div>'; return; }
   const visivel = searchPage * 100;
   list.innerHTML = items.slice(0, visivel).map((b, i) => {
