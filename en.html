@@ -162,7 +162,7 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
     <div class="panel active" id="panel-search">
       <div class="search-wrap">
         <span class="search-icon">⌕</span>
-        <input type="search" id="search-input" placeholder="Title, author, publisher..." oninput="resetSearchPage()" />
+        <input type="search" id="search-input" placeholder="Title, author, publisher, remarks..." oninput="resetSearchPage()" />
       </div>
       <div class="filter-row">
         <select class="filter-select" id="filter-loc" onchange="resetSearchPage()">
@@ -378,20 +378,32 @@ function semAcento(s) {
   return (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
+function normPesquisa(s) { return semAcento((s || '').toLowerCase()).replace(/[^a-z0-9]+/g, ' ').trim(); }
+function textoPesquisa(b) {
+  if (b._p === undefined) {
+    b._p = ' ' + normPesquisa([get(b,'título','titulo','title'),get(b,'autor','author'),get(b,'autor 2','autor2'),get(b,'editora')].join(' ')) + ' ';
+    b._s = ' ' + normPesquisa([get(b,'observações','observacoes'),get(b,'notas')].join(' ')) + ' ';
+  }
+}
+function temPalavra(texto, t) { return t.length >= 3 ? texto.includes(t) : texto.includes(' ' + t); }
+
 function renderList() {
-  const q = semAcento((document.getElementById('search-input').value || '').toLowerCase().trim());
+  const tokens = normPesquisa(document.getElementById('search-input').value || '').split(' ').filter(Boolean);
   const loc = document.getElementById('filter-loc').value;
   const list = document.getElementById('book-list');
   if (!catalog.length) { list.innerHTML = '<div class="empty"><span class="empty-icon">📚</span>Catalogue not loaded.</div>'; return; }
-  let items = catalog.filter(b => {
-    const titulo = semAcento(get(b, 'título', 'titulo', 'title').toLowerCase());
-    const autor = semAcento(get(b, 'autor', 'author').toLowerCase());
-    const autor2 = semAcento(get(b, 'autor 2', 'autor2').toLowerCase());
-    const editora = semAcento(get(b, 'editora').toLowerCase());
-    const localizacao = get(b, 'localização', 'localizacao');
-    return (!q || titulo.includes(q) || autor.includes(q) || autor2.includes(q) || editora.includes(q)) &&
-           (!loc || localizacao === loc);
+  const principais = [], secundarios = [];
+  catalog.forEach(b => {
+    if (loc && get(b, 'localização', 'localizacao') !== loc) return;
+    if (!tokens.length) { principais.push(b); return; }
+    textoPesquisa(b);
+    if (tokens.every(t => temPalavra(b._p, t))) principais.push(b);
+    else {
+      const todo = b._p + b._s;
+      if (tokens.every(t => temPalavra(todo, t))) secundarios.push(b);
+    }
   });
+  const items = principais.concat(secundarios);
   if (!items.length) { list.innerHTML = '<div class="empty"><span class="empty-icon">🔍</span>No results.</div>'; return; }
   const visivel = searchPage * 100;
   list.innerHTML = items.slice(0, visivel).map((b, i) => {
